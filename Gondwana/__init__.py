@@ -22,4 +22,10 @@ def create_app(test_config=None):
     def ping():
         return 'pong'
 
+    from . import channel
+    app.register_blueprint(channel.bp)
+
+    from . import order
+    app.register_blueprint(order.bp)
+
     return app
