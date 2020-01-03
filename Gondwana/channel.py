@@ -11,7 +11,7 @@ def channel_index():
     if request.method == 'POST':
         pass
 
-    return render_template('channel/index.html')
+    return render_template('channel/index.html', active_page="channel_index")
 
 # /channel/create
 @bp.route('/create', methods=('GET', 'POST'))
