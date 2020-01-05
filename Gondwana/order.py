@@ -12,4 +12,4 @@ def channel_index():
     if request.method == 'POST':
         pass
 
-    return render_template('order/index.html')
+    return render_template('order/index.html', active_page="order_index")
