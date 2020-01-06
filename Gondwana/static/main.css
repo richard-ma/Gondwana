@@ -1,15 +1,3 @@
-.container {
-    background-color: #eeeeee;
-}
-
-.container section {
-    background-color: #ffffff;
-}
-
-.container section header {
-    border-bottom: 3px solid #000000;
-}
-
 .vertical-nav {
   min-width: 17rem;
   width: 17rem;
@@ -24,4 +12,17 @@
 .active {
   font-size: 20px;
   font-weight: bold;
+}
+
+body {
+    background-color: #eeeeee;
+}
+
+.content {
+    width: 80%;
+    background-color: #ffffff;
+}
+
+.page-header {
+    border-bottom: 1px solid #cccccc;
 }
