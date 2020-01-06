@@ -43,7 +43,7 @@
             <div>{{ message }}</div>
         {% endfor %}
         <div class="page-header">
-            <h5>{% block header %}{% endblock %}</h5>
+            {% block header %}{% endblock %} <div class="float-right">{% block button %}{% endblock %}</div>
         </div>
         <div class="page-content">
             {% block content %}{% endblock %}

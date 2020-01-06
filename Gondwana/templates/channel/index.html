@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
 {% block header %}
-    <h1>Channel</h1>
+    Channel
+{% endblock %}
+
+{% block button %}
+<a href="{{ url_for('channel.channel_create') }}" type="button" class="btn btn-info">Add</a>
 {% endblock %}
 
 {% block content %}

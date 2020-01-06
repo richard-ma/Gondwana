@@ -25,4 +25,6 @@ body {
 
 .page-header {
     border-bottom: 1px solid #cccccc;
+    margin-bottom: 50px;
+    font-size: 3rem;
 }
