@@ -9,6 +9,9 @@ from flask_migrate import Migrate
 db = SQLAlchemy()
 migrate = Migrate()
 
+# models
+
+# command line
 @click.command('init-db')
 @with_appcontext
 def init_db_command():
