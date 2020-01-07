@@ -5,17 +5,16 @@ import os
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'fMHTYwNUABVwlf1ySV87n7Um5cEzL6Ir'
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLACHEMY_DATABASE_URI = ''
 
 class TestingConfig(Config):
     TESTING = True
-    SQLACHEMY_DATABASE_URI = ''
 
 class ProductionConfig(Config):
-    SQLACHEMY_DATABASE_URI = ''
+    pass
 
 config={
         'development': DevelopmentConfig,

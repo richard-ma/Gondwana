@@ -6,14 +6,15 @@ import pytest
 
 from Gondwana import create_app
 
+
 @pytest.fixture
 def app():
-    app = create_app({
-        'TESTING': True,
-        #'SQLALCHEMY_DATABASE_URI': 'sqlite:///'+os.path.join(app.instance_path, 'Gondwana.sqlite'),
-    })
+    # set env to testing
+    os.environ['FLASK_ENV'] = 'testing'
+    app = create_app()
 
     yield app
+
 
 @pytest.fixture
 def client(app):

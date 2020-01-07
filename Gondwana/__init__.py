@@ -6,15 +6,15 @@ from flask import Flask
 from .config import config
 
 
-def create_app(config_type='default'):
+def create_app():
     app = Flask(__name__, instance_relative_config=True)
 
+    config_type = os.environ.get('FLASK_ENV') or 'default'
     app.config.from_object(config[config_type])
     app.config.from_mapping(
-            # set DATABASE path
-            DATABASE=os.path.join(app.instance_path, 'Gondwana'+config_type+'.sqlite'),
-            )
-
+        # set DATABASE path
+        SQLALCHEMY_DATABASE_URI='sqlite:///' + os.path.join(
+            app.instance_path, 'Gondwana-' + config_type + '.sqlite'), )
 
     try:
         os.makedirs(app.instance_path)
