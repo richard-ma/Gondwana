@@ -10,6 +10,7 @@ from Gondwana import create_app
 def app():
     app = create_app({
         'TESTING': True,
+        #'SQLALCHEMY_DATABASE_URI': 'sqlite:///'+os.path.join(app.instance_path, 'Gondwana.sqlite'),
     })
 
     yield app
