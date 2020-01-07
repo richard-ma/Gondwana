@@ -3,21 +3,21 @@
 
 import os
 from flask import Flask
+from .config import config
 
 
-def create_app(test_config=None):
+def create_app(config_type=None):
     app = Flask(__name__, instance_relative_config=True)
 
     app.config.from_mapping(
-            SECRET_KEY='',
             # set DATABASE path
             DATABASE=os.path.join(app.instance_path, 'Gondwana.sqlite'),
             )
 
-    if test_config is None:
-        app.config.from_pyfile('config.py', silent=True)
+    if config_type is None:
+        app.config.from_object(config['default'])
     else:
-        app.config.from_mapping(test_config)
+        app.config.from_mapping(config[config_type])
 
     try:
         os.makedirs(app.instance_path)
