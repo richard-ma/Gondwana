@@ -18,6 +18,12 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    from . import model
+    # create database
+    model.db.init_app(app)
+    # bind with migrate
+    model.migrate.init_app(app, model.db)
+
     @app.route('/ping')
     def ping():
         return 'pong'
