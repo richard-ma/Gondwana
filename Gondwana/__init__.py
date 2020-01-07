@@ -6,18 +6,15 @@ from flask import Flask
 from .config import config
 
 
-def create_app(config_type=None):
+def create_app(config_type='default'):
     app = Flask(__name__, instance_relative_config=True)
 
+    app.config.from_object(config[config_type])
     app.config.from_mapping(
             # set DATABASE path
-            DATABASE=os.path.join(app.instance_path, 'Gondwana.sqlite'),
+            DATABASE=os.path.join(app.instance_path, 'Gondwana'+config_type+'.sqlite'),
             )
 
-    if config_type is None:
-        app.config.from_object(config['default'])
-    else:
-        app.config.from_mapping(config[config_type])
 
     try:
         os.makedirs(app.instance_path)
