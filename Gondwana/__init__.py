@@ -8,6 +8,12 @@ from flask import Flask
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
+    app.config.from_mapping(
+            SECRET_KEY='',
+            # set DATABASE path
+            DATABASE=os.path.join(app.instance_path, 'Gondwana.sqlite'),
+            )
+
     if test_config is None:
         app.config.from_pyfile('config.py', silent=True)
     else:
@@ -23,6 +29,8 @@ def create_app(test_config=None):
     model.db.init_app(app)
     # bind with migrate
     model.migrate.init_app(app, model.db)
+
+    app.cli.add_command(model.init_db_command)
 
     @app.route('/ping')
     def ping():
