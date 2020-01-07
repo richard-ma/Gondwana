@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-def test_true(client):
-    assert True == True
-    assert False == False
+def test_true():
+    assert True
 
 def test_ping(client):
     response = client.get('/ping')
