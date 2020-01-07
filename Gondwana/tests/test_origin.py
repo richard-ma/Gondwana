@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from Gondwana import create_app
+def test_true(client):
+    assert True == True
+    assert False == False
 
 def test_ping(client):
     response = client.get('/ping')
