@@ -28,7 +28,7 @@ def create_app(conf=None):
     # create database
     model.db.init_app(app)
     # bind with migrate
-    #model.migrate.init_app(app, model.db)
+    model.migrate.init_app(app, model.db)
 
     app.cli.add_command(model.init_db_command)
 
