@@ -10,10 +10,7 @@ def create_app(conf=None):
 
     config_type = os.environ.get('FLASK_ENV') or 'default'
     app.config.from_object('config.' + config_type)
-    #app.config.from_mapping(
-        ## set DATABASE path
-        #SQLALCHEMY_DATABASE_URI='sqlite:///' + os.path.join(
-            #app.instance_path, 'Gondwana-' + config_type + '.sqlite'), )
+    app.config.from_pyfile('config.py')
 
     if conf is not None:
         app.config.from_mapping(conf)
