@@ -1,0 +1,4 @@
+DEBUG = True
+SECRET_KEY = 'fMHTYwNUABVwlf1ySV87n7Um5cEzL6Ir'
+SQLALCHEMY_TRACK_MODIFICATIONS = True
+SQLALCHEMY_DATABASE_URI = 'sqlite:///Gondwana-development.sqlite'

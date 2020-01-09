@@ -3,14 +3,13 @@
 
 import os
 from flask import Flask
-from .config import config
 
 
 def create_app(conf=None):
     app = Flask(__name__, instance_relative_config=True)
 
     config_type = os.environ.get('FLASK_ENV') or 'default'
-    app.config.from_object(config[config_type])
+    app.config.from_object('config.' + config_type)
     #app.config.from_mapping(
         ## set DATABASE path
         #SQLALCHEMY_DATABASE_URI='sqlite:///' + os.path.join(
