@@ -11,30 +11,26 @@
 
 <!-- navbar -->
 {% set nav_bar = [
-    ('/', 'index', 'Index'),
+    ('/', 'dashboard', 'Dashboard'),
     ('/order/index', 'order_index', 'Order'),
     ('/channel/index', 'channel_index', 'Channel'),
     ('/ping', 'ping', 'Ping'),
 ] %}
 {% set active_page = active_page|default('ping') %}
 
-<div class="vertical-nav bg-dark" id="sidebar">
-    <div class="py-4 px-3 mb-4 bg-dark">
-        <div class="media-body">
-            <h4 class="font-weight-white text-muted mb-0">Gondwana</h4>
-        </div>
-    </div>
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Gondwana</a>
 
-    <ul class="nav flex-column bg-dark mb-0">
-        {% for href, id, caption in nav_bar %}
-        <li class="nav-item {% if id == active_page %}active{% endif %}">
-            <a href="{{href|e}}" class="nav-link text-light font-italic bg-dark">
-                {% if id == active_page %}> {% endif %}{{caption}}
-            </a>
-        </li>
-        {% endfor %}
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+      {% for href, id, caption in nav_bar %}
+      <li class="nav-item {% if id == active_page %}active{% endif %}">
+        <a class="nav-link" href="{{href|e}}">{{caption}}</a>
+      </li>
+      {% endfor %}
     </ul>
-</div>
+  </div>
+</nav>
 <!-- navbar end -->
 
 <div class="container">
