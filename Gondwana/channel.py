@@ -8,12 +8,11 @@ bp = Blueprint('channel', __name__, url_prefix='/channel')
 
 
 # /channel/index
-@bp.route('/index', methods=('GET', 'POST'))
+@bp.route('/index', methods=('GET',))
 def channel_index():
-    if request.method == 'POST':
-        pass
+    channels = Channel.query.all()
 
-    return render_template('channel/index.html', active_page="channel_index")
+    return render_template('channel/index.html', active_page="channel_index", channels=channels)
 
 
 # /channel/create
