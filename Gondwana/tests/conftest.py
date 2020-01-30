@@ -12,15 +12,15 @@ from Gondwana.model import db
 # create app
 @pytest.fixture
 def app():
-    # set env to testing
-    os.environ['FLASK_ENV'] = 'testing'
-
     # creaate fake database
     db_fd, db_path = tempfile.mkstemp()
 
     app = create_app({
         'SQLALCHEMY_DATABASE_URI': 'sqlite:///' + db_path,
     })
+
+    # set env to testing
+    app.config['TESTING'] = True
 
     # import test data
     with app.app_context():
