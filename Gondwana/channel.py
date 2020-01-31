@@ -68,10 +68,25 @@ def channel_delete(id: str):
 # /channel/update/<int:id>
 @bp.route('/update/<string:id>', methods=('GET', 'POST'))
 def channel_update(id: str):
-    if request.method == 'POST':
-        pass
+    channel = Channel.query.filter_by(id=id).first()
+    current_app.logger.debug("Queried Channel id: %s" % (channel.id))
 
-    return render_template('channel/update.html')
+    if request.method == 'POST':
+        current_app.logger.debug('update channel #%s' % (channel.id))
+
+        # get parameters
+        channel.name = request.form['inputName']
+        channel.website_url = request.form['inputWebsite']
+        channel.email = request.form['inputEmail']
+        channel.api_key = request.form['inputApikey']
+        current_app.logger.debug('name: %s' % (channel.name))
+        current_app.logger.debug('website: %s' % (channel.website_url))
+        current_app.logger.debug('email: %s' % (channel.email))
+        current_app.logger.debug('apiKey: %s' % (channel.api_key))
+
+        db.session.commit()
+
+    return render_template('channel/update.html', channel=channel)
 
 
 # /channel/info/<int:id>

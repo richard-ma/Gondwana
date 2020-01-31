@@ -32,7 +32,7 @@
                 <td>{{ channel.email}}</td>
                 <td>{{ channel.api_key}}</td>
                 <td>
-                    <a role="button" href="#" class="btn btn-primary btn-sm">Edit</a>
+                    <a role="button" href="{{ url_for('channel.channel_update', id=channel.id) }}" class="btn btn-primary btn-sm">Edit</a>
                     <a role="button" href="{{ url_for('channel.channel_delete', id=channel.id) }}" class="btn btn-danger btn-sm">Delete</a>
                 </td>
             </tr>
