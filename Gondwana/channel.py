@@ -50,10 +50,17 @@ def channel_create():
 
 
 # /channel/delete/<str:id>
-@bp.route('/delete/<string:id>', methods=('GET', 'POST'))
+@bp.route('/delete/<string:id>', methods=('GET',))
 def channel_delete(id: str):
-    if request.method == 'POST':
-        pass
+    current_app.logger.debug("Delete #%s Channel" % (id))
+
+    # query the record
+    channel = Channel.query.filter_by(id=id).first()
+    current_app.logger.debug("Queried Channel id: %s" % (id))
+
+    # save to database
+    db.session.delete(channel)
+    db.session.commit()
 
     return redirect(url_for('channel.channel_index'))
 
