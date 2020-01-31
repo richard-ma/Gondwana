@@ -12,7 +12,7 @@ manager = Manager(app)
 
 @manager.command
 def test():
-    pytest.main(["-s", "Gondwana/tests"])
+    pytest.main(["-s", "tests"])
 
 if __name__ == "__main__":
     manager.run()
