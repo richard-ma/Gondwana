@@ -40,6 +40,6 @@
         </tbody>
     </table>
     {% else %}
-    <h3>Please <a href="{{ url_for('channel.channel_create') }}" role="button" class="btn btn-lg btn-info">Create Channel</a></h3>
+    <h3>No channels here. Please <a href="{{ url_for('channel.channel_create') }}" role="button" class="btn btn-lg btn-info">Create Channel</a></h3>
     {% endif %}
 {% endblock %}
