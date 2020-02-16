@@ -8,8 +8,13 @@ bp = Blueprint('order', __name__, url_prefix='/order')
 
 # /order/index
 @bp.route('/index', methods=('GET', 'POST'))
-def channel_index():
+def order_index():
     if request.method == 'POST':
         pass
 
+    return render_template('order/index.html', active_page="order_index")
+
+# /order/update
+@bp.route('/update', methods=('GET',))
+def order_update():
     return render_template('order/index.html', active_page="order_index")

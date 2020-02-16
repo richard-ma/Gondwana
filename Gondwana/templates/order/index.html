@@ -8,6 +8,10 @@
     Order
 {% endblock %}
 
+{% block button %}
+<a href="{{ url_for('order.order_update') }}" role="button" class="btn btn-info">Update</a>
+{% endblock %}
+
 {% block content %}
     <h1>Content</h1>
 {% endblock %}
