@@ -13,5 +13,9 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Content</h1>
+    {% if orders %}
+    <h3>Orders</h3>
+    {% else %}
+    <h3>No orders here. Please <a href="{{ url_for('order.order_update') }}" role="button" class="btn btn-lg btn-info">Update</a></h3>
+    {% endif %}
 {% endblock %}

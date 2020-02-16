@@ -17,4 +17,6 @@ def order_index():
 # /order/update
 @bp.route('/update', methods=('GET',))
 def order_update():
-    return render_template('order/index.html', active_page="order_index")
+    orders = []
+
+    return render_template('order/index.html', active_page="order_index", orders=orders)
