@@ -8,20 +8,32 @@ from flask import Flask
 def create_app(conf=None):
     app = Flask(__name__, instance_relative_config=True)
 
-    config_type = os.environ.get('FLASK_ENV', default="development")
-    app.logger.debug('config_type: %s' % (config_type))
-
-    app.config.from_object('config.' + config_type)
-
+    # create instance path folder
     try:
         os.makedirs(app.instance_path)
     except OSError:
         pass
 
-    app.config.from_pyfile('config.py', silent=True)
+    # Get Flask ENV
+    e = os.environ.get('FLASK_ENV', 'production')
 
+    # Cann't find config.cfg in instance path
+    if not os.path.isfile(os.path.join(app.instance_path, 'config.cfg')):
+        app.logger.debug('Create config.cfg file in instance folder')
+        from shutil import copyfile
+        app.logger.debug('FLASK_ENV=%s' % (e))
+        copyfile(os.path.join('config', 'config-%s.cfg' % (e)), os.path.join(app.instance_path, 'config.cfg'))
+
+    # load config.cfg
+    app.config.from_pyfile('config.cfg', silent=True)
+
+    # refresh config with conf parameter
     if conf is not None:
         app.config.from_mapping(conf)
+
+    # SQLALCHEMY_DATABASE_URI
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///%s' % (os.path.join(app.config['BASEDIR'], 'db.sqlite'))
+    app.logger.debug('SQLALCHEMY_DATABASE_URI: %s' % (app.config['SQLALCHEMY_DATABASE_URI']))
 
     from . import model
     # create database
@@ -34,6 +46,7 @@ def create_app(conf=None):
     @app.route('/ping')
     def ping():
         return 'pong'
+
     app.logger.debug('Add /ping testing url')
 
     from . import channel
