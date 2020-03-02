@@ -87,12 +87,4 @@ class Order(db.Model):
     validation_code = db.Column(db.String(32))
     secondary_currency = db.Column(db.String(32)) # 次要货币
     display_subtotal = db.Column(db.Float)
-
-
-# command line
-@click.command('init-db')
-@with_appcontext
-def init_db_command():
-    db.create_all()
-    click.echo('Initialized the database.')
 '''
