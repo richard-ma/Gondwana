@@ -133,3 +133,6 @@ dmypy.json
 
 # migration
 migrations/
+
+# database
+database/
