@@ -26,14 +26,13 @@ class Channel(db.Model):
         self.email = email
         self.api_key = api_key
 
-
+'''
 class Order(db.Model):
     __tablename__ = 'order'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     order_id = db.Column(db.String(32))  # 订单ID
-    is_parent_order = db.Column(db.String(1))  # 是否是父订单
-    total = db.Column(db.Float))  # 订单合计
+    total = db.Column(db.Float)  # 订单合计
     subtotal = db.Column(db.Float)  #
     discount = db.Column(db.Float)  # 折扣
     subtotal_discount = db.Column(db.Float)  #
@@ -44,9 +43,14 @@ class Order(db.Model):
     status = db.Column(db.String(32)) # 订单状态
     notes = db.Column(db.Text) # 订单备注
     details = db.Column(db.Text) #
+    company = db.Column(db.String(32)) #
+
     firstname = db.Column(db.String(32)) # 订单名
     lastname = db.Column(db.String(32)) # 订单姓
-    company = db.Column(db.String(32)) #
+    phone = db.Column(db.String(16)) # 电话
+    fax = db.Column(db.String(16)) # 传真
+    url = db.Column(db.Text) # 网址
+    email = db.Column(db.Text) # email
 
     b_firstname = db.Column(db.String(32)) # 账单名
     b_lastname = db.Column(db.String(32)) # 账单姓
@@ -76,10 +80,6 @@ class Order(db.Model):
     s_state_descr = db.Column(db.Text) # 运单州全称
     need_shipping = db.Column(db.Boolean) # 是否需要运送
 
-    phone = db.Column(db.String(16)) # 电话
-    fax = db.Column(db.String(16)) # 传真
-    url = db.Column(db.Text) # 网址
-    email = db.Column(db.Text) # email
     tax_exempt = db.Column(db.String(32))
     lang_code = db.Column(db.String(8)) # 语言代码
     ip_address = db.Column(db.String(32)) # IP地址
@@ -95,3 +95,4 @@ class Order(db.Model):
 def init_db_command():
     db.create_all()
     click.echo('Initialized the database.')
+'''

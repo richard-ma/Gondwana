@@ -31,9 +31,6 @@ def create_app(conf=None):
     model.migrate.init_app(app, model.db)
     app.logger.debug('Initialize migrate')
 
-    app.cli.add_command(model.init_db_command)
-    app.logger.debug('add init_db_command')
-
     @app.route('/ping')
     def ping():
         return 'pong'
