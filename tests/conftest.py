@@ -21,7 +21,6 @@ def app():
 
     # set env to testing
     app.config['TESTING'] = True
-    app.config['BASEDIR'] = os.path.abspath(os.path.dirname(__file__))
 
     # import test data
     with app.app_context():
