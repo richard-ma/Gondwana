@@ -1,2 +1,5 @@
+# install require packages
 pip install -r requirements.txt
-flask init-db
+
+# init flask migrate
+./manage.py db init
