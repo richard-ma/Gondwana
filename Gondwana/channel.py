@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from flask import Blueprint, render_template, redirect, url_for, request, current_app
+from flask import Blueprint, render_template, redirect, url_for, request, current_app, flash
 from Gondwana.model import db, Channel
 
 bp = Blueprint('channel', __name__, url_prefix='/channel')
@@ -64,6 +64,8 @@ def channel_update(id: str):
         channel.api_key = request.form['inputApikey']
 
         db.session.commit()
+
+        flash('Channel update completed!', 'success')
 
     return render_template('channel/update.html', channel=channel)
 
