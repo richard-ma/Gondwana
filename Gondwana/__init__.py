@@ -23,23 +23,21 @@ def create_app(conf=None):
     from flask.logging import default_handler
 
     if e == 'development':
-        default_handler.setLevel(logging.DEBUG)
-        rotating_file_handler = RotatingFileHandler(
-                os.path.join(app.instance_path, 'development.log'),
-                maxBytes=2000000,
-                backupCount=10)
-        rotating_file_handler.setLevel(logging.DEBUG)
+        rotating_filename = 'development.log'
+        log_level = logging.DEBUG
     else:
-        default_handler.setLevel(logging.WARNING)
-        rotating_file_handler = RotatingFileHandler(
-                os.path.join(app.instance_path, 'production.log'),
-                maxBytes=2000000,
-                backupCount=10)
-        rotating_file_handler.setLevel(logging.DEBUG)
+        rotating_filename = 'production.log'
+        log_level = logging.WARNING
 
-    for logger in (app.logger, logging.getLogger('sqlalchemy')):
+    rotating_file_handler = RotatingFileHandler(
+            os.path.join(app.instance_path, rotating_filename),
+            maxBytes=2000000,
+            backupCount=10)
+
+    for logger in (app.logger, logging.getLogger('sqlalchemy.engine')):
         logger.addHandler(default_handler)
         logger.addHandler(rotating_file_handler)
+        logger.setLevel(log_level)
 
     # Cann't find config.cfg in instance path
     config_filename = 'config-%s.cfg' % (e)
