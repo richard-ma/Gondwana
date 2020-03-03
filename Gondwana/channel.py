@@ -32,6 +32,7 @@ def channel_create():
         db.session.add(channel)
         db.session.commit()
 
+        flash('Channel has been created!', 'success')
         return redirect(url_for('channel.channel_index'))
 
     return render_template('channel/create.html')
@@ -47,6 +48,7 @@ def channel_delete(id: str):
     db.session.delete(channel)
     db.session.commit()
 
+    flash('Channel has been deleted!', 'success')
     return redirect(url_for('channel.channel_index'))
 
 

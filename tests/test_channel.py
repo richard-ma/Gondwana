@@ -37,6 +37,9 @@ def test_create_channel(client):
             follow_redirects=True
             )
 
+    # confirm flash message
+    assert b'<strong>success:</strong> <span>Channel has been created!</span>' in response.data
+
     # confirm channel information
     assert bytes(test_channel_data['inputName'], encoding='utf8') in response.data
     assert bytes(test_channel_data['inputWebsite'], encoding='utf8') in response.data
