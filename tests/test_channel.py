@@ -38,7 +38,7 @@ def test_create_channel(client):
             )
 
     # confirm flash message
-    assert b'<strong>success:</strong> <span>Channel has been created!</span>' in response.data
+    assert b'<strong>SUCCESS:</strong> <span>Channel has been created!</span>' in response.data
 
     # confirm channel information
     assert bytes(test_channel_data['inputName'], encoding='utf8') in response.data
