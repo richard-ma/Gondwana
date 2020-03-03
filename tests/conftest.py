@@ -18,6 +18,7 @@ def app():
     app = create_app({
         'SQLALCHEMY_DATABASE_URI': 'sqlite:///' + db_path,
     })
+    app.logger.warning(app.config['SQLALCHEMY_DATABASE_URI'])
 
     # set env to testing
     app.config['TESTING'] = True

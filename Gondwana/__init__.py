@@ -50,15 +50,15 @@ def create_app(conf=None):
     # load config.cfg
     app.config.from_pyfile(config_filename, silent=True)
 
-    # refresh config with conf parameter
-    if conf is not None:
-        app.config.from_mapping(conf)
-
     # SQLALCHEMY_DATABASE_URI
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///%s' % (os.path.join(
         app.config['BASEDIR'], 'db.sqlite'))
     app.logger.debug('SQLALCHEMY_DATABASE_URI: %s' %
                      (app.config['SQLALCHEMY_DATABASE_URI']))
+
+    # refresh config with conf parameter
+    if conf is not None:
+        app.config.from_mapping(conf)
 
     from . import model
     # create database
