@@ -31,7 +31,7 @@ def channel_create():
                     .filter(or_(Channel.name==name, Channel.website_url==website)) \
                     .first()
             if existing_channel:
-                flash('Channel already existed.', 'danger')
+                flash('Channel already existed.', 'warning')
             else:
                 # create Channel object
                 channel = Channel(name, website, email, apiKey)
@@ -43,7 +43,7 @@ def channel_create():
                 flash('Channel has been created!', 'success')
                 return redirect(url_for('channel.channel_index'))
         else:
-            flash('Every option MUST NOT be blank', 'danger')
+            flash('Any option MUST NOT be blank', 'warning')
 
     return render_template('channel/create.html')
 
