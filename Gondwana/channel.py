@@ -3,6 +3,7 @@
 
 from flask import Blueprint, render_template, redirect, url_for, request, current_app, flash
 from Gondwana.model import db, Channel
+from sqlalchemy import or_
 
 bp = Blueprint('channel', __name__, url_prefix='/channel')
 
@@ -25,15 +26,24 @@ def channel_create():
         email = request.form['inputEmail']
         apiKey = request.form['inputApikey']
 
-        # create Channel object
-        channel = Channel(name, website, email, apiKey)
+        if name and website and email and apiKey:
+            existing_channel = Channel.query \
+                    .filter(or_(Channel.name==name, Channel.website_url==website)) \
+                    .first()
+            if existing_channel:
+                flash('Channel already existed.', 'danger')
+            else:
+                # create Channel object
+                channel = Channel(name, website, email, apiKey)
 
-        # save to database
-        db.session.add(channel)
-        db.session.commit()
+                # save to database
+                db.session.add(channel)
+                db.session.commit()
 
-        flash('Channel has been created!', 'success')
-        return redirect(url_for('channel.channel_index'))
+                flash('Channel has been created!', 'success')
+                return redirect(url_for('channel.channel_index'))
+        else:
+            flash('Every option MUST NOT be blank', 'danger')
 
     return render_template('channel/create.html')
 
