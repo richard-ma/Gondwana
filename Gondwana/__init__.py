@@ -42,15 +42,15 @@ def create_app(conf=None):
         logger.addHandler(rotating_file_handler)
 
     # Cann't find config.cfg in instance path
-    if not os.path.isfile(os.path.join(app.instance_path, 'config.cfg')):
-        app.logger.debug('Create config.cfg file in instance folder')
+    config_filename = 'config-%s.cfg' % (e)
+    if not os.path.isfile(os.path.join(app.instance_path, config_filename)):
+        app.logger.warning('Create %s file in instance folder' % (config_filename))
         from shutil import copyfile
-        app.logger.debug('FLASK_ENV=%s' % (e))
-        copyfile(os.path.join('config', 'config-%s.cfg' % (e)),
-                 os.path.join(app.instance_path, 'config.cfg'))
+        copyfile(os.path.join('config', config_filename),
+                 os.path.join(app.instance_path, config_filename))
 
     # load config.cfg
-    app.config.from_pyfile('config.cfg', silent=True)
+    app.config.from_pyfile(config_filename, silent=True)
 
     # refresh config with conf parameter
     if conf is not None:
