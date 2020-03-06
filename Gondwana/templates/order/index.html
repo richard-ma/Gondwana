@@ -36,6 +36,7 @@
             <tr>
                 <th>Channel</th>
                 <th>OrderId</th>
+                <th>Status</th>
                 <th>OPERATIONS</th>
             </tr>
         </thead>
@@ -44,6 +45,7 @@
             <tr>
                 <td>{{ order.channel.name }}</td>
                 <td>{{ order.order_id }}</td>
+                <td>{{ order.status }}</td>
                 <td>
                     <a role="button" href="{{ url_for('order.order_index') }}" class="btn btn-primary btn-sm">Edit</a>
                     <a role="button" href="{{ url_for('order.order_index') }}" class="btn btn-danger btn-sm">Delete</a>

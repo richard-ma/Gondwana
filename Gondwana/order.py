@@ -42,10 +42,12 @@ def order_update():
             if order:
                 order.order_id = order_id
                 order.channel_id = channel.id
+                order.status = o['status']
             else:
                 order = Order(
                         order_id=o['order_id'],
-                        channel_id=channel.id)
+                        channel_id=channel.id,
+                        status=o['status'])
                 db.session.add(order)
 
             db.session.commit()
