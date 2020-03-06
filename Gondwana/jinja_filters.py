@@ -6,8 +6,8 @@ import flask
 bp = flask.Blueprint('fitlers', __name__)
 
 @jinja2.contextfilter
-@bp.app_template_filter('order_stauts_2_name')
-def order_stauts_2_name(context, value):
+@bp.app_template_filter('order_status_2_name')
+def order_status_2_name(context, value):
     s_2_n = {
             'P':'Processed',
             'C':'Complete',

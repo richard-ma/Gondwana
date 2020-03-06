@@ -12,18 +12,35 @@
 
 {% block button %}
 <div class="btn-group">
-    <button type="button" class="btn btn-info btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Filter: {% if active_channel %}{{ active_channel.name }}{% else %}ALL{% endif %}
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuFilter">
-        <a class="dropdown-item" href="{{ url_for('order.order_index') }}">ALL</a>
-        {% if channels %}
-            <div class="dropdown-divider"></div>
-            {% for channel in channels %}
-            <a class="dropdown-item" href="{{ url_for('order.order_index', channel_id=channel.id) }}">{{ channel.name }}</a>
-            {% endfor %}
-        {% endif %}
+    <button type="button" class="btn btn-info btn-secondary" disabled>Filter</button>
+    <!-- channel filter -->
+    <div class="btn-group">
+        <button id="channelFilter" type="button" class="btn btn-info btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {% if active_channel %}{{ active_channel.name }}{% else %}All Channel{% endif %}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="channelFilter">
+            <a class="dropdown-item" href="{{ url_for('order.order_index') }}">All Channel</a>
+            {% if channels %}
+                <div class="dropdown-divider"></div>
+                {% for channel in channels %}
+                <a class="dropdown-item" href="{{ url_for('order.order_index', channel_id=channel.id) }}">{{ channel.name }}</a>
+                {% endfor %}
+            {% endif %}
+        </div>
     </div>
+    <!-- channel filter end -->
+    <!-- status filter -->
+    <div class="btn-group">
+        <button id="statusFilter" type="button" class="btn btn-info btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {% if active_status %}{{ active_status|order_status_2_name }}{% else %}All Status{% endif %}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="statusFilter">
+            <a class="dropdown-item" href="{{ url_for('order.order_index') }}">All Status</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ url_for('order.order_index', status='E') }}">Out of store</a>
+        </div>
+    </div>
+    <!-- status filter end -->
 </div>
 
 <a href="{{ url_for('order.order_update') }}" role="button" class="btn btn-success">Update</a>
@@ -45,7 +62,7 @@
             <tr>
                 <td>{{ order.channel.name }}</td>
                 <td>{{ order.order_id }}</td>
-                <td>{{ order.status|order_stauts_2_name }}</td>
+                <td>{{ order.status|order_status_2_name }}</td>
                 <td>
                     <a role="button" href="{{ url_for('order.order_index') }}" class="btn btn-primary btn-sm">Edit</a>
                     <a role="button" href="{{ url_for('order.order_index') }}" class="btn btn-danger btn-sm">Delete</a>
