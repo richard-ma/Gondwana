@@ -8,6 +8,10 @@ from flask import Flask
 def create_app(conf=None):
     app = Flask(__name__, instance_relative_config=True)
 
+    from . import jinja_filters
+    app.register_blueprint(jinja_filters.bp)
+    app.logger.debug('Add jinja_filters blueprint')
+
     # create instance path folder
     try:
         os.makedirs(app.instance_path)
@@ -29,10 +33,10 @@ def create_app(conf=None):
         rotating_filename = 'production.log'
         log_level = logging.WARNING
 
-    rotating_file_handler = RotatingFileHandler(
-            os.path.join(app.instance_path, rotating_filename),
-            maxBytes=2000000,
-            backupCount=10)
+    rotating_file_handler = RotatingFileHandler(os.path.join(
+        app.instance_path, rotating_filename),
+                                                maxBytes=2000000,
+                                                backupCount=10)
 
     for logger in (app.logger, logging.getLogger('sqlalchemy.engine')):
         logger.addHandler(default_handler)
@@ -42,7 +46,8 @@ def create_app(conf=None):
     # Cann't find config.cfg in instance path
     config_filename = 'config-%s.cfg' % (e)
     if not os.path.isfile(os.path.join(app.instance_path, config_filename)):
-        app.logger.warning('Create %s file in instance folder' % (config_filename))
+        app.logger.warning('Create %s file in instance folder' %
+                           (config_filename))
         from shutil import copyfile
         copyfile(os.path.join('config', config_filename),
                  os.path.join(app.instance_path, config_filename))
@@ -69,7 +74,6 @@ def create_app(conf=None):
     @app.route('/ping')
     def ping():
         return 'pong'
-
     app.logger.debug('Add /ping testing url')
 
     from . import channel
