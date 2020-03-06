@@ -10,12 +10,11 @@ bp = Blueprint('order', __name__, url_prefix='/order')
 
 
 # /order/index
-@bp.route('/index', methods=('GET', 'POST'))
+@bp.route('/index', methods=('GET', ))
 def order_index():
-    if request.method == 'POST':
-        pass
+    orders = Order.query.all()
 
-    return render_template('order/index.html', active_page="order_index")
+    return render_template('order/index.html', active_page="order_index", orders=orders)
 
 # /order/update
 @bp.route('/update', methods=('GET',))
