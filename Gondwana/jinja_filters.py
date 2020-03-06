@@ -19,6 +19,10 @@ def order_stauts_2_name(context, value):
             'Y':'Awaiting call',
             'A':'Shipped',
             'E':'Out of stock',
+            # custom order status
+            'J':'Awaiting Fulfillment',
+            'H':'Partially Refunded',
+            'G':'Refunded',
     }
 
     return s_2_n.get(value, value)
