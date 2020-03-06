@@ -11,7 +11,23 @@
 {% endblock %}
 
 {% block button %}
-<a href="{{ url_for('order.order_update') }}" role="button" class="btn btn-info">Update</a>
+<div class="btn-group">
+    <button type="button" class="btn btn-info btn-secondary">Filter</button>
+    <button type="button" class="btn btn-info btn-secondary dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+        <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuFilter">
+        <a class="dropdown-item" href="{{ url_for('order.order_index') }}">All</a>
+        {% if channels %}
+            <div class="dropdown-divider"></div>
+            {% for channel in channels %}
+            <a class="dropdown-item" href="{{ url_for('order.order_index', channel_id=channel.id) }}">{{ channel.name }}</a>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+<a href="{{ url_for('order.order_update') }}" role="button" class="btn btn-success">Update</a>
 {% endblock %}
 
 {% block content %}

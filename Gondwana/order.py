@@ -13,8 +13,9 @@ bp = Blueprint('order', __name__, url_prefix='/order')
 @bp.route('/index', methods=('GET', ))
 def order_index():
     orders = Order.query.all()
+    channels = Channel.query.all()
 
-    return render_template('order/index.html', active_page="order_index", orders=orders)
+    return render_template('order/index.html', active_page="order_index", orders=orders, channels=channels)
 
 # /order/update
 @bp.route('/update', methods=('GET',))
