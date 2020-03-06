@@ -13,6 +13,7 @@ bp = Blueprint('order', __name__, url_prefix='/order')
 @bp.route('/index', methods=('GET', ))
 def order_index():
     channels = Channel.query.all()
+    active_channel = None
 
     # get arguments
     channel_id = request.args.get('channel_id')
@@ -22,9 +23,10 @@ def order_index():
     orders_query = db.session.query(Order) # create Order Query
     if channel_id: # Add conditions
         orders_query = orders_query.filter(Order.channel_id==channel_id)
+        active_channel = Channel.query.filter(Channel.id==channel_id).first()
     orders = orders_query.all() # execute Query
 
-    return render_template('order/index.html', active_page="order_index", orders=orders, channels=channels)
+    return render_template('order/index.html', active_page="order_index", orders=orders, channels=channels, active_channel=active_channel)
 
 # /order/update
 @bp.route('/update', methods=('GET',))
