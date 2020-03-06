@@ -19,6 +19,7 @@
     <table class="table table-striped table-hover">
         <thead class="thead-dark">
             <tr>
+                <th>Channel</th>
                 <th>OrderId</th>
                 <th>OPERATIONS</th>
             </tr>
@@ -26,6 +27,7 @@
         <tbody>
             {% for order in orders %}
             <tr>
+                <td>{{ order.channel.name }}</td>
                 <td>{{ order.order_id }}</td>
                 <td>
                     <a role="button" href="{{ url_for('order.order_index') }}" class="btn btn-primary btn-sm">Edit</a>

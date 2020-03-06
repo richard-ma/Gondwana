@@ -29,8 +29,11 @@ def order_update():
             order = Order.query.filter(Order.order_id==order_id).first()
             if order:
                 order.order_id = order_id
+                order.channel_id = channel.id
             else:
-                order = Order(o['order_id'])
+                order = Order(
+                        order_id=o['order_id'],
+                        channel_id=channel.id)
                 db.session.add(order)
 
             db.session.commit()
