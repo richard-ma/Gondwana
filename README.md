@@ -5,6 +5,8 @@
 
 * sudo apt-get install mysql-server libmysqlclient-dev
 * pip install -r requirements.txt
+* [EDIT] /config/config-production.cfg [SQLALCHEMY_DATABASE_URI]
+* [COPY] /config/config-production.cfg => [INSTANCE FOLDER]
 * ./manager db init
 * ./manager db migrate
 * ./manager db upgrade
