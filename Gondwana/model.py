@@ -34,10 +34,12 @@ class Order(db.Model):
     channel_id = db.Column(db.Integer, db.ForeignKey('channel.id'))
     channel = db.relationship('Channel',
             backref=db.backref('order', lazy='dynamic'))
+    status = db.Column(db.String(1)) # 订单状态
 
-    def __init__(self, order_id, channel_id):
+    def __init__(self, order_id, channel_id, status):
         self.order_id = order_id
         self.channel_id = channel_id
+        self.status = status
 
 '''
     total = db.Column(db.Float)  # 订单合计
@@ -48,7 +50,6 @@ class Order(db.Model):
     shipping_ids = db.Column(db.String(32)) # 物流ID
     shipping_cost = db.Column(db.Float) # 运费
     timestamp = db.Column(db.Timestamp) # 时间戳
-    status = db.Column(db.String(32)) # 订单状态
     notes = db.Column(db.Text) # 订单备注
     details = db.Column(db.Text) #
     company = db.Column(db.String(32)) #
