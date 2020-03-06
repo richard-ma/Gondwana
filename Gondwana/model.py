@@ -30,7 +30,10 @@ class Order(db.Model):
     __tablename__ = 'order'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    order_id = db.Column(db.String(32))  # 订单ID
+    order_id = db.Column(db.Integer)  # 订单ID
+
+    def __init__(self, order_id):
+        self.order_id = order_id
 
 '''
     channel_id = db.Column(db.Integer, db.ForeignKey('channel.id'))
