@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, render_template, redirect, url_for, request, current_app, flash
 from Gondwana.model import db, Channel, Order
 from pycscart import Cscart
 import json
@@ -12,8 +12,16 @@ bp = Blueprint('order', __name__, url_prefix='/order')
 # /order/index
 @bp.route('/index', methods=('GET', ))
 def order_index():
-    orders = Order.query.all()
     channels = Channel.query.all()
+
+    # get arguments
+    channel_id = request.args.get('channel_id')
+
+    # set Order query with filter
+    orders_query = db.session.query(Order) # create Order Query
+    if channel_id: # Add conditions
+        orders_query = orders_query.filter(Order.channel_id==channel_id)
+    orders = orders_query.all() # execute Query
 
     return render_template('order/index.html', active_page="order_index", orders=orders, channels=channels)
 
