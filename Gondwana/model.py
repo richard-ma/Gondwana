@@ -31,11 +31,6 @@ class Order(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     order_id = db.Column(db.Integer)  # 订单ID
-
-    def __init__(self, order_id):
-        self.order_id = order_id
-
-'''
     channel_id = db.Column(db.Integer, db.ForeignKey('channel.id'))
     channel = db.relationship('Channel',
             backref=db.backref('order', lazy='dynamic'))
@@ -44,6 +39,7 @@ class Order(db.Model):
         self.order_id = order_id
         self.channel_id = channel_id
 
+'''
     total = db.Column(db.Float)  # 订单合计
     subtotal = db.Column(db.Float)  #
     discount = db.Column(db.Float)  # 折扣
