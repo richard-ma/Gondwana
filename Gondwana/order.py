@@ -18,6 +18,7 @@ def order_index():
     channel_id = request.args.get('channel_id')
 
     # set Order query with filter
+    # https://stackoverflow.com/questions/37336520/sqlalchemy-dynamic-filter
     orders_query = db.session.query(Order) # create Order Query
     if channel_id: # Add conditions
         orders_query = orders_query.filter(Order.channel_id==channel_id)
@@ -46,5 +47,8 @@ def order_update():
                 db.session.add(order)
 
             db.session.commit()
+            current_app.logger.debug("Channel %s:Order %s updated!" % (channel.name, order_id))
+        current_app.logger.info("Channel #%s updated!" % (channel.name))
 
+    flash('Update Completed!', 'success')
     return redirect(url_for('order.order_index'))
