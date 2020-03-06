@@ -8,4 +8,4 @@ curl --user admin@example.com:APIkey -X GET 'http://example.com/api/users/'
 
 # References
 
-* [CS-cart REST APi](https://docs.cs-cart.com/latest/developer_guide/api/index.html#)
+* [CS-cart REST API](https://docs.cs-cart.com/latest/developer_guide/api/index.html#)
