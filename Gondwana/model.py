@@ -26,6 +26,7 @@ class Channel(db.Model):
         self.email = email
         self.api_key = api_key
 
+
 class Order(db.Model):
     __tablename__ = 'order'
 
@@ -33,13 +34,33 @@ class Order(db.Model):
     order_id = db.Column(db.Integer)  # 订单ID
     channel_id = db.Column(db.Integer, db.ForeignKey('channel.id'))
     channel = db.relationship('Channel',
-            backref=db.backref('order', lazy='dynamic'))
-    status = db.Column(db.String(1)) # 订单状态
+                              backref=db.backref('order', lazy='dynamic'))
+    status = db.Column(db.String(1))  # 订单状态
 
-    def __init__(self, order_id, channel_id, status):
+    # customer information
+    firstname = db.Column(db.String(32))  # 订单名
+    lastname = db.Column(db.String(32))  # 订单姓
+    phone = db.Column(db.String(32))  # 电话
+    fax = db.Column(db.String(32))  # 传真
+    url = db.Column(db.String(32))  # 网址
+    email = db.Column(db.String(128))  # email
+    ip_address = db.Column(db.String(32))  # IP地址
+
+    def __init__(self, order_id, channel_id, status, firstname, lastname,
+                 phone, fax, url, email, ip_address):
         self.order_id = order_id
         self.channel_id = channel_id
         self.status = status
+
+        # customer information
+        self.firstname = firstname
+        self.lastname = lastname
+        self.phone = phone
+        self.fax = fax
+        self.url = url
+        self.email = email
+        self.ip_address = ip_address
+
 
 '''
     total = db.Column(db.Float)  # 订单合计
@@ -53,13 +74,6 @@ class Order(db.Model):
     notes = db.Column(db.Text) # 订单备注
     details = db.Column(db.Text) #
     company = db.Column(db.String(32)) #
-
-    firstname = db.Column(db.String(32)) # 订单名
-    lastname = db.Column(db.String(32)) # 订单姓
-    phone = db.Column(db.String(16)) # 电话
-    fax = db.Column(db.String(16)) # 传真
-    url = db.Column(db.Text) # 网址
-    email = db.Column(db.Text) # email
 
     b_firstname = db.Column(db.String(32)) # 账单名
     b_lastname = db.Column(db.String(32)) # 账单姓
@@ -91,7 +105,6 @@ class Order(db.Model):
 
     tax_exempt = db.Column(db.String(32))
     lang_code = db.Column(db.String(8)) # 语言代码
-    ip_address = db.Column(db.String(32)) # IP地址
     re_paid = db.Column(db.String(32))
     validation_code = db.Column(db.String(32))
     secondary_currency = db.Column(db.String(32)) # 次要货币
