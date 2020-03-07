@@ -15,6 +15,7 @@ def order_index():
     channels = Channel.query.all()
     active_channel = None
     active_status = None
+    args = dict(request.args)
 
     # get arguments
     channel_id = request.args.get('channel_id')
@@ -22,19 +23,26 @@ def order_index():
 
     # set Order query with filter
     # https://stackoverflow.com/questions/37336520/sqlalchemy-dynamic-filter
-    orders_query = db.session.query(Order) # create Order Query
-    if channel_id: # Add conditions
-        orders_query = orders_query.filter(Order.channel_id==channel_id)
-        active_channel = Channel.query.filter(Channel.id==channel_id).first()
-    if status:
-        orders_query = orders_query.filter(Order.status==status)
+    orders_query = db.session.query(Order)  # create Order Query
+    if channel_id:  # Add conditions
+        orders_query = orders_query.filter(Order.channel_id == channel_id)
+        active_channel = Channel.query.filter(Channel.id == channel_id).first()
+    if status:  # status filter
+        orders_query = orders_query.filter(Order.status == status)
         active_status = status
-    orders = orders_query.all() # execute Query
+    orders = orders_query.all()  # execute Query
 
-    return render_template('order/index.html', active_page="order_index", orders=orders, channels=channels, active_channel=active_channel, active_status=active_status)
+    return render_template('order/index.html',
+                           active_page="order_index",
+                           args=args,
+                           orders=orders,
+                           channels=channels,
+                           active_channel=active_channel,
+                           active_status=active_status)
+
 
 # /order/update
-@bp.route('/update', methods=('GET',))
+@bp.route('/update', methods=('GET', ))
 def order_update():
     orders = []
 
@@ -43,20 +51,20 @@ def order_update():
         response = api.get_orders()
         for o in response['orders']:
             order_id = o['order_id']
-            order = Order.query.filter(Order.order_id==order_id).first()
+            order = Order.query.filter(Order.order_id == order_id).first()
             if order:
                 order.order_id = order_id
                 order.channel_id = channel.id
                 order.status = o['status']
             else:
-                order = Order(
-                        order_id=o['order_id'],
-                        channel_id=channel.id,
-                        status=o['status'])
+                order = Order(order_id=o['order_id'],
+                              channel_id=channel.id,
+                              status=o['status'])
                 db.session.add(order)
 
             db.session.commit()
-            current_app.logger.debug("Channel %s:Order %s updated!" % (channel.name, order_id))
+            current_app.logger.debug("Channel %s:Order %s updated!" %
+                                     (channel.name, order_id))
         current_app.logger.info("Channel #%s updated!" % (channel.name))
 
     flash('Update Completed!', 'success')
