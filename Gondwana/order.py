@@ -46,6 +46,12 @@ def order_index():
                            active_channel=active_channel,
                            active_status=active_status)
 
+# /order/detail
+@bp.route('/detail/<string:order_id>', methods=('GET', ))
+def order_detail(order_id: str):
+    order = Order.query.filter(Order.id==order_id).first()
+
+    return render_template('/order/detail.html', order=order)
 
 # /order/sync
 @bp.route('/sync', methods=('GET', ))

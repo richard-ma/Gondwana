@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% set active_page='order' %}
+
+{% block title %}
+Order {{ order.channel.name }} #{{ order.order_id }} details
+{% endblock %}
+
+{% block header %}
+Order <span class="badge badge-pill badge-primary">{{ order.channel.name }} #{{ order.order_id }}</span>
+{% endblock %}
+
+{% block button %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- information cards -->
+    <div class="col-lg-4">
+        <!-- customer information -->
+        <div class="card text-white bg-dark mb-3" style="max-width: 22rem;">
+            <div class="card-header"><ion-icon size="large" name="person"></ion-icon> CUSTOMER INFORMATION</div>
+            <div class="card-body">
+                <h5 class="card-title">{{order.firstname}} {{order.lastname}}</h5>
+                <p>
+                {{ order.email }}<br/>
+                IP address: {{ order.ip_address }}<br/>
+                Phone: {{ order.phone }}<br/>
+                </p>
+            </div>
+        </div>
+        <!-- bill information -->
+        <div class="card text-white bg-dark mb-3" style="max-width: 22rem;">
+            <div class="card-header"><ion-icon size="large" name="wallet"></ion-icon> BILL INFORMATION</div>
+            <div class="card-body">
+                <h5 class="card-title">{{order.b_firstname}} {{order.b_lastname}}</h5>
+                <p>
+                {{ order.b_address }}<br/>
+                {{ order.b_city }}, {{ order.b_state_descr }}<br/>
+                Zipcode: {{ order.b_zipcode }}<br/>
+                {{ order.b_country_descr }}<br/>
+                Phone: {{ order.b_phone }}<br/>
+                </p>
+            </div>
+        </div>
+        <!-- shipping information -->
+        <div class="card text-white bg-dark mb-3" style="max-width: 22rem;">
+            <div class="card-header"><ion-icon size="large" name="boat"></ion-icon> SHIPPING INFORMATION</div>
+            <div class="card-body">
+                <h5 class="card-title">{{order.s_firstname}} {{order.s_lastname}}</h5>
+                <p>
+                {{ order.s_address }}<br/>
+                {{ order.s_city }}, {{ order.s_state_descr }}<br/>
+                Zipcode: {{ order.s_zipcode }}<br/>
+                {{ order.s_country_descr }}<br/>
+                Phone: {{ order.s_phone }}<br/>
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- information cards end -->
+
+    <!-- products information -->
+    <div class="col-lg-6">
+        <!-- shipping information -->
+        <div class="card bg-light mb-3">
+            <div class="card-header">PRODUCT INFORMATION</div>
+            <div class="card-body">
+                <h5 class="card-title">{{order.s_firstname}} {{order.s_lastname}}</h5>
+                <p>
+                {{ order.s_address }}<br/>
+                {{ order.s_city }}, {{ order.s_state_descr }}<br/>
+                Zipcode: {{ order.s_zipcode }}<br/>
+                {{ order.s_country_descr }}<br/>
+                Phone: {{ order.s_phone }}<br/>
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- products information end -->
+
+    <!-- order information -->
+    <div class="col-lg-2">
+    </div>
+    <!-- order information end -->
+</div>
+{% endblock %}

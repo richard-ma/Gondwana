@@ -98,7 +98,7 @@
                     {{ order.status|order_status_2_name }}
                 </td>
                 <td>
-                    <a role="button" href="{{ url_for('order.order_index') }}" class="btn btn-primary btn-sm">Edit</a>
+                    <a role="button" href="{{ url_for('order.order_detail', order_id=order.id) }}" class="btn btn-primary btn-sm">Detail</a>
                     <a role="button" href="{{ url_for('order.order_index') }}" class="btn btn-danger btn-sm">Delete</a>
                 </td>
             </tr>
