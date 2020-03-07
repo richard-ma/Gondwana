@@ -41,8 +41,8 @@ class Order(db.Model):
     firstname = db.Column(db.String(32))  # 订单名
     lastname = db.Column(db.String(32))  # 订单姓
     phone = db.Column(db.String(32))  # 电话
-    fax = db.Column(db.String(32))  # 传真
-    url = db.Column(db.String(32))  # 网址
+    fax = db.Column(db.String(32)) # 传真
+    url = db.Column(db.String(32)) # 网址
     email = db.Column(db.String(128))  # email
     ip_address = db.Column(db.String(32))  # IP地址
 

@@ -50,27 +50,41 @@ def order_index():
 # /order/sync
 @bp.route('/sync', methods=('GET', ))
 def order_sync():
-    orders = []
-
     for channel in Channel.query.all():
         api = Cscart(channel.website_url, channel.email, channel.api_key)
         response = api.get_orders()
         for o in response['orders']:
             order_id = o['order_id']
-            order = Order.query.filter(Order.order_id == order_id).first()
-            if order:
-                order.order_id = order_id
-                order.channel_id = channel.id
-                order.status = o['status']
-            else:
-                order = Order(order_id=o['order_id'],
-                              channel_id=channel.id,
-                              status=o['status'])
-                db.session.add(order)
+            order_remote = api.get_order(order_id)
+            order_local = Order.query.filter(Order.order_id == order_id).first()
+            if order_local:
+                order_local.order_id = order_id
+                order_local.channel_id = channel.id
+                order_local.status = order_remote['status']
 
-            db.session.commit()
+                # customer information
+                order_local.firstname = order_remote['firstname']
+                order_local.lastname = order_remote['lastname']
+                order_local.phone = order_remote['phone']
+                order_local.fax = order_remote['fax']
+                order_local.url = order_remote['url']
+                order_local.email = order_remote['email']
+                order_local.ip_address = order_remote['ip_address']
+            else:
+                order = Order(order_id=order_remote['order_id'],
+                              channel_id=channel.id,
+                              status=order_remote['status'],
+                              firstname=order_remote['firstname'],
+                              lastname=order_remote['lastname'],
+                              phone=order_remote['phone'],
+                              fax=order_remote['fax'],
+                              url=order_remote['url'],
+                              email=order_remote['email'],
+                              ip_address=order_remote['ip_address'])
+                db.session.add(order)
             current_app.logger.debug("Channel %s:Order %s synchronized!" %
                                      (channel.name, order_id))
+        db.session.commit()
         current_app.logger.info("Channel #%s synchronized!" % (channel.name))
 
     flash('Synchronization Completed!', 'success')
