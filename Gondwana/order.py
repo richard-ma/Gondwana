@@ -73,7 +73,7 @@ def order_sync():
                                      (channel.name, order_id))
         current_app.logger.info("Channel #%s synchronized!" % (channel.name))
 
-    flash('Synchronized Completed!', 'success')
+    flash('Synchronization Completed!', 'success')
     return redirect(url_for('order.order_index'))
 
 
