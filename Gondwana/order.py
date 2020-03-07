@@ -27,16 +27,17 @@ def order_index():
         orders_query = db.session.query(Order)  # create Order Query
         if channel_id:  # Add conditions
             orders_query = orders_query.filter(Order.channel_id == channel_id)
-            active_channel = Channel.query.filter(Channel.id == channel_id).first()
+            active_channel = Channel.query.filter(
+                Channel.id == channel_id).first()
         if status:  # status filter
             orders_query = orders_query.filter(Order.status == status)
             active_status = status
         orders = orders_query.all()  # execute Query
 
-    if request.method == 'POST': # search
+    if request.method == 'POST':  # search
         order_id = request.form.get('order_id')
 
-        orders = Order.query.filter(Order.order_id==order_id).all()
+        orders = Order.query.filter(Order.order_id == order_id).all()
 
     return render_template('order/index.html',
                            active_page="order_index",
@@ -73,4 +74,26 @@ def order_update():
         current_app.logger.info("Channel #%s updated!" % (channel.name))
 
     flash('Update Completed!', 'success')
+    return redirect(url_for('order.order_index'))
+
+
+# /order/updat_estatus/<str:channel_id>/<str:order_id>/<str:status>
+@bp.route(
+    '/update_status/<string:channel_id>/<string:order_id>/<string:status>',
+    methods=('GET', ))
+def order_update_status(channel_id: str, order_id: str, status: str):
+    order = Order.query.filter(Order.id == order_id).filter(
+        Order.channel_id == channel_id).first()
+    channel = order.channel
+
+    api = Cscart(channel.website_url, channel.email, channel.api_key)
+    response = api.update_order_status(str(order.order_id), status)
+
+    if response:
+        order.status = status
+        db.session.commit()
+        flash('Update Order Status Completed', 'success')
+        current_app.logger.debug("Channel #%s Order #%s status change to %s" %
+                                 (channel.name, order.id, order.status))
+
     return redirect(url_for('order.order_index'))
