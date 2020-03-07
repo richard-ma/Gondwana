@@ -61,7 +61,7 @@ Order <span class="badge badge-pill badge-primary">{{ order.channel.name }} #{{ 
     <!-- information cards end -->
 
     <!-- products information -->
-    <div class="col-lg-6">
+    <div class="col-lg-5">
         <!-- shipping information -->
         <div class="card bg-light mb-3">
             <div class="card-header">PRODUCT INFORMATION</div>
@@ -80,7 +80,22 @@ Order <span class="badge badge-pill badge-primary">{{ order.channel.name }} #{{ 
     <!-- products information end -->
 
     <!-- order information -->
-    <div class="col-lg-2">
+    <div class="col-lg-3">
+        <!-- other information -->
+        <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+            <div class="card-header"><ion-icon size="large" name="trail-sign"></ion-icon> OTHER INFORMATION</div>
+            <div class="card-body">
+                <h5 class="card-title">Status: <br/> {{order.status | order_status_2_name}}</h5>
+                <p>
+                {{ order.s_address }}<br/>
+                {{ order.s_city }}, {{ order.s_state_descr }}<br/>
+                Zipcode: {{ order.s_zipcode }}<br/>
+                {{ order.s_country_descr }}<br/>
+                Phone: {{ order.s_phone }}<br/>
+                </p>
+            </div>
+        </div>
+        <!-- other information end -->
     </div>
     <!-- order information end -->
 </div>
