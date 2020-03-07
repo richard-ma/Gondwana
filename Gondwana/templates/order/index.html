@@ -58,9 +58,9 @@
 </div>
 <!-- filter end -->
 
-<!-- update -->
-<a href="{{ url_for('order.order_update') }}" role="button" class="btn btn-success">Update</a>
-<!-- update end -->
+<!-- sync -->
+<a href="{{ url_for('order.order_sync') }}" role="button" class="btn btn-success">Synchronize</a>
+<!-- sync end -->
 {% endblock %}
 
 {% block content %}
@@ -110,6 +110,6 @@
         </tbody>
     </table>
     {% else %}
-    <h3>No orders here. Please <a href="{{ url_for('order.order_update') }}" role="button" class="btn btn-lg btn-info">Update</a></h3>
+    <h3>No orders here.</h3>
     {% endif %}
 {% endblock %}

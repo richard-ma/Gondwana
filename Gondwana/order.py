@@ -47,9 +47,9 @@ def order_index():
                            active_status=active_status)
 
 
-# /order/update
-@bp.route('/update', methods=('GET', ))
-def order_update():
+# /order/sync
+@bp.route('/sync', methods=('GET', ))
+def order_sync():
     orders = []
 
     for channel in Channel.query.all():
@@ -69,11 +69,11 @@ def order_update():
                 db.session.add(order)
 
             db.session.commit()
-            current_app.logger.debug("Channel %s:Order %s updated!" %
+            current_app.logger.debug("Channel %s:Order %s synchronized!" %
                                      (channel.name, order_id))
-        current_app.logger.info("Channel #%s updated!" % (channel.name))
+        current_app.logger.info("Channel #%s synchronized!" % (channel.name))
 
-    flash('Update Completed!', 'success')
+    flash('Synchronized Completed!', 'success')
     return redirect(url_for('order.order_index'))
 
 
