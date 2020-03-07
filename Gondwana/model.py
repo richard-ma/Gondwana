@@ -41,13 +41,29 @@ class Order(db.Model):
     firstname = db.Column(db.String(32))  # 订单名
     lastname = db.Column(db.String(32))  # 订单姓
     phone = db.Column(db.String(32))  # 电话
-    fax = db.Column(db.String(32)) # 传真
-    url = db.Column(db.String(32)) # 网址
+    fax = db.Column(db.String(32))  # 传真
+    url = db.Column(db.String(32))  # 网址
     email = db.Column(db.String(128))  # email
     ip_address = db.Column(db.String(32))  # IP地址
 
+    # bill information
+    b_firstname = db.Column(db.String(32))  # 账单名
+    b_lastname = db.Column(db.String(32))  # 账单姓
+    b_address = db.Column(db.String(255))  # 账单地址
+    b_address_2 = db.Column(db.String(255))  # 账单地址2
+    b_city = db.Column(db.String(64))  # 账单城市
+    b_county = db.Column(db.String(32))  #
+    b_state = db.Column(db.String(32))  # 账单州
+    b_country = db.Column(db.String(2))  # 账单国家
+    b_zipcode = db.Column(db.String(32))  # 账单邮编
+    b_phone = db.Column(db.String(32))  # 账单电话
+    b_country_descr = db.Column(db.String(128))  # 账单国家全称
+    b_state_descr = db.Column(db.String(255))  # 账单州全称
+
     def __init__(self, order_id, channel_id, status, firstname, lastname,
-                 phone, fax, url, email, ip_address):
+                 phone, fax, url, email, ip_address, b_firstname, b_lastname,
+                 b_address, b_address_2, b_city, b_county, b_state, b_country,
+                 b_zipcode, b_phone, b_country_descr, b_state_descr):
         self.order_id = order_id
         self.channel_id = channel_id
         self.status = status
@@ -61,6 +77,19 @@ class Order(db.Model):
         self.email = email
         self.ip_address = ip_address
 
+        # bill information
+        self.b_firstname = b_firstname
+        self.b_lastname = b_lastname
+        self.b_address = b_address
+        self.b_address_2 = b_address_2
+        self.b_city = b_city
+        self.b_county = b_county
+        self.b_state = b_state
+        self.b_country = b_country
+        self.b_zipcode = b_zipcode
+        self.b_phone = b_phone
+        self.b_country_descr = b_country_descr
+        self.b_state_descr = b_state_descr
 
 '''
     total = db.Column(db.Float)  # 订单合计
@@ -74,19 +103,6 @@ class Order(db.Model):
     notes = db.Column(db.Text) # 订单备注
     details = db.Column(db.Text) #
     company = db.Column(db.String(32)) #
-
-    b_firstname = db.Column(db.String(32)) # 账单名
-    b_lastname = db.Column(db.String(32)) # 账单姓
-    b_address = db.Column(db.Text) # 账单地址
-    b_address_2 = db.Column(db.Text) # 账单地址2
-    b_city = db.Column(db.String(64)) # 账单城市
-    b_county = db.Column(db.String(32)) #
-    b_state = db.Column(db.String(32)) # 账单州
-    b_country = db.Column(db.String(32)) # 账单国家
-    b_zipcode = db.Column(db.String(16)) # 账单邮编
-    b_phone = db.Column(db.String(16)) # 账单电话
-    b_country_descr = db.Column(db.Text) # 账单国家全称
-    b_state_descr = db.Column(db.Text) # 账单州全称
 
     s_firstname = db.Column(db.String(32)) # 运单名
     s_lastname = db.Column(db.String(32)) # 运单姓

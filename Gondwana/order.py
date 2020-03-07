@@ -70,6 +70,20 @@ def order_sync():
                 order_local.url = order_remote['url']
                 order_local.email = order_remote['email']
                 order_local.ip_address = order_remote['ip_address']
+
+                # bill information
+                order_local.b_firstname = order_remote['b_firstname']
+                order_local.b_lastname = order_remote['b_lastname']
+                order_local.b_address = order_remote['b_address']
+                order_local.b_address_2 = order_remote['b_address_2']
+                order_local.b_city = order_remote['b_city']
+                order_local.b_county = order_remote['b_county']
+                order_local.b_state = order_remote['b_state']
+                order_local.b_country = order_remote['b_country']
+                order_local.b_zipcode = order_remote['b_zipcode']
+                order_local.b_phone = order_remote['b_phone']
+                order_local.b_country_descr = order_remote['b_country_descr']
+                order_local.b_state_descr = order_remote['b_state_descr']
             else:
                 order = Order(order_id=order_remote['order_id'],
                               channel_id=channel.id,
@@ -80,7 +94,20 @@ def order_sync():
                               fax=order_remote['fax'],
                               url=order_remote['url'],
                               email=order_remote['email'],
-                              ip_address=order_remote['ip_address'])
+                              ip_address=order_remote['ip_address'],
+                              b_firstname=order_remote['b_firstname'],
+                              b_lastname=order_remote['b_lastname'],
+                              b_address=order_remote['b_address'],
+                              b_address_2=order_remote['b_address_2'],
+                              b_city=order_remote['b_city'],
+                              b_county=order_remote['b_county'],
+                              b_state=order_remote['b_state'],
+                              b_country=order_remote['b_country'],
+                              b_zipcode=order_remote['b_zipcode'],
+                              b_phone=order_remote['b_phone'],
+                              b_country_descr=order_remote['b_country_descr'],
+                              b_state_descr=order_remote['b_state_descr']
+                )
                 db.session.add(order)
             current_app.logger.debug("Channel %s:Order %s synchronized!" %
                                      (channel.name, order_id))
