@@ -15,7 +15,6 @@ def order_index():
     channels = Channel.query.all()
     active_channel = None
     active_status = None
-    args = dict(request.args)
 
     # get arguments
     channel_id = request.args.get('channel_id')
@@ -34,7 +33,6 @@ def order_index():
 
     return render_template('order/index.html',
                            active_page="order_index",
-                           args=args,
                            orders=orders,
                            channels=channels,
                            active_channel=active_channel,
