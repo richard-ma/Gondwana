@@ -13,7 +13,7 @@
 {% block button %}
 <!-- filter -->
 <div class="btn-group">
-    <button type="button" class="btn btn-info btn-secondary">FILTER</button>
+    <a class="btn btn-info btn-secondary" href="{{ url_for('order.order_index') }}">FILTER</a>
     <!-- channel filter -->
     <div class="btn-group">
         <button id="channelFilter" type="button" class="btn btn-info btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
