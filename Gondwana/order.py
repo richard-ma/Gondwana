@@ -133,7 +133,7 @@ def order_sync():
                               b_country_descr=order_remote['b_country_descr'],
                               b_state_descr=order_remote['b_state_descr'],
 
-                              # bill information
+                              # shipping information
                               s_firstname=order_remote['s_firstname'],
                               s_lastname=order_remote['s_lastname'],
                               s_address=order_remote['s_address'],
