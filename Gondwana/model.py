@@ -78,9 +78,10 @@ class Order(db.Model):
     def __init__(self, order_id, channel_id, status, firstname, lastname,
                  phone, fax, url, email, ip_address, b_firstname, b_lastname,
                  b_address, b_address_2, b_city, b_county, b_state, b_country,
-                 b_zipcode, b_phone, b_country_descr, b_state_descr, s_address,
-                 s_address_2, s_city, s_county, s_state, s_country, s_zipcode,
-                 s_phone, s_address_type, s_country_descr, s_state_descr):
+                 b_zipcode, b_phone, b_country_descr, b_state_descr,
+                 s_firstname, s_lastname, s_address, s_address_2, s_city,
+                 s_county, s_state, s_country, s_zipcode, s_phone,
+                 s_address_type, s_country_descr, s_state_descr):
         self.order_id = order_id
         self.channel_id = channel_id
         self.status = status
