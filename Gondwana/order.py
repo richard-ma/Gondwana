@@ -14,8 +14,6 @@ bp = Blueprint('order', __name__, url_prefix='/order')
 def order_index():
     channels = Channel.query.all()
     orders = None
-    active_channel = None
-    active_status = None
 
     if request.method == 'GET':
         # get arguments
@@ -27,11 +25,8 @@ def order_index():
         orders_query = db.session.query(Order)  # create Order Query
         if channel_id:  # Add conditions
             orders_query = orders_query.filter(Order.channel_id == channel_id)
-            active_channel = Channel.query.filter(
-                Channel.id == channel_id).first()
         if status:  # status filter
             orders_query = orders_query.filter(Order.status == status)
-            active_status = status
         orders = orders_query.all()  # execute Query
 
     if request.method == 'POST':  # search
@@ -42,9 +37,7 @@ def order_index():
     return render_template('order/index.html',
                            active_page="order_index",
                            orders=orders,
-                           channels=channels,
-                           active_channel=active_channel,
-                           active_status=active_status)
+                           channels=channels)
 
 # /order/detail
 @bp.route('/detail/<string:order_id>', methods=('GET', ))
