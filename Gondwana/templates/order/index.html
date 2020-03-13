@@ -14,10 +14,11 @@
 {% endblock %}
 
 {% block content %}
+    <form action="{{ url_for('order.order_index') }}" method='POST'>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
 <!-- channel filter -->
-            <input id="channelFilter" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="All Channel" />
+            <input id="channelFilter" name="channelFilter" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="All Channel">
             <div class="dropdown-menu" aria-labelledby="channelFilter">
                 <a class="channelFilterOptions dropdown-item" href="javascript:void(0)">All Channel</a>
                 {% if channels %}
@@ -29,10 +30,10 @@
             </div>
 <!-- channel filter end -->
         </div>
-        <input type="text" class="form-control" aria-label="Text input with segmented dropdown button">
+        <input type="text" class="form-control">
 <!-- status filter -->
         <div class="input-group-append">
-            <input id="statusFilter" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="All Status" />
+            <input id="statusFilter" name="statusFilter" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="All Status">
             <div class="dropdown-menu" aria-labelledby="statusFilter">
                 <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">All Status</a>
                 <div class="dropdown-divider"></div>
@@ -55,7 +56,7 @@
 <!-- status filter end -->
 <!-- search button -->
         <div class="input-group-append">
-            <button class="btn btn-danger btn-secondary" type="button">Search</button>
+            <input type="submit" class="btn btn-danger btn-secondary" value="Search">
         </div>
 <!-- search button end-->
     </div>
@@ -104,6 +105,7 @@
             {% endfor %}
         </tbody>
     </table>
+    </form>
     {% else %}
     <h3>No orders here.</h3>
     {% endif %}
