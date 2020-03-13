@@ -12,11 +12,10 @@
 {% endblock %}
 
 {% block content %}
-    <form action="{{ url_for('order.order_index') }}" method='POST'>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
 <!-- channel filter -->
-            <input id="channelFilter" name="channelFilter" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="All Channel">
+            <button id="channelFilter" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="-1">All Channel</button>
             <div class="dropdown-menu" aria-labelledby="channelFilter">
                 <button class="channelFilterOptions dropdown-item" type="button" value="-1">All Channel</button>
                 {% if channels %}
@@ -28,12 +27,12 @@
             </div>
 <!-- channel filter end -->
         </div>
-        <input type="text" name="keyword" class="form-control">
+        <input type="text" id="keyword" class="form-control" value="">
 <!-- status filter -->
         <div class="input-group-append">
-            <input id="statusFilter" name="statusFilter" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="All Status">
+            <button id="statusFilter" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="-1">All Status</button>
             <div class="dropdown-menu" aria-labelledby="statusFilter">
-                <button class="statusFilterOptions dropdown-item" type="button"value="-1">All Status</a>
+                <button class="statusFilterOptions dropdown-item" type="button"value="-1">All Status</button>
                 <div class="dropdown-divider"></div>
                 <button class="statusFilterOptions dropdown-item" type="button"value="P">{{ 'P' | order_status_2_name }}</button>
                 <button class="statusFilterOptions dropdown-item" type="button"value="C">{{ 'C' | order_status_2_name }}</button>
@@ -54,7 +53,7 @@
 <!-- status filter end -->
 <!-- search button -->
         <div class="input-group-append">
-            <input type="submit" class="btn btn-danger btn-secondary" value="Search">
+            <button id="searchSubmitButton" class="btn btn-danger btn-secondary" type="button">Search</button>
         </div>
 <!-- search button end-->
     </div>
@@ -103,25 +102,68 @@
             {% endfor %}
         </tbody>
     </table>
-    </form>
     {% else %}
     <h3>No orders here.</h3>
     {% endif %}
 
 <script type="text/javascript">
+// post function
+// https://stackoverflow.com/questions/133925/javascript-post-request-like-a-form-submit
+/**
+ * sends a request to the specified url from a form. this will change the window location.
+ * @param {string} path the path to send the post request to
+ * @param {object} params the paramiters to add to the url
+ * @param {string} [method=post] the method to use on the form
+ */
+
+function post(path, params, method='post') {
+
+  // The rest of this code assumes you are not using a library.
+  // It can be made less wordy if you use one.
+  const form = document.createElement('form');
+  form.method = method;
+  form.action = path;
+
+  for (const key in params) {
+    if (params.hasOwnProperty(key)) {
+      const hiddenField = document.createElement('input');
+      hiddenField.type = 'hidden';
+      hiddenField.name = key;
+      hiddenField.value = params[key];
+
+      form.appendChild(hiddenField);
+    }
+  }
+
+  document.body.appendChild(form);
+  form.submit();
+}
+
 // channel filter
-var channelFilter = -1;
 $('.channelFilterOptions').on("click",function(){
     // https://stackoverflow.com/questions/3871228/get-text-from-anchor-tag
-    $('#channelFilter').val($(this).text());
-    channelFilter = $(this).val();
+    $('#channelFilter').text($(this).text());
+    $('#channelFilter').val($(this).val());
 })
 
 // status filter
-var statusFilter = -1;
 $('.statusFilterOptions').on("click",function(){
-    $('#statusFilter').val($(this).text());
-    statusFilter = $(this).val();
+    $('#statusFilter').text($(this).text());
+    $('#statusFilter').val($(this).val());
+})
+
+// search form submit button
+$('#searchSubmitButton').on("click",function(){
+    var channel_id  = $('#channelFilter').val();
+    var status_id   = $('#statusFilter').val();
+    var keyword     = $('#keyword').val();
+
+    var data = {};
+    data['channel_id'] = (channel_id == "-1") ? null : channel_id;
+    data['status'] = (status_id == "-1") ? null : status_id;
+    data['keyword'] = (keyword == "") ? null : keyword;
+
+    post('{{ url_for('order.order_index') }}', data);
 })
 </script>
 {% endblock %}
