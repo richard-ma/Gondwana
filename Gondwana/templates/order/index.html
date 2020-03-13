@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
 
-{% set active_page='order' %}
-
 {% block title %}
     Order
 {% endblock %}
@@ -20,37 +18,37 @@
 <!-- channel filter -->
             <input id="channelFilter" name="channelFilter" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="All Channel">
             <div class="dropdown-menu" aria-labelledby="channelFilter">
-                <a class="channelFilterOptions dropdown-item" href="javascript:void(0)">All Channel</a>
+                <button class="channelFilterOptions dropdown-item" type="button" value="-1">All Channel</button>
                 {% if channels %}
                     <div class="dropdown-divider"></div>
                     {% for channel in channels %}
-                    <a class="channelFilterOptions dropdown-item " href="javascript:void(0)">{{ channel.name }}</a>
+                    <button class="channelFilterOptions dropdown-item " type="button" value="{{ channel.id }}">{{ channel.name }}</button>
                     {% endfor %}
                 {% endif %}
             </div>
 <!-- channel filter end -->
         </div>
-        <input type="text" class="form-control">
+        <input type="text" name="keyword" class="form-control">
 <!-- status filter -->
         <div class="input-group-append">
             <input id="statusFilter" name="statusFilter" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="All Status">
             <div class="dropdown-menu" aria-labelledby="statusFilter">
-                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">All Status</a>
+                <button class="statusFilterOptions dropdown-item" type="button"value="-1">All Status</a>
                 <div class="dropdown-divider"></div>
-                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'P' | order_status_2_name }}</a>
-                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'C' | order_status_2_name }}</a>
-                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'O' | order_status_2_name }}</a>
-                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'F' | order_status_2_name }}</a>
-                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'D' | order_status_2_name }}</a>
-                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'B' | order_status_2_name }}</a>
-                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'I' | order_status_2_name }}</a>
-                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'Y' | order_status_2_name }}</a>
-                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'A' | order_status_2_name }}</a>
-                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'E' | order_status_2_name }}</a>
+                <button class="statusFilterOptions dropdown-item" type="button"value="P">{{ 'P' | order_status_2_name }}</button>
+                <button class="statusFilterOptions dropdown-item" type="button"value="C">{{ 'C' | order_status_2_name }}</button>
+                <button class="statusFilterOptions dropdown-item" type="button"value="O">{{ 'O' | order_status_2_name }}</button>
+                <button class="statusFilterOptions dropdown-item" type="button"value="F">{{ 'F' | order_status_2_name }}</button>
+                <button class="statusFilterOptions dropdown-item" type="button"value="D">{{ 'D' | order_status_2_name }}</button>
+                <button class="statusFilterOptions dropdown-item" type="button"value="B">{{ 'B' | order_status_2_name }}</button>
+                <button class="statusFilterOptions dropdown-item" type="button"value="I">{{ 'I' | order_status_2_name }}</button>
+                <button class="statusFilterOptions dropdown-item" type="button"value="Y">{{ 'Y' | order_status_2_name }}</button>
+                <button class="statusFilterOptions dropdown-item" type="button"value="A">{{ 'A' | order_status_2_name }}</button>
+                <button class="statusFilterOptions dropdown-item" type="button"value="E">{{ 'E' | order_status_2_name }}</button>
                 <div class="dropdown-divider"></div>
-                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'G' | order_status_2_name }}</a>
-                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'H' | order_status_2_name }}</a>
-                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'J' | order_status_2_name }}</a>
+                <button class="statusFilterOptions dropdown-item" type="button"value="G">{{ 'G' | order_status_2_name }}</button>
+                <button class="statusFilterOptions dropdown-item" type="button"value="H">{{ 'H' | order_status_2_name }}</button>
+                <button class="statusFilterOptions dropdown-item" type="button"value="J">{{ 'J' | order_status_2_name }}</button>
             </div>
         </div>
 <!-- status filter end -->
@@ -112,14 +110,18 @@
 
 <script type="text/javascript">
 // channel filter
+var channelFilter = -1;
 $('.channelFilterOptions').on("click",function(){
     // https://stackoverflow.com/questions/3871228/get-text-from-anchor-tag
     $('#channelFilter').val($(this).text());
+    channelFilter = $(this).val();
 })
 
 // status filter
+var statusFilter = -1;
 $('.statusFilterOptions').on("click",function(){
     $('#statusFilter').val($(this).text());
+    statusFilter = $(this).val();
 })
 </script>
 {% endblock %}
