@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import json
 from flask import Blueprint, render_template, redirect, url_for, request, current_app, flash
 from Gondwana.model import db, Channel, Order
 from pycscart import Cscart
-import json
+from sqlalchemy import or_
 
 bp = Blueprint('order', __name__, url_prefix='/order')
 
@@ -33,7 +34,7 @@ def order_index():
             orders_query = orders_query.filter(Order.status == status)
             active_status = status
         if keyword: # search keyword
-            orders_query = orders_query.filter(Order.order_id == keyword)
+            orders_query = orders_query.filter(or_(Order.order_id == keyword, Order.email == keyword))
 
     orders = orders_query.all()  # execute Query
 
