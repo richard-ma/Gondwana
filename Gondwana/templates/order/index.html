@@ -17,15 +17,13 @@
     <div class="input-group mb-3">
         <div class="input-group-prepend">
 <!-- channel filter -->
-            <button id="channelFilter" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {% if active_channel %}{{ active_channel.name }}{% else %}All Channel{% endif %}
-            </button>
+            <input id="channelFilter" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="All Channel" />
             <div class="dropdown-menu" aria-labelledby="channelFilter">
-                <a class="dropdown-item {% if active_channel==None %}disabled{% endif %}" href="{{ url_for('order.order_index', status=active_status) }}">All Channel</a>
+                <a class="channelFilterOptions dropdown-item" href="javascript:void(0)">All Channel</a>
                 {% if channels %}
                     <div class="dropdown-divider"></div>
                     {% for channel in channels %}
-                    <a class="dropdown-item {% if active_channel.id==channel.id %}disabled{% endif %}" href="{{ url_for('order.order_index', channel_id=channel.id, status=active_status) }}">{{ channel.name }}</a>
+                    <a class="channelFilterOptions dropdown-item " href="javascript:void(0)">{{ channel.name }}</a>
                     {% endfor %}
                 {% endif %}
             </div>
@@ -34,9 +32,7 @@
         <input type="text" class="form-control" aria-label="Text input with segmented dropdown button">
 <!-- status filter -->
         <div class="input-group-append">
-            <button id="statusFilter" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {% if active_status %}{{ active_status|order_status_2_name }}{% else %}All Status{% endif %}
-            </button>
+            <input id="statusFilter" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="{% if active_status %}{{ active_status|order_status_2_name }}{% else %}All Status{% endif %}" />
             <div class="dropdown-menu" aria-labelledby="statusFilter">
                 <a class="dropdown-item {% if active_status==None %}disabled{% endif %}" href="{{ url_for('order.order_index', channel_id=active_channel.id) }}">All Status</a>
                 <div class="dropdown-divider"></div>
@@ -111,4 +107,10 @@
     {% else %}
     <h3>No orders here.</h3>
     {% endif %}
+
+<script type="text/javascript">
+$('.channelFilterOptions').on("click",function(){
+    $('#channelFilter').val($(this).text());
+})
+</script>
 {% endblock %}
