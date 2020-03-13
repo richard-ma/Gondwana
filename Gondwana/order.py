@@ -14,6 +14,9 @@ bp = Blueprint('order', __name__, url_prefix='/order')
 def order_index():
     channels = Channel.query.all() # get all channels
     orders_query = db.session.query(Order)  # create Order Query
+    active_channel = None
+    active_status = None
+    keyword = None
 
     if request.method == 'POST':  # search
         # get arguments
@@ -25,8 +28,10 @@ def order_index():
         # https://stackoverflow.com/questions/37336520/sqlalchemy-dynamic-filter
         if channel_id:  # Add conditions
             orders_query = orders_query.filter(Order.channel_id == channel_id)
+            active_channel = Channel.query.filter(Channel.id == channel_id).first()
         if status:  # status filter
             orders_query = orders_query.filter(Order.status == status)
+            active_status = status
         if keyword: # search keyword
             orders_query = orders_query.filter(Order.order_id == keyword)
 
@@ -35,7 +40,10 @@ def order_index():
     return render_template('order/index.html',
                            active_page="order",
                            orders=orders,
-                           channels=channels)
+                           channels=channels,
+                           active_channel=active_channel,
+                           active_status=active_status,
+                           keyword=keyword)
 
 # /order/detail
 @bp.route('/detail/<string:order_id>', methods=('GET', ))
