@@ -32,24 +32,24 @@
         <input type="text" class="form-control" aria-label="Text input with segmented dropdown button">
 <!-- status filter -->
         <div class="input-group-append">
-            <input id="statusFilter" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="{% if active_status %}{{ active_status|order_status_2_name }}{% else %}All Status{% endif %}" />
+            <input id="statusFilter" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="All Status" />
             <div class="dropdown-menu" aria-labelledby="statusFilter">
-                <a class="dropdown-item {% if active_status==None %}disabled{% endif %}" href="{{ url_for('order.order_index', channel_id=active_channel.id) }}">All Status</a>
+                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">All Status</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item {% if active_status=='P' %}disabled{% endif %}" href="{{ url_for('order.order_index', status='P', channel_id=active_channel.id) }}">{{ 'P' | order_status_2_name }}</a>
-                <a class="dropdown-item {% if active_status=='C' %}disabled{% endif %}" href="{{ url_for('order.order_index', status='C', channel_id=active_channel.id) }}">{{ 'C' | order_status_2_name }}</a>
-                <a class="dropdown-item {% if active_status=='O' %}disabled{% endif %}" href="{{ url_for('order.order_index', status='O', channel_id=active_channel.id) }}">{{ 'O' | order_status_2_name }}</a>
-                <a class="dropdown-item {% if active_status=='F' %}disabled{% endif %}" href="{{ url_for('order.order_index', status='F', channel_id=active_channel.id) }}">{{ 'F' | order_status_2_name }}</a>
-                <a class="dropdown-item {% if active_status=='D' %}disabled{% endif %}" href="{{ url_for('order.order_index', status='D', channel_id=active_channel.id) }}">{{ 'D' | order_status_2_name }}</a>
-                <a class="dropdown-item {% if active_status=='B' %}disabled{% endif %}" href="{{ url_for('order.order_index', status='B', channel_id=active_channel.id) }}">{{ 'B' | order_status_2_name }}</a>
-                <a class="dropdown-item {% if active_status=='I' %}disabled{% endif %}" href="{{ url_for('order.order_index', status='I', channel_id=active_channel.id) }}">{{ 'I' | order_status_2_name }}</a>
-                <a class="dropdown-item {% if active_status=='Y' %}disabled{% endif %}" href="{{ url_for('order.order_index', status='Y', channel_id=active_channel.id) }}">{{ 'Y' | order_status_2_name }}</a>
-                <a class="dropdown-item {% if active_status=='A' %}disabled{% endif %}" href="{{ url_for('order.order_index', status='A', channel_id=active_channel.id) }}">{{ 'A' | order_status_2_name }}</a>
-                <a class="dropdown-item {% if active_status=='E' %}disabled{% endif %}" href="{{ url_for('order.order_index', status='E', channel_id=active_channel.id) }}">{{ 'E' | order_status_2_name }}</a>
+                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'P' | order_status_2_name }}</a>
+                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'C' | order_status_2_name }}</a>
+                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'O' | order_status_2_name }}</a>
+                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'F' | order_status_2_name }}</a>
+                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'D' | order_status_2_name }}</a>
+                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'B' | order_status_2_name }}</a>
+                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'I' | order_status_2_name }}</a>
+                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'Y' | order_status_2_name }}</a>
+                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'A' | order_status_2_name }}</a>
+                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'E' | order_status_2_name }}</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item {% if active_status=='G' %}disabled{% endif %}" href="{{ url_for('order.order_index', status='G', channel_id=active_channel.id) }}">{{ 'G' | order_status_2_name }}</a>
-                <a class="dropdown-item {% if active_status=='H' %}disabled{% endif %}" href="{{ url_for('order.order_index', status='H', channel_id=active_channel.id) }}">{{ 'H' | order_status_2_name }}</a>
-                <a class="dropdown-item {% if active_status=='J' %}disabled{% endif %}" href="{{ url_for('order.order_index', status='J', channel_id=active_channel.id) }}">{{ 'J' | order_status_2_name }}</a>
+                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'G' | order_status_2_name }}</a>
+                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'H' | order_status_2_name }}</a>
+                <a class="statusFilterOptions dropdown-item" href="javascript:void(0)">{{ 'J' | order_status_2_name }}</a>
             </div>
         </div>
 <!-- status filter end -->
@@ -77,8 +77,8 @@
                 <td>{{ order.order_id }}</td>
                 <td>
     <div class="btn-group">
-        <button id="statusFilter" type="button" class="btn btn-sm btn-info btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-        <div class="dropdown-menu" aria-labelledby="statusFilter">
+        <button id="statusUpdater" type="button" class="btn btn-sm btn-info btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+        <div class="dropdown-menu" aria-labelledby="statusUpdater">
             <a class="dropdown-item {% if order.status=='P' %}disabled{% endif %}" href="{{ url_for('order.order_update_status', channel_id=order.channel_id, order_id=order.id, status='P') }}">{{ 'P' | order_status_2_name }}</a>
             <a class="dropdown-item {% if order.status=='C' %}disabled{% endif %}" href="{{ url_for('order.order_update_status', channel_id=order.channel_id, order_id=order.id, status='C') }}">{{ 'C' | order_status_2_name }}</a>
             <a class="dropdown-item {% if order.status=='O' %}disabled{% endif %}" href="{{ url_for('order.order_update_status', channel_id=order.channel_id, order_id=order.id, status='O') }}">{{ 'O' | order_status_2_name }}</a>
@@ -109,8 +109,14 @@
     {% endif %}
 
 <script type="text/javascript">
+// channel filter
 $('.channelFilterOptions').on("click",function(){
     $('#channelFilter').val($(this).text());
+})
+
+// status filter
+$('.statusFilterOptions').on("click",function(){
+    $('#statusFilter').val($(this).text());
 })
 </script>
 {% endblock %}
