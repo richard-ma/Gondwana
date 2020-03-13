@@ -31,13 +31,6 @@
     </ul>
   </div>
 
-<!-- search -->
-<form class="form-inline" action="{{ url_for('order.order_index') }}" method="POST">
-    <input class="form-control mr-sm-2" id="order_id" name="order_id" type="search" placeholder="Order ID" aria-label="Search">
-    <button class="btn btn-danger my-2 my-sm-0" type="submit">Search</button>
-</form>
-<!-- search end -->
-&nbsp;&nbsp;&nbsp;&nbsp;
 <!-- sync -->
 <a href="{{ url_for('order.order_sync') }}" role="button" class="btn btn-success">Synchronize</a>
 <!-- sync end -->
