@@ -13,8 +13,8 @@
 
 {% block content %}
     <div class="input-group mb-3">
-        <div class="input-group-prepend">
 <!-- channel filter -->
+        <div class="input-group-prepend">
             <button id="channelFilter" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="{% if active_channel %}{{ active_channel.id }}{% else %}-1{% endif %}">{% if active_channel %}{{ active_channel.name }}{% else %}All Channel{% endif %}</button>
             <div class="dropdown-menu" aria-labelledby="channelFilter">
                 <button class="channelFilterOptions dropdown-item" type="button" value="-1">All Channel</button>
@@ -25,9 +25,11 @@
                     {% endfor %}
                 {% endif %}
             </div>
-<!-- channel filter end -->
         </div>
+<!-- channel filter end -->
+<!-- keyword text -->
         <input type="text" id="keyword" class="form-control" value="{% if keyword %}{{ keyword }}{% endif %}">
+<!-- keyword text end -->
 <!-- status filter -->
         <div class="input-group-append">
             <button id="statusFilter" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="{% if active_status %}{{ active_status }}{% else %}-1{% endif %}">{% if active_status %}{{ active_status | order_status_2_name }}{% else %}All Status{% endif %}</button>
