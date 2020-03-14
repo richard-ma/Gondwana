@@ -20,12 +20,6 @@ class Channel(db.Model):
     email = db.Column(db.String(128), nullable=False)  # 管理员email
     api_key = db.Column(db.String(128), nullable=False)  # API KEY
 
-    def __init__(self, name, website_url, email, api_key):
-        self.name = name
-        self.website_url = website_url
-        self.email = email
-        self.api_key = api_key
-
 
 class Order(db.Model):
     __tablename__ = 'order'
@@ -34,7 +28,7 @@ class Order(db.Model):
     order_id = db.Column(db.Integer)  # 订单ID
     channel_id = db.Column(db.Integer, db.ForeignKey('channel.id'))
     channel = db.relationship('Channel',
-                              backref=db.backref('order', lazy='dynamic'))
+            backref=db.backref('order', lazy='dynamic'))
     status = db.Column(db.String(1))  # 订单状态
 
     # customer information
@@ -74,55 +68,6 @@ class Order(db.Model):
     s_address_type = db.Column(db.String(32))  # 运单地址类型
     s_country_descr = db.Column(db.String(128))  # 运单国家全称
     s_state_descr = db.Column(db.String(255))  # 运单州全称
-
-    def __init__(self, order_id, channel_id, status, firstname, lastname,
-                 phone, fax, url, email, ip_address, b_firstname, b_lastname,
-                 b_address, b_address_2, b_city, b_county, b_state, b_country,
-                 b_zipcode, b_phone, b_country_descr, b_state_descr,
-                 s_firstname, s_lastname, s_address, s_address_2, s_city,
-                 s_county, s_state, s_country, s_zipcode, s_phone,
-                 s_address_type, s_country_descr, s_state_descr):
-        self.order_id = order_id
-        self.channel_id = channel_id
-        self.status = status
-
-        # customer information
-        self.firstname = firstname
-        self.lastname = lastname
-        self.phone = phone
-        self.fax = fax
-        self.url = url
-        self.email = email
-        self.ip_address = ip_address
-
-        # bill information
-        self.b_firstname = b_firstname
-        self.b_lastname = b_lastname
-        self.b_address = b_address
-        self.b_address_2 = b_address_2
-        self.b_city = b_city
-        self.b_county = b_county
-        self.b_state = b_state
-        self.b_country = b_country
-        self.b_zipcode = b_zipcode
-        self.b_phone = b_phone
-        self.b_country_descr = b_country_descr
-        self.b_state_descr = b_state_descr
-
-        # shipping information
-        self.s_firstname = s_firstname
-        self.s_lastname = s_lastname
-        self.s_address = s_address
-        self.s_address_2 = s_address_2
-        self.s_city = s_city
-        self.s_county = s_county
-        self.s_state = s_state
-        self.s_country = s_country
-        self.s_zipcode = s_zipcode
-        self.s_phone = s_phone
-        self.s_address_type = s_address_type
-        self.s_country_descr = s_country_descr
-        self.s_state_descr = s_state_descr
 
 
 '''
