@@ -51,6 +51,11 @@
     <table class="table table-striped table-hover">
         <thead class="thead-dark">
             <tr>
+                <th>
+                    <div class="form-check">
+                        <input class="form-check-input position-static" id="checkAllOrder" type="checkbox">
+                    </div>
+                </th>
                 <th>Channel</th>
                 <th>OrderId</th>
                 <th>Status</th>
@@ -60,6 +65,11 @@
         <tbody>
             {% for order in orders %}
             <tr>
+                <td>
+                    <div class="form-check">
+                        <input class="form-check-input position-static orders_checkbox" type="checkbox" name="orders[]" value="{{ order.id }}">
+                    </div>
+                </td>
                 <td>{{ order.channel.name }}</td>
                 <td>{{ order.order_id }}</td>
                 <td>
@@ -143,5 +153,10 @@ $('#searchSubmitButton').on("click",function(){
 
     post('{{ url_for('order.order_index') }}', data);
 })
+
+// select all order checkbox
+$('#checkAllOrder').click(function() {
+    $('.orders_checkbox').not(this).prop('checked', this.checked);
+});
 </script>
 {% endblock %}
