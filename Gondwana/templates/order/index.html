@@ -34,20 +34,9 @@
             <div class="dropdown-menu" aria-labelledby="statusFilter">
                 <button class="statusFilterOptions dropdown-item" type="button"value="-1">All Status</button>
                 <div class="dropdown-divider"></div>
-                <button class="statusFilterOptions dropdown-item" type="button"value="P">{{ 'P' | order_status_2_name }}</button>
-                <button class="statusFilterOptions dropdown-item" type="button"value="C">{{ 'C' | order_status_2_name }}</button>
-                <button class="statusFilterOptions dropdown-item" type="button"value="O">{{ 'O' | order_status_2_name }}</button>
-                <button class="statusFilterOptions dropdown-item" type="button"value="F">{{ 'F' | order_status_2_name }}</button>
-                <button class="statusFilterOptions dropdown-item" type="button"value="D">{{ 'D' | order_status_2_name }}</button>
-                <button class="statusFilterOptions dropdown-item" type="button"value="B">{{ 'B' | order_status_2_name }}</button>
-                <button class="statusFilterOptions dropdown-item" type="button"value="I">{{ 'I' | order_status_2_name }}</button>
-                <button class="statusFilterOptions dropdown-item" type="button"value="Y">{{ 'Y' | order_status_2_name }}</button>
-                <button class="statusFilterOptions dropdown-item" type="button"value="A">{{ 'A' | order_status_2_name }}</button>
-                <button class="statusFilterOptions dropdown-item" type="button"value="E">{{ 'E' | order_status_2_name }}</button>
-                <div class="dropdown-divider"></div>
-                <button class="statusFilterOptions dropdown-item" type="button"value="G">{{ 'G' | order_status_2_name }}</button>
-                <button class="statusFilterOptions dropdown-item" type="button"value="H">{{ 'H' | order_status_2_name }}</button>
-                <button class="statusFilterOptions dropdown-item" type="button"value="J">{{ 'J' | order_status_2_name }}</button>
+                {% for status in get_all_order_status() %}
+                <button class="statusFilterOptions dropdown-item" type="button"value="{{ status }}">{{ status | order_status_2_name }}</button>
+                {% endfor %}
             </div>
         </div>
 <!-- status filter end -->

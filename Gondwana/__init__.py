@@ -63,6 +63,12 @@ def create_app(conf=None):
     if conf is not None:
         app.config.from_mapping(conf)
 
+    # import helper function
+    from . import helper
+
+    # register template helper
+    app.add_template_global(helper.get_all_order_status, name="get_all_order_status")
+
     from . import model
     # create database
     model.db.init_app(app)
