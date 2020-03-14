@@ -34,10 +34,10 @@
         <div class="input-group-append">
             <button id="statusFilter" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="{% if active_status %}{{ active_status }}{% else %}-1{% endif %}">{% if active_status %}{{ active_status | order_status_2_name }}{% else %}All Status{% endif %}</button>
             <div class="dropdown-menu" aria-labelledby="statusFilter">
-                <button class="statusFilterOptions dropdown-item" type="button"value="-1">All Status</button>
+                <button class="statusFilterOptions dropdown-item" type="button" value="-1">All Status</button>
                 <div class="dropdown-divider"></div>
                 {% for status in get_all_order_status() %}
-                <button class="statusFilterOptions dropdown-item" type="button"value="{{ status }}">{{ status | order_status_2_name }}</button>
+                <button class="statusFilterOptions dropdown-item" type="button" value="{{ status }}">{{ status | order_status_2_name }}</button>
                 {% endfor %}
             </div>
         </div>
@@ -47,6 +47,18 @@
             <button id="searchSubmitButton" class="btn btn-danger btn-secondary" type="button">Search</button>
         </div>
 <!-- search button end-->
+    </div>
+    <div class="btn-group mb-1" role="group">
+<!-- order status batching -->
+        <div class="btn-group" role="group">
+            <button id="orderStatusBatching" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Change Status To</button>
+            <div class="dropdown-menu" aria-labelledby="orderStatusBatching">
+                {% for status in get_all_order_status() %}
+                <button class="orderStatusBatchingOptions dropdown-item" type="button" value="{{ status }}">{{ status | order_status_2_name }}</button>
+                {% endfor %}
+            </div>
+        </div>
+<!-- order status batching end -->
     </div>
 
     <table class="table table-striped table-hover">
@@ -127,6 +139,20 @@ function post(path, params, method='post') {
   form.submit();
 }
 
+// get search bar filters data
+function get_search_data() {
+    var channel_id  = $('#channelFilter').val();
+    var status_id   = $('#statusFilter').val();
+    var keyword     = $('#keyword').val();
+
+    var data = {};
+    data['channel_id'] = (channel_id == "-1") ? null : channel_id;
+    data['status'] = (status_id == "-1") ? null : status_id;
+    data['keyword'] = (keyword == "") ? null : keyword;
+
+    return data;
+}
+
 // channel filter
 $('.channelFilterOptions').on("click",function(){
     // https://stackoverflow.com/questions/3871228/get-text-from-anchor-tag
@@ -142,21 +168,30 @@ $('.statusFilterOptions').on("click",function(){
 
 // search form submit button
 $('#searchSubmitButton').on("click",function(){
-    var channel_id  = $('#channelFilter').val();
-    var status_id   = $('#statusFilter').val();
-    var keyword     = $('#keyword').val();
-
-    var data = {};
-    data['channel_id'] = (channel_id == "-1") ? null : channel_id;
-    data['status'] = (status_id == "-1") ? null : status_id;
-    data['keyword'] = (keyword == "") ? null : keyword;
-
-    post('{{ url_for('order.order_index') }}', data);
+    post('{{ url_for('order.order_index') }}', get_search_data());
 })
 
 // select all order checkbox
-$('#checkAllOrder').click(function() {
+$('#checkAllOrder').on("click",function(){
     $('.orders_checkbox').prop('checked', this.checked);
+});
+
+// order status batching
+$('.orderStatusBatchingOptions').on("click",function(){
+    // get search filters value to keep order search conditions
+    var data = get_search_data();
+
+    // get order ids
+    data['order_ids'] = []
+    $('.orders_checkbox:checked').each(function(i){
+        data['order_ids'][i] = $(this).val();
+    });
+
+    data['status_to'] = this.value;
+    data['status'] = data['status_to']; // change status filter to new status
+
+    // send request
+    post('{{ url_for('order.order_index') }}', data);
 });
 </script>
 {% endblock %}

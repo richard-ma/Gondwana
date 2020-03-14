@@ -19,14 +19,16 @@ def order_index():
     active_status = None
     keyword = None
 
-    if request.method == 'POST':  # search
+    if request.method == 'POST':  # search or batch
         # get arguments
         keyword = request.form.get('keyword')
         channel_id = request.form.get('channel_id')
         status = request.form.get('status')
+        status_to = request.form.get('status_to')
 
         # set Order query with filter
         # https://stackoverflow.com/questions/37336520/sqlalchemy-dynamic-filter
+        # search
         if channel_id:  # Add conditions
             orders_query = orders_query.filter(Order.channel_id == channel_id)
             active_channel = Channel.query.filter(Channel.id == channel_id).first()
@@ -35,6 +37,13 @@ def order_index():
             active_status = status
         if keyword: # search keyword
             orders_query = orders_query.filter(or_(Order.order_id == keyword, Order.email == keyword))
+        # batch
+        if status_to: # change order status
+            order_ids = request.form.get('order_ids')
+            if order_ids:
+                order_ids = [int(x) for x in order_ids.split(',')] # change string to integer
+            # https://stackoverflow.com/questions/15267755/query-for-multiple-values-at-once
+            batching_orders = Order.query.filter(Order.id.in_(order_ids))
 
     orders = orders_query.all()  # execute Query
 
