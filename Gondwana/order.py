@@ -176,14 +176,14 @@ def order_update_status(channel_id: str, order_id: str, status: str):
         Order.channel_id == channel_id).first()
     channel = order.channel
 
-    api = Cscart(channel.website_url, channel.email, channel.api_key)
-    response = api.update_order_status(str(order.order_id), status)
+    #api = Cscart(channel.website_url, channel.email, channel.api_key)
+    #response = api.update_order_status(str(order.order_id), status)
 
-    if response:
-        order.status = status
-        db.session.commit()
-        flash('Update Order Status Completed', 'success')
-        current_app.logger.debug("Channel #%s Order #%s status change to %s" %
-                                 (channel.name, order.id, order.status))
+    order.status = status
+    db.session.commit()
+
+    flash('Update Order Status Completed', 'success')
+    current_app.logger.debug("Channel #%s Order #%s status change to %s" %
+                             (channel.name, order.id, order.status))
 
     return redirect(url_for('order.order_index'))

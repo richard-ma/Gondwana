@@ -5,6 +5,8 @@ import click
 from flask.cli import with_appcontext
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from sqlalchemy import event
+from pycscart import Cscart
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -69,6 +71,14 @@ class Order(db.Model):
     s_country_descr = db.Column(db.String(128))  # 运单国家全称
     s_state_descr = db.Column(db.String(255))  # 运单州全称
 
+# event listener
+
+# https://docs.sqlalchemy.org/en/13/orm/events.html?highlight=after_update#sqlalchemy.orm.events.MapperEvents.after_update
+# synchronize order.status to channel
+@event.listens_for(Order, 'after_update')
+def order_after_update(mapper, connection, target):
+    api = Cscart(target.channel.website_url, target.channel.email, target.channel.api_key)
+    api.update_order_status(str(target.order_id), target.status)
 
 '''
     total = db.Column(db.Float)  # 订单合计
