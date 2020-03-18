@@ -78,10 +78,10 @@ class Order(db.Model):
 
 # https://docs.sqlalchemy.org/en/13/orm/events.html?highlight=after_update#sqlalchemy.orm.events.MapperEvents.after_update
 # synchronize order.status to channel
-#@event.listens_for(Order, 'before_update')
-#def order_after_update(mapper, connection, target):
-    #api = Cscart(target.channel.website_url, target.channel.email, target.channel.api_key)
-    #api.update_order_status(str(target.order_id), target.status)
+@event.listens_for(Order, 'before_update')
+def order_after_update(mapper, connection, target):
+    api = Cscart(target.channel.website_url, target.channel.email, target.channel.api_key)
+    api.update_order_status(str(target.order_id), target.status)
 
 '''
     total = db.Column(db.Float)  # 订单合计
