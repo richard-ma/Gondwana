@@ -86,17 +86,7 @@
                 </td>
                 <td>{{ order.channel.name }}</td>
                 <td>{{ order.order_id }}</td>
-                <td>
-                    <div class="btn-group">
-                        <button id="statusUpdater" type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                        <div class="dropdown-menu" aria-labelledby="statusUpdater">
-                            {% for status in get_all_order_status() %}
-                            <a class="dropdown-item {% if order.status==status %}disabled{% endif %}" href="{{ url_for('order.order_update_status', channel_id=order.channel_id, order_id=order.id, status=status) }}">{{ status | order_status_2_name }}</a>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    {{ order.status|order_status_2_name }}
-                </td>
+                <td>{{ order.status|order_status_2_name }}</td>
                 <td>
                     <a role="button" href="{{ url_for('order.order_detail', order_id=order.id) }}" class="btn btn-primary btn-sm">Detail</a>
                 </td>
