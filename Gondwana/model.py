@@ -22,7 +22,9 @@ class Channel(db.Model):
     email = db.Column(db.String(128), nullable=False)  # 管理员email
     api_key = db.Column(db.String(128), nullable=False)  # API KEY
 
-    orders = db.relationship('Order', backref=db.backref('channel'))
+    orders = db.relationship('Order',
+            backref=db.backref('channel'),
+            cascade='all, delete-orphan') # cascade delete: https://graycarl.me/2014/03/24/sqlalchemy-cascade-delete.html
 
 
 class Order(db.Model):
