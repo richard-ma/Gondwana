@@ -44,6 +44,9 @@ def order_index():
                 order_ids = [int(x) for x in order_ids.split(',')] # change string to integer
             # https://stackoverflow.com/questions/15267755/query-for-multiple-values-at-once
             batching_orders = Order.query.filter(Order.id.in_(order_ids))
+            for order in batching_orders:
+                order.status = status_to
+            db.session.commit()
 
     orders = orders_query.all()  # execute Query
 
