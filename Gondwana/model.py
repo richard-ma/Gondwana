@@ -22,16 +22,17 @@ class Channel(db.Model):
     email = db.Column(db.String(128), nullable=False)  # 管理员email
     api_key = db.Column(db.String(128), nullable=False)  # API KEY
 
+    orders = db.relationship('Order', backref=db.backref('channel'))
+
 
 class Order(db.Model):
     __tablename__ = 'order'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     order_id = db.Column(db.Integer)  # 订单ID
-    channel_id = db.Column(db.Integer, db.ForeignKey('channel.id'))
-    channel = db.relationship('Channel',
-            backref=db.backref('order', lazy='dynamic'))
     status = db.Column(db.String(1))  # 订单状态
+
+    channel_id = db.Column(db.Integer, db.ForeignKey('channel.id'))
 
     # customer information
     firstname = db.Column(db.String(32))  # 订单名
@@ -75,10 +76,10 @@ class Order(db.Model):
 
 # https://docs.sqlalchemy.org/en/13/orm/events.html?highlight=after_update#sqlalchemy.orm.events.MapperEvents.after_update
 # synchronize order.status to channel
-@event.listens_for(Order, 'after_update')
-def order_after_update(mapper, connection, target):
-    api = Cscart(target.channel.website_url, target.channel.email, target.channel.api_key)
-    api.update_order_status(str(target.order_id), target.status)
+#@event.listens_for(Order, 'before_update')
+#def order_after_update(mapper, connection, target):
+    #api = Cscart(target.channel.website_url, target.channel.email, target.channel.api_key)
+    #api.update_order_status(str(target.order_id), target.status)
 
 '''
     total = db.Column(db.Float)  # 订单合计

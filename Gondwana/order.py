@@ -116,7 +116,7 @@ def order_sync():
                 order_local.s_state_descr = order_remote['s_state_descr']
             else:
                 order = Order(order_id=order_remote['order_id'],
-                              channel_id=channel.id,
+                              channel=channel,
                               status=order_remote['status'],
 
                               # customer information
