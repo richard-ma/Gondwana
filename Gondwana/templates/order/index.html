@@ -181,7 +181,7 @@ $('.orderStatusBatchingOptions').on("click",function(){
     });
 
     data['status_to'] = this.value;
-    data['status'] = data['status_to']; // change status filter to new status
+    //data['status'] = data['status_to']; // change status filter to new status
 
     // send request
     post('{{ url_for('order.order_index') }}', data);
