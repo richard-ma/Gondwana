@@ -90,7 +90,6 @@
             <tr id="order_detail_{{order.id}}" style="display: none;">
                 <td colspan="100">
                     <table id="details_{{ order.id }}">
-                        <tr><td>{{ order.email }}</td><tr>
                     </table>
                 </td>
             </tr>
@@ -192,7 +191,18 @@ $('.orderStatusBatchingOptions').on("click",function(){
 // https://stackoverflow.com/questions/3239598/how-can-i-get-the-id-of-an-element-using-jquery
 $('.openOrderDetailBtn').on('click', function(e) {
     e.preventDefault();
-    $('#order_detail_'+$(this).attr('id')).toggle('slow');
+    var order_id = $(this).attr('id');
+    
+    // https://zhidao.baidu.com/question/516934779.html
+    if ($('#details_'+order_id+' tr').length <= 0) {
+        // ajax get data and update view
+        $.getJSON('/api/order/json/'+order_id, function(r) {
+            $('#details_'+order_id).append('<tr><td>'+r.email+'</td></tr>'); // add email
+        });
+    }
+    
+    // show
+    $('#order_detail_'+order_id).toggle('slow');
 });
 </script>
 {% endblock %}
