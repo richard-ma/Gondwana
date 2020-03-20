@@ -83,6 +83,10 @@ def create_app(conf=None):
         return 'pong'
     app.logger.debug('Add /ping testing url')
 
+    from . import api
+    app.register_blueprint(api.bp)
+    app.logger.debug('Add api blueprint')
+
     from . import dashboard
     app.register_blueprint(dashboard.bp)
     app.logger.debug('Add dashboard blueprint')
