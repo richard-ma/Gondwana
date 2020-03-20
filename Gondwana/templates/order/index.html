@@ -85,11 +85,14 @@
                     </div>
                 </td>
                 <td>{{ order.channel.name }}</td>
-                <td>{{ order.order_id }}</td>
+                <td><a id="{{order.id}}" class="openOrderDetailBtn">{{ order.order_id }}</a></td>
                 <td>{{ order.status|order_status_2_name }}</td>
                 <td>
                     <a role="button" href="{{ url_for('order.order_detail', order_id=order.id) }}" class="btn btn-primary btn-sm">Detail</a>
                 </td>
+            </tr>
+            <tr id="order_detail_{{order.id}}" style="display: none;">
+                <td colspan="100">{{order.status}}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -182,6 +185,14 @@ $('.orderStatusBatchingOptions').on("click",function(){
 
     // send request
     post('{{ url_for('order.order_index') }}', data);
+});
+
+// open order detail
+// https://stackoverflow.com/questions/22218291/toggle-hide-show-tr-using-jquery
+// https://stackoverflow.com/questions/3239598/how-can-i-get-the-id-of-an-element-using-jquery
+$('.openOrderDetailBtn').on('click', function(e) {
+    e.preventDefault();
+    $('#order_detail_'+$(this).attr('id')).toggle('slow');
 });
 </script>
 {% endblock %}
