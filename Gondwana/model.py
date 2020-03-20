@@ -13,7 +13,12 @@ migrate = Migrate()
 
 
 # models
-class Channel(db.Model):
+class BaseModel(object):
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+
+class Channel(BaseModel, db.Model):
     __tablename__ = 'channel'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -27,7 +32,7 @@ class Channel(db.Model):
             cascade='all, delete-orphan') # cascade delete: https://graycarl.me/2014/03/24/sqlalchemy-cascade-delete.html
 
 
-class Order(db.Model):
+class Order(BaseModel, db.Model):
     __tablename__ = 'order'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
