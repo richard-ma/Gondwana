@@ -92,7 +92,11 @@
                 </td>
             </tr>
             <tr id="order_detail_{{order.id}}" style="display: none;">
-                <td colspan="100">{{order.status}}</td>
+                <td colspan="100">
+                    <table id="details_{{ order.id }}">
+                        <tr><td>{{ order.email }}</td><tr>
+                    </table>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
