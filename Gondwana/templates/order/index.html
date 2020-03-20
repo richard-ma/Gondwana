@@ -72,7 +72,6 @@
                 <th>Channel</th>
                 <th>OrderId</th>
                 <th>Status</th>
-                <th>OPERATIONS</th>
             </tr>
         </thead>
         {% if orders %}
@@ -87,9 +86,6 @@
                 <td>{{ order.channel.name }}</td>
                 <td><a id="{{order.id}}" class="openOrderDetailBtn btn btn-sm btn-outline-secondary" data-toogle="tooltip" data-palcement="bottom" title="Click to show order detials">{{ order.order_id }}</a></td>
                 <td>{{ order.status|order_status_2_name }}</td>
-                <td>
-                    <a role="button" href="{{ url_for('order.order_detail', order_id=order.id) }}" class="btn btn-primary btn-sm">Detail</a>
-                </td>
             </tr>
             <tr id="order_detail_{{order.id}}" style="display: none;">
                 <td colspan="100">
