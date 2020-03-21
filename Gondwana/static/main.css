@@ -1,14 +1,14 @@
-body {
-    background-color: #eeeeee;
-}
-
-.content {
-    width: 80%;
-    background-color: #ffffff;
+/*
+ * change container width
+ * https://stackoverflow.com/questions/15884102/bootstrap-how-do-i-change-the-width-of-the-container
+ */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 90%;
+    }
 }
 
 .page-header {
     border-bottom: 1px solid #cccccc;
-    margin-bottom: 50px;
     font-size: 3rem;
 }
