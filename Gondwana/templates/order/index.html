@@ -89,7 +89,7 @@
             </tr>
             <tr id="order_detail_{{order.id}}" style="display: none;">
                 <td colspan="100">
-                    <table id="details_{{ order.id }}">
+                    <table id="details_{{ order.id }}" class="table table-sm">
                     </table>
                 </td>
             </tr>
@@ -197,10 +197,16 @@ $('.openOrderDetailBtn').on('click', function(e) {
     if ($('#details_'+order_id+' tr').length <= 0) {
         // ajax get data and update view
         $.getJSON('/api/order/json/'+order_id, function(r) {
-            $('#details_'+order_id).append('<tr><td>'+r.email+'</td></tr>'); // add email
-            $.each(r.products, function(k, v) {
-                $('#details_'+order_id).append('<tr><td>'+v.product+'</td></tr>'); // add product name
-                $('#details_'+order_id).append('<tr><td>'+v.price+' x '+v.amount+'</td></tr>'); // add product price and amount
+            $('#details_'+order_id).append('<tr><td>Email: '+r.email+'</td></tr>'); // add email
+            $('#details_'+order_id).append('<tr><td>Products: </td></tr>'); // add email
+            $.each(r.products, function(product_id, product) {
+                $('#details_'+order_id).append('<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;'+product.product+'</td></tr>'); // add product name
+                // add product options
+                var option_string = '';
+                $.each(product.extra.product_options_value, function(idx, product_option) {
+                    option_string = option_string + product_option.option_name+': '+product_option.variant_name + ' ';
+                });
+                $('#details_'+order_id).append('<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;'+option_string+'</td></tr>');
             });
         });
     }

@@ -90,6 +90,7 @@ class Order(BaseModel, db.Model):
 def order_after_update(mapper, connection, target):
     api = Cscart(target.channel.website_url, target.channel.email, target.channel.api_key)
     api.update_order_status(str(target.order_id), target.status)
+    target.products = json.dumps(target.products)
 
 # products: convert python dictionary to string
 @event.listens_for(Order, 'before_insert')
