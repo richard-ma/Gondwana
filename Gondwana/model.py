@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import click
+import click, json
 from flask.cli import with_appcontext
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -79,14 +79,28 @@ class Order(BaseModel, db.Model):
     s_country_descr = db.Column(db.String(128))  # 运单国家全称
     s_state_descr = db.Column(db.String(255))  # 运单州全称
 
+    # products
+    products = db.Column(db.Text) # 产品信息
+
 # event listener
 
-# https://docs.sqlalchemy.org/en/13/orm/events.html?highlight=after_update#sqlalchemy.orm.events.MapperEvents.after_update
 # synchronize order.status to channel
+# https://docs.sqlalchemy.org/en/13/orm/events.html?highlight=after_update#sqlalchemy.orm.events.MapperEvents.after_update
 @event.listens_for(Order, 'before_update')
 def order_after_update(mapper, connection, target):
     api = Cscart(target.channel.website_url, target.channel.email, target.channel.api_key)
     api.update_order_status(str(target.order_id), target.status)
+
+# products: convert python dictionary to string
+@event.listens_for(Order, 'before_insert')
+def order_before_insert(mapper, connection, target):
+    # https://www.geeksforgeeks.org/python-convert-dictionary-object-into-string/
+    target.products = json.dumps(target.products)
+
+# products: convert string to python dictionary
+@event.listens_for(Order, 'load')
+def order_load(instance, context):
+    instance.products = json.loads(instance.products)
 
 '''
     total = db.Column(db.Float)  # 订单合计

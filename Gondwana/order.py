@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import json
 from flask import Blueprint, render_template, redirect, url_for, request, current_app, flash
 from Gondwana.model import db, Channel, Order
 from pycscart import Cscart
@@ -117,6 +116,9 @@ def order_sync():
                 order_local.s_address_type = order_remote['s_address_type']
                 order_local.s_country_descr = order_remote['s_country_descr']
                 order_local.s_state_descr = order_remote['s_state_descr']
+
+                # products
+                order_local.products = order_remote['products']
             else:
                 order = Order(order_id=order_remote['order_id'],
                               channel=channel,
@@ -158,7 +160,10 @@ def order_sync():
                               s_phone=order_remote['s_phone'],
                               s_address_type=order_remote['s_address_type'],
                               s_country_descr=order_remote['s_country_descr'],
-                              s_state_descr=order_remote['s_state_descr']
+                              s_state_descr=order_remote['s_state_descr'],
+
+                              # products
+                              products=order_remote['products']
                 )
                 db.session.add(order)
             current_app.logger.debug("Channel %s:Order %s synchronized!" %
