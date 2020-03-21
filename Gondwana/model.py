@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 import click, json
+from datetime import datetime
 from flask.cli import with_appcontext
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -82,7 +83,9 @@ class Order(BaseModel, db.Model):
     # products
     products = db.Column(db.Text) # 产品信息
     total = db.Column(db.Float)  # 订单合计
-    #timestamp = db.Column(db.Timestamp) # 时间戳
+
+    # others
+    timestamp = db.Column(db.DateTime) # 下单时间
 
 # event listener
 
@@ -93,12 +96,15 @@ def order_after_update(mapper, connection, target):
     api = Cscart(target.channel.website_url, target.channel.email, target.channel.api_key)
     api.update_order_status(str(target.order_id), target.status)
     target.products = json.dumps(target.products)
+    target.timestamp = datetime.utcfromtimestamp(int(target.timestamp))
 
 # products: convert python dictionary to string
 @event.listens_for(Order, 'before_insert')
 def order_before_insert(mapper, connection, target):
     # https://www.geeksforgeeks.org/python-convert-dictionary-object-into-string/
     target.products = json.dumps(target.products)
+    # https://stackoverflow.com/questions/3682748/converting-unix-timestamp-string-to-readable-date
+    target.timestamp = datetime.utcfromtimestamp(int(target.timestamp))
 
 # products: convert string to python dictionary
 @event.listens_for(Order, 'load')

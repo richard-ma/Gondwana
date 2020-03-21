@@ -26,3 +26,11 @@ def order_status_2_name(context, value):
     }
 
     return s_2_n.get(value, value)
+
+@jinja2.contextfilter
+@bp.app_template_filter('format_datetime')
+def format_datetime(context, value, format='yyyy-mm-dd'):
+    if format == 'yyyy-mm-dd':
+        return value.strftime('%y-%m-%d')
+
+    return value

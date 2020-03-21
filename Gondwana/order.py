@@ -120,53 +120,12 @@ def order_sync():
                 # products
                 order_local.products = order_remote['products']
                 order_local.total = order_remote['total']
+
+                # others
+                order_local.timestamp = order_remote['timestamp']
             else:
-                order = Order(order_id=order_remote['order_id'],
-                              channel=channel,
-                              status=order_remote['status'],
-
-                              # customer information
-                              firstname=order_remote['firstname'],
-                              lastname=order_remote['lastname'],
-                              phone=order_remote['phone'],
-                              fax=order_remote['fax'],
-                              url=order_remote['url'],
-                              email=order_remote['email'],
-                              ip_address=order_remote['ip_address'],
-
-                              # bill information
-                              b_firstname=order_remote['b_firstname'],
-                              b_lastname=order_remote['b_lastname'],
-                              b_address=order_remote['b_address'],
-                              b_address_2=order_remote['b_address_2'],
-                              b_city=order_remote['b_city'],
-                              b_county=order_remote['b_county'],
-                              b_state=order_remote['b_state'],
-                              b_country=order_remote['b_country'],
-                              b_zipcode=order_remote['b_zipcode'],
-                              b_phone=order_remote['b_phone'],
-                              b_country_descr=order_remote['b_country_descr'],
-                              b_state_descr=order_remote['b_state_descr'],
-
-                              # shipping information
-                              s_firstname=order_remote['s_firstname'],
-                              s_lastname=order_remote['s_lastname'],
-                              s_address=order_remote['s_address'],
-                              s_address_2=order_remote['s_address_2'],
-                              s_city=order_remote['s_city'],
-                              s_county=order_remote['s_county'],
-                              s_state=order_remote['s_state'],
-                              s_country=order_remote['s_country'],
-                              s_zipcode=order_remote['s_zipcode'],
-                              s_phone=order_remote['s_phone'],
-                              s_address_type=order_remote['s_address_type'],
-                              s_country_descr=order_remote['s_country_descr'],
-                              s_state_descr=order_remote['s_state_descr'],
-
-                              # products
-                              products=order_remote['products'],
-                              total=order_remote['total']
-                )
+                # https://stackoverflow.com/questions/31750441/generalised-insert-into-sqlalchemy-using-dictionary/31756880
+                order = Order(**order_remote)
                 db.session.add(order)
             current_app.logger.debug("Channel %s:Order %s synchronized!" %
                                      (channel.name, order_id))
