@@ -119,6 +119,7 @@ def order_sync():
 
                 # products
                 order_local.products = order_remote['products']
+                order_local.total = order_remote['total']
             else:
                 order = Order(order_id=order_remote['order_id'],
                               channel=channel,
@@ -163,7 +164,8 @@ def order_sync():
                               s_state_descr=order_remote['s_state_descr'],
 
                               # products
-                              products=order_remote['products']
+                              products=order_remote['products'],
+                              total=order_remote['total']
                 )
                 db.session.add(order)
             current_app.logger.debug("Channel %s:Order %s synchronized!" %

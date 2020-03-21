@@ -81,6 +81,8 @@ class Order(BaseModel, db.Model):
 
     # products
     products = db.Column(db.Text) # 产品信息
+    total = db.Column(db.Float)  # 订单合计
+    #timestamp = db.Column(db.Timestamp) # 时间戳
 
 # event listener
 
@@ -104,14 +106,12 @@ def order_load(instance, context):
     instance.products = json.loads(instance.products)
 
 '''
-    total = db.Column(db.Float)  # 订单合计
     subtotal = db.Column(db.Float)  #
     discount = db.Column(db.Float)  # 折扣
     subtotal_discount = db.Column(db.Float)  #
     payment_surcharge = db.Column(db.Float)  #
     shipping_ids = db.Column(db.String(32)) # 物流ID
     shipping_cost = db.Column(db.Float) # 运费
-    timestamp = db.Column(db.Timestamp) # 时间戳
     notes = db.Column(db.Text) # 订单备注
     details = db.Column(db.Text) #
     company = db.Column(db.String(32)) #
