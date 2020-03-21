@@ -198,6 +198,10 @@ $('.openOrderDetailBtn').on('click', function(e) {
         // ajax get data and update view
         $.getJSON('/api/order/json/'+order_id, function(r) {
             $('#details_'+order_id).append('<tr><td>'+r.email+'</td></tr>'); // add email
+            $.each(r.products, function(k, v) {
+                $('#details_'+order_id).append('<tr><td>'+v.product+'</td></tr>'); // add product name
+                $('#details_'+order_id).append('<tr><td>'+v.price+' x '+v.amount+'</td></tr>'); // add product price and amount
+            });
         });
     }
     
