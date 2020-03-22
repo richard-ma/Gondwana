@@ -2,7 +2,8 @@
 # encoding: utf-8
 
 from flask import Blueprint, render_template, redirect, url_for, request, current_app, flash
-from Gondwana.model import db, Channel, Order
+from Gondwana.model import *
+from Gondwana.helper import *
 from pycscart import Cscart
 from sqlalchemy import or_
 
@@ -67,6 +68,8 @@ def order_detail(order_id: str):
 # /order/sync
 @bp.route('/sync', methods=('GET', ))
 def order_sync():
+    order_keys = get_model_keys(Order)
+
     for channel in Channel.query.all():
         api = Cscart(channel.website_url, channel.email, channel.api_key)
         response = api.get_orders()
@@ -74,9 +77,14 @@ def order_sync():
             order_id = o['order_id']
             order_remote = api.get_order(order_id)
             order_local = Order.query.filter(Order.order_id == order_id).first()
+
+            # choose keys in order_remote
+            order_remote = {k:v for k, v in order_remote.items() if k in order_keys}
+            order_remote['channel'] = channel # add foreign key
+
             if order_local:
                 order_local.order_id = order_id
-                order_local.channel_id = channel.id
+                order_local.channel = channel
                 order_local.status = order_remote['status']
 
                 # customer information
