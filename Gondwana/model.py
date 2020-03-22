@@ -89,22 +89,26 @@ class Order(BaseModel, db.Model):
 
 # event listener
 
-# synchronize order.status to channel
-# https://docs.sqlalchemy.org/en/13/orm/events.html?highlight=after_update#sqlalchemy.orm.events.MapperEvents.after_update
-@event.listens_for(Order, 'before_update')
-def order_after_update(mapper, connection, target):
-    api = Cscart(target.channel.website_url, target.channel.email, target.channel.api_key)
-    api.update_order_status(str(target.order_id), target.status)
-    target.products = json.dumps(target.products)
-    target.timestamp = datetime.utcfromtimestamp(int(target.timestamp))
-
-# products: convert python dictionary to string
-@event.listens_for(Order, 'before_insert')
-def order_before_insert(mapper, connection, target):
+# event helper
+def convert_before_save(target):
     # https://www.geeksforgeeks.org/python-convert-dictionary-object-into-string/
     target.products = json.dumps(target.products)
     # https://stackoverflow.com/questions/3682748/converting-unix-timestamp-string-to-readable-date
     target.timestamp = datetime.utcfromtimestamp(int(target.timestamp))
+    return target
+
+# synchronize order.status to channel
+# https://docs.sqlalchemy.org/en/13/orm/events.html?highlight=after_update#sqlalchemy.orm.events.MapperEvents.after_update
+@event.listens_for(Order, 'before_update')
+def order_before_update(mapper, connection, target):
+    api = Cscart(target.channel.website_url, target.channel.email, target.channel.api_key)
+    api.update_order_status(str(target.order_id), target.status)
+    target = convert_before_save(target)
+
+# products: convert python dictionary to string
+@event.listens_for(Order, 'before_insert')
+def order_before_insert(mapper, connection, target):
+    target = convert_before_save(target)
 
 # products: convert string to python dictionary
 @event.listens_for(Order, 'load')
