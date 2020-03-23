@@ -85,6 +85,7 @@ class Order(BaseModel, db.Model):
     total = db.Column(db.Float)  # 订单合计
 
     # others
+    ship_method = db.Column(db.String(255)) # 快递方式
     timestamp = db.Column(db.DateTime) # 下单时间
 
 # event listener
