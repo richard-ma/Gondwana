@@ -78,6 +78,8 @@ def order_sync():
             order_remote = api.get_order(order_id)
             order_local = Order.query.filter(Order.order_id == order_id).first()
 
+            order_remote['shipping_method'] = order_remote['shipping'][0]['shipping'] # shipping method
+
             # choose keys in order_remote
             order_remote = {k:v for k, v in order_remote.items() if k in order_keys}
             order_remote['channel'] = channel # add foreign key
@@ -131,6 +133,7 @@ def order_sync():
 
                 # others
                 order_local.timestamp = order_remote['timestamp']
+                order_local.shipping_method = order_remote['shipping_method'] # shipping_method
             else:
                 # https://stackoverflow.com/questions/31750441/generalised-insert-into-sqlalchemy-using-dictionary/31756880
                 order = Order(**order_remote)
