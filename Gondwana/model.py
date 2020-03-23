@@ -87,7 +87,9 @@ class Order(BaseModel, db.Model):
     # others
     shipping_method = db.Column(db.String(255)) # 快递方式
     timestamp = db.Column(db.DateTime) # 下单时间
-    memo = db.Column(db.Text) # 订单备注
+
+    # OA individual
+    memo = db.Column(db.Text, default="--") # 订单备注
 
 # event listener
 

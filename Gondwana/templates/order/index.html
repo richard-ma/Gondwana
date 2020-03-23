@@ -91,7 +91,7 @@
                 <td><a id="{{order.id}}" class="openOrderDetailBtn btn btn-sm btn-outline-secondary" data-toogle="tooltip" data-palcement="bottom" title="Click to show order detials">{{ order.order_id }}</a></td>
                 <td>{{ order.status|order_status_2_name }}</td>
                 <td>{{ order.shipping_method }}</td>
-                <td>{{ order.memo }}</td>
+                <td data-toogle="tooltip" data-palcement="bottom" title="{{ order.memo }}">{{ order.memo|truncate(8) }}</td>
                 <td>${{ order.total }}</td>
                 <td>{{ order.timestamp | format_datetime('yyyy-mm-dd') }}</td>
             </tr>
