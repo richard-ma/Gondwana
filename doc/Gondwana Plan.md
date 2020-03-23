@@ -2,14 +2,14 @@
 
 ## order
 - [ ] Event
-    - [ ] 订单可以同时存在多个状态吗?
+    - [ ] 订单可以同时存在多个状态
     - [ ] 可以作为过滤订单的条件
 - [ ] Tracking No.
     - [ ] 快递单号 USPS直接写这里 DHL先写在References No.查到单号后写这里
 - [ ] Express
-    - [ ] 快递方式是只有USPS和DHL两种吗?
+    * [ ] 直接从cscart同步,同步后不需要修改
     - [ ] 从Cscart中的ship method获取
-    - [ ] model: order.ship_method string(?)
+    - [ ] model: order.ship_method string
 - [ ] Tracking info
     - [ ] 快递备注信息
 - [ ] Ship Time
