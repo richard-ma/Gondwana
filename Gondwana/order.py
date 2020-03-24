@@ -85,55 +85,8 @@ def order_sync():
             order_remote['channel'] = channel # add foreign key
 
             if order_local:
-                order_local.order_id = order_id
-                order_local.channel = channel
-                order_local.status = order_remote['status']
-
-                # customer information
-                order_local.firstname = order_remote['firstname']
-                order_local.lastname = order_remote['lastname']
-                order_local.phone = order_remote['phone']
-                order_local.fax = order_remote['fax']
-                order_local.url = order_remote['url']
-                order_local.email = order_remote['email']
-                order_local.ip_address = order_remote['ip_address']
-
-                # bill information
-                order_local.b_firstname = order_remote['b_firstname']
-                order_local.b_lastname = order_remote['b_lastname']
-                order_local.b_address = order_remote['b_address']
-                order_local.b_address_2 = order_remote['b_address_2']
-                order_local.b_city = order_remote['b_city']
-                order_local.b_county = order_remote['b_county']
-                order_local.b_state = order_remote['b_state']
-                order_local.b_country = order_remote['b_country']
-                order_local.b_zipcode = order_remote['b_zipcode']
-                order_local.b_phone = order_remote['b_phone']
-                order_local.b_country_descr = order_remote['b_country_descr']
-                order_local.b_state_descr = order_remote['b_state_descr']
-
-                # shipping information
-                order_local.s_firstname = order_remote['s_firstname']
-                order_local.s_lastname = order_remote['s_lastname']
-                order_local.s_address = order_remote['s_address']
-                order_local.s_address_2 = order_remote['s_address_2']
-                order_local.s_city = order_remote['s_city']
-                order_local.s_county = order_remote['s_county']
-                order_local.s_state = order_remote['s_state']
-                order_local.s_country = order_remote['s_country']
-                order_local.s_zipcode = order_remote['s_zipcode']
-                order_local.s_phone = order_remote['s_phone']
-                order_local.s_address_type = order_remote['s_address_type']
-                order_local.s_country_descr = order_remote['s_country_descr']
-                order_local.s_state_descr = order_remote['s_state_descr']
-
-                # products
-                order_local.products = order_remote['products']
-                order_local.total = order_remote['total']
-
-                # others
-                order_local.timestamp = order_remote['timestamp']
-                order_local.shipping_method = order_remote['shipping_method'] # shipping_method
+                for k, v in order_remote.items():
+                    setattr(order_local, k, v)
             else:
                 # https://stackoverflow.com/questions/31750441/generalised-insert-into-sqlalchemy-using-dictionary/31756880
                 order = Order(**order_remote)
