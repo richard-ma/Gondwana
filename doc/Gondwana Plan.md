@@ -10,7 +10,6 @@
     - [x] 直接从cscart同步,同步后不需要修改
     - [x] 从Cscart中的ship method获取
     - [x] model: order.ship_method string(255) v0.7.0
-    - [x] 添加默认值--,在视图中只显示前8个字符,tooltip全文 v0.7.1
 - [ ] Tracking info
     - [ ] 快递备注信息
 - [ ] Ship Time
@@ -18,6 +17,7 @@
 - [ ] Memo v0.8.0
     - [x] 对订单进行备注
     - [x] model: order.memo text
+    - [x] 添加默认值--,在视图中只显示前8个字符,tooltip全文 v0.7.1
     - [ ] 备注要可编辑
 - [ ] References No.
     - [ ] 当Express是DHL时,单号先填写在这里
