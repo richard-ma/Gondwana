@@ -85,7 +85,7 @@ def order_sync():
             order_remote = {k:v for k, v in order_remote.items() if k in order_keys}
             order_remote['channel'] = channel # add foreign key
 
-            # timestamp to dattime
+            # timestamp to datetime
             # https://stackoverflow.com/questions/3682748/converting-unix-timestamp-string-to-readable-date
             order_remote['timestamp'] = datetime.utcfromtimestamp(int(order_remote['timestamp']))
 
