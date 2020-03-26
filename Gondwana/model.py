@@ -2,7 +2,6 @@
 # encoding: utf-8
 
 import click, json
-from datetime import datetime
 from flask.cli import with_appcontext
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -97,8 +96,6 @@ class Order(BaseModel, db.Model):
 def convert_before_save(target):
     # https://www.geeksforgeeks.org/python-convert-dictionary-object-into-string/
     target.products = json.dumps(target.products)
-    # https://stackoverflow.com/questions/3682748/converting-unix-timestamp-string-to-readable-date
-    target.timestamp = datetime.utcfromtimestamp(int(target.timestamp))
     return target
 
 # synchronize order.status to channel

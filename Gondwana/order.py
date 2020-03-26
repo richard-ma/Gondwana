@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from datetime import datetime
 from flask import Blueprint, render_template, redirect, url_for, request, current_app, flash
 from Gondwana.model import *
 from Gondwana.helper import *
@@ -83,6 +84,10 @@ def order_sync():
             # choose keys in order_remote
             order_remote = {k:v for k, v in order_remote.items() if k in order_keys}
             order_remote['channel'] = channel # add foreign key
+
+            # timestamp to dattime
+            # https://stackoverflow.com/questions/3682748/converting-unix-timestamp-string-to-readable-date
+            order_remote['timestamp'] = datetime.utcfromtimestamp(int(order_remote['timestamp']))
 
             if order_local:
                 for k, v in order_remote.items():
