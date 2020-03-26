@@ -89,7 +89,7 @@ class Order(BaseModel, db.Model):
     timestamp = db.Column(db.DateTime) # 下单时间
 
     # OA individual
-    memo = db.Column(db.Text, default="") # 订单备注
+    memo = db.Column(db.Text) # 订单备注
 
 # event listener
 
