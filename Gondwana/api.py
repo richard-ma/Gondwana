@@ -17,7 +17,7 @@ def api_order_json(id: str):
 
 # /api/order/update/attr/<str:id>
 # https://stackoverflow.com/questions/5022066/how-to-serialize-sqlalchemy-result-to-json
-@bp.route('/order/update/attr/<string:id>', methods=('GET', 'POST'))
+@bp.route('/order/update/attr/<string:id>', methods=('POST',))
 def api_order_update(id: str):
     key = request.form.get('key')
     value = request.form.get('value')
@@ -27,5 +27,6 @@ def api_order_update(id: str):
     if key in get_model_keys(Order):
         # https://stackoverflow.com/questions/23152337/how-to-update-sqlalchemy-orm-object-by-a-python-dict
         setattr(order, key, value)
+        db.session.commit() # save to database
 
     return order.as_dict()

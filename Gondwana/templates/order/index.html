@@ -91,14 +91,26 @@
                 <td><a value="{{order.id}}" class="openOrderDetailBtn btn btn-sm btn-outline-secondary" data-toogle="tooltip" data-palcement="bottom" title="Click to show order detials">{{ order.order_id }}</a></td>
                 <td>{{ order.status|order_status_2_name }}</td>
                 <td>{{ order.shipping_method }}</td>
-                <td data-toogle="tooltip" data-palcement="bottom" title="{{ order.memo }}">{{ order.memo|truncate(8) }}</td>
+                <td><a value="{{ order.id }}" id="show_order_memo_{{ order.id }}" class="openOrderMemoBtn btn btn-sm btn-outline-secondary" data-toogle="tooltip" data-palcement="bottom" title="{{ order.memo }}">{{ order.memo|string|truncate(8) }}</a></td>
                 <td>${{ order.total }}</td>
                 <td>{{ order.timestamp | format_datetime('yyyy-mm-dd') }}</td>
             </tr>
-            <tr id="order_detail_{{order.id}}" style="display: none;">
+            <tr id="order_detail_{{ order.id }}" style="display: none;">
                 <td colspan="100">
                     <table id="details_{{ order.id }}" class="table table-sm">
                     </table>
+                </td>
+            </tr>
+            <tr id="order_memo_{{ order.id }}" style="display: none;">
+                <td colspan="100">
+                    <input id="memo_key_{{ order.id }}" value="memo" type="hidden">
+                    <input id="memo_value_{{ order.id }}" type="text">
+                    <button class="orderMemoSaveBtn btn btn-sm btn-success" value="{{ order.id }}">Save</button>
+                    <button class="orderMemoCancelBtn btn btn-sm btn-secondary" value="{{ order.id }}">Cancel</button>
+                </td>
+            </tr>
+            <tr style="display: none;">
+                <td colspan="100">
                 </td>
             </tr>
             {% endfor %}
@@ -204,7 +216,7 @@ $('.openOrderDetailBtn').on('click', function(e) {
     // https://zhidao.baidu.com/question/516934779.html
     if ($('#details_'+order_id+' tr').length <= 0) {
         // ajax get data and update view
-        $.getJSON('/api/order/json/'+order_id, function(r) {
+        $.get('/api/order/json/'+order_id, function(r) {
             $('#details_'+order_id).append('<tr><td>Email: '+r.email+'</td></tr>'); // add email
             $('#details_'+order_id).append('<tr><td>Products: </td></tr>'); // add email
             $.each(r.products, function(product_id, product) {
@@ -221,6 +233,42 @@ $('.openOrderDetailBtn').on('click', function(e) {
     
     // show
     $('#order_detail_'+order_id).toggle('fast');
+});
+
+// open order memo
+$('.openOrderMemoBtn').on('click', function(e) {
+    e.preventDefault();
+    var order_id = $(this).attr('value');
+    var memo = $(this).attr('title');
+    if (memo == "None") memo = "";
+    $('#memo_value_'+order_id).val(memo);
+
+    // show
+    $('#order_memo_'+order_id).toggle('fast');
+});
+
+// order memo save button
+$('.orderMemoSaveBtn').on('click', function(e) {
+    var order_id = $(this).attr('value');
+
+    var data = {};
+    data['key'] = $('#memo_key_'+order_id).val();
+    data['value'] = $('#memo_value_'+order_id).val();
+    if (data['value'] == '') data['value'] = null; 
+
+    $.post('/api/order/update/attr/'+order_id, data=data, function(r) {
+        if (r.memo == null) r.memo = 'None';
+        $('#show_order_memo_'+order_id).attr('title', r.memo);
+        r.memo = r.memo.substring(0, 8);
+        $('#show_order_memo_'+order_id).text(r.memo);
+    });
+});
+
+// order memo cancel button
+$('.orderMemoCancelBtn').on('click', function(e) {
+    // show
+    var order_id = $(this).attr('value');
+    $('#order_memo_'+order_id).toggle('fast');
 });
 </script>
 {% endblock %}
