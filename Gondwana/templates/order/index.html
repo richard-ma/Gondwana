@@ -91,7 +91,7 @@
                 <td><a value="{{order.id}}" class="openOrderDetailBtn btn btn-sm btn-outline-secondary" data-toogle="tooltip" data-palcement="bottom" title="Click to show order detials">{{ order.order_id }}</a></td>
                 <td>{{ order.status|order_status_2_name }}</td>
                 <td>{{ order.shipping_method }}</td>
-                <td><a value="{{ order.id }}" id="show_order_memo_{{ order.id }}" class="openOrderMemoBtn btn btn-sm btn-outline-secondary" data-toogle="tooltip" data-palcement="bottom" title="{{ order.memo }}">{{ order.memo|string|truncate(8) }}</a></td>
+                <td><a value="{{ order.id }}" id="show_order_memo_{{ order.id }}" class="openOrderMemoBtn btn btn-sm btn-outline-secondary" data-toogle="tooltip" data-palcement="bottom" title="{{ order.memo }}">{% if order.memo %}{{ order.memo[:8] }}{% else %}None{% endif %}</a></td>
                 <td>${{ order.total }}</td>
                 <td>{{ order.timestamp | format_datetime('yyyy-mm-dd') }}</td>
             </tr>
@@ -261,13 +261,15 @@ $('.orderMemoSaveBtn').on('click', function(e) {
         $('#show_order_memo_'+order_id).attr('title', r.memo);
         r.memo = r.memo.substring(0, 8);
         $('#show_order_memo_'+order_id).text(r.memo);
+        // close
+        $('#order_memo_'+order_id).toggle('fast');
     });
 });
 
 // order memo cancel button
 $('.orderMemoCancelBtn').on('click', function(e) {
-    // show
     var order_id = $(this).attr('value');
+    // close
     $('#order_memo_'+order_id).toggle('fast');
 });
 </script>

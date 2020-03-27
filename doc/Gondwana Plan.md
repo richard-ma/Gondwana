@@ -14,11 +14,11 @@
     - [ ] 快递备注信息
 - [ ] Ship Time
     - [ ] 导入快递单号的时间
-- [ ] Memo v0.8.0
+- [x] Memo v0.8.0
     - [x] 对订单进行备注
     - [x] model: order.memo text
     - [x] 添加默认值--,在视图中只显示前8个字符,tooltip全文 v0.7.1
-    - [ ] 备注要可编辑
+    - [x] 备注要可编辑
 - [ ] References No.
     - [ ] 当Express是DHL时,单号先填写在这里
 - [x] Total 订单总金额
