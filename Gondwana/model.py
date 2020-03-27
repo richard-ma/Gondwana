@@ -14,6 +14,10 @@ migrate = Migrate()
 
 # models
 class BaseModel(object):
+    __table_args__ = {
+        'mysql_charset':'utf8',
+    }
+
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
