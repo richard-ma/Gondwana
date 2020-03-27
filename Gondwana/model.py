@@ -14,6 +14,7 @@ migrate = Migrate()
 
 # models
 class BaseModel(object):
+    # https://www.cnblogs.com/jassin-du/p/8987170.html
     __table_args__ = {
         'mysql_charset':'utf8',
     }
