@@ -72,6 +72,7 @@
                 <th>Channel</th>
                 <th>OrderId</th>
                 <th>Status</th>
+                <th>Event</th>
                 <th>Express</th>
                 <th>Memo</th>
                 <th>Total</th>
@@ -87,13 +88,51 @@
                         <input class="form-check-input position-static orders_checkbox" type="checkbox" name="orders[]" value="{{ order.id }}">
                     </div>
                 </td>
+                <!-- Channel -->
                 <td>{{ order.channel.name }}</td>
+                <!-- Channel end -->
+
+                <!-- OrderId -->
                 <td><a value="{{order.id}}" class="openOrderDetailBtn btn btn-sm btn-outline-secondary" data-toogle="tooltip" data-palcement="bottom" title="Click to show order detials">{{ order.order_id }}</a></td>
+                <!-- OrderId end -->
+
+                <!-- Status -->
                 <td>{{ order.status|order_status_2_name }}</td>
+                <!-- Status end -->
+
+                <!-- Event -->
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Events
+                        </button>
+                        <div class="dropdown-menu">
+                            {% for event in events %}
+                            <div class="dropdown-item form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="checkbox_{{order.id}}_{{event.id}}">
+                                <label class="form-check-label" for="checkbox_{{order.id}}_{{event.id}}">{{ event.name }}</label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </td>
+                <!-- Event end -->
+
+                <!-- Express -->
                 <td>{{ order.shipping_method }}</td>
+                <!-- Express end -->
+
+                <!-- Memo -->
                 <td><a value="{{ order.id }}" id="show_order_memo_{{ order.id }}" class="openOrderMemoBtn btn btn-sm btn-outline-secondary" data-toogle="tooltip" data-palcement="bottom" title="{{ order.memo }}">{% if order.memo %}{{ order.memo[:8] }}{% else %}None{% endif %}</a></td>
+                <!-- Memo end -->
+
+                <!-- Total -->
                 <td>${{ order.total }}</td>
+                <!-- Total end -->
+
+                <!-- Time -->
                 <td>{{ order.timestamp | format_datetime('yyyy-mm-dd') }}</td>
+                <!-- Time end -->
             </tr>
             <tr id="order_detail_{{ order.id }}" style="display: none;">
                 <td colspan="100">
