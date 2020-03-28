@@ -40,6 +40,7 @@ def order_index():
             orders_query = orders_query.filter(Order.status == status)
             active_status = status
         if event_id: # event filter
+            # https://stackoverflow.com/questions/6474989/sqlalchemy-filter-by-membership-in-at-least-one-many-to-many-related-table
             orders_query = orders_query.filter(Order.events.any(Event.id.in_([event_id])))
             active_event = Event.query.filter(Event.id == event_id).first()
         if keyword: # search keyword
