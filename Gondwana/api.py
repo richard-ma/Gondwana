@@ -30,3 +30,19 @@ def api_order_update(id: str):
         db.session.commit() # save to database
 
     return order.as_dict()
+
+# /api/order/event/<str:status>/<str:order_id>/<str:event_id>
+@bp.route('/order/event/<string:status>/<string:order_id>/<string:event_id>',
+        methods=('GET',))
+def api_order_event(status: str, order_id: str, event_id: str):
+    order = Order.query.filter(Order.id==order_id).first()
+    event = Event.query.filter(Event.id==event_id).first()
+
+    if status == 'checked':
+        order.events.append(event) # checked
+    else:
+        order.events.remove(event) # unchecked
+
+    db.session.commit()
+
+    return order.as_dict()

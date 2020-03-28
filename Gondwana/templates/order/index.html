@@ -109,7 +109,7 @@
                         <div class="dropdown-menu">
                             {% for event in events %}
                             <div class="dropdown-item form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="checkbox_{{order.id}}_{{event.id}}">
+                                <input class="eventItemCheckbox form-check-input" type="checkbox" value="" id="checkbox_{{order.id}}_{{event.id}}" order_id="{{ order.id }}" event_id="{{ event.id }}">
                                 <label class="form-check-label" for="checkbox_{{order.id}}_{{event.id}}">{{ event.name }}</label>
                             </div>
                             {% endfor %}
@@ -158,6 +158,22 @@
     </table>
 
 <script type="text/javascript">
+// event ajax call
+
+$('.eventItemCheckbox').change(function() {
+    // https://stackoverflow.com/questions/27265308/jquery-how-get-checkbox-unchecked-event-and-checkbox-value
+    var ischecked = $(this).is(':checked');
+    var s = ischecked ? 'checked' : 'unchecked';
+    var order_id = $(this).attr('order_id');
+    var event_id = $(this).attr('event_id');
+
+    $.get('/api/order/event/'+s+'/'+order_id+'/'+event_id, function(r) {
+        if ($.inArray(event_id, r.events) < 0) { // add event to order failed
+            $(this).prop('checked', false); // set checkbox unchecked
+        }
+    });
+});
+
 // post function
 // https://stackoverflow.com/questions/133925/javascript-post-request-like-a-form-submit
 /**
