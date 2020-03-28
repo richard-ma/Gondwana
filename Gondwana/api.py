@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import json
 from flask import Blueprint, render_template, redirect, url_for, request, current_app, flash
 from Gondwana.model import *
 from Gondwana.helper import *
@@ -38,11 +39,14 @@ def api_order_event(status: str, order_id: str, event_id: str):
     order = Order.query.filter(Order.id==order_id).first()
     event = Event.query.filter(Event.id==event_id).first()
 
+    # only a pair in db
     if status == 'checked':
-        order.events.append(event) # checked
+        if event not in order.events:
+            order.events.append(event) # checked
     else:
-        order.events.remove(event) # unchecked
+        if event in order.events:
+            order.events.remove(event) # unchecked
 
     db.session.commit()
 
-    return order.as_dict()
+    return json.dumps([event.id for event in order.events])

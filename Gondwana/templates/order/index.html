@@ -160,7 +160,8 @@
 <script type="text/javascript">
 // event ajax call
 
-$('.eventItemCheckbox').change(function() {
+$('.eventItemCheckbox').on("change", function(e) {
+    e.preventDefault();
     // https://stackoverflow.com/questions/27265308/jquery-how-get-checkbox-unchecked-event-and-checkbox-value
     var ischecked = $(this).is(':checked');
     var s = ischecked ? 'checked' : 'unchecked';
@@ -168,10 +169,7 @@ $('.eventItemCheckbox').change(function() {
     var event_id = $(this).attr('event_id');
 
     $.get('/api/order/event/'+s+'/'+order_id+'/'+event_id, function(r) {
-        if ($.inArray(event_id, r.events) < 0) { // add event to order failed
-            origin_checked = ischecked ? false: true;
-            $(this).prop('checked', origin_checked); // reset checkbox
-        }
+        console.log(r);
     });
 });
 

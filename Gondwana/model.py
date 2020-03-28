@@ -20,7 +20,10 @@ class BaseModel(object):
     }
 
     def as_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+        from sqlalchemy import inspect
+        inst = inspect(self)
+        keys = [attr.key for attr in inst.mapper.column_attrs]
+        return {c: getattr(self, c) for c in keys}
 
 
 class Channel(BaseModel, db.Model):
