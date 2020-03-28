@@ -1,7 +1,7 @@
 # Gondwana开发计划
 
 ## order
-- [ ] Event v0.9.0
+- [x] Event v0.9.0
     - [x] 订单可以同时存在多个状态
     - [x] 添加order-event many_to_many relationship
     - [x] 插入event数据并保存
@@ -10,7 +10,7 @@
     - [x] 勾选ajax更新order的event
     - [x] 可以作为过滤订单的条件
     - [x] 在搜索栏中添加event过滤器
-    - [ ] 测试order删除后,events关联也应删除
+    - [x] 测试order删除后,events关联也应删除
 - [ ] Tracking No.
     - [ ] 快递单号 USPS直接写这里 DHL先写在References No.查到单号后写这里
 - [x] Express
