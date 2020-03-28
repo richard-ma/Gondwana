@@ -37,6 +37,15 @@ class Channel(BaseModel, db.Model):
             cascade='all, delete-orphan') # cascade delete: https://graycarl.me/2014/03/24/sqlalchemy-cascade-delete.html
 
 
+events = db.Table('events',
+        db.Column('event_id', db.Integer, db.ForeignKey('event.id')),
+        db.Column('order_id', db.Integer, db.ForeignKey('order.id'))
+)
+
+class Event(BaseModel, db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(32))
+
 class Order(BaseModel, db.Model):
     __tablename__ = 'order'
 
@@ -45,6 +54,10 @@ class Order(BaseModel, db.Model):
     status = db.Column(db.String(1))  # 订单状态
 
     channel_id = db.Column(db.Integer, db.ForeignKey('channel.id'))
+
+    # event
+    events = db.relationship('Event', secondary=events,
+            backref = db.backref('orders', lazy='dynamic'))
 
     # customer information
     firstname = db.Column(db.String(32))  # 订单名
@@ -95,14 +108,13 @@ class Order(BaseModel, db.Model):
     # OA individual
     memo = db.Column(db.Text) # 订单备注
 
-# event listener
-
 # event helper
 def convert_before_save(target):
     # https://www.geeksforgeeks.org/python-convert-dictionary-object-into-string/
     target.products = json.dumps(target.products)
     return target
 
+# event listener
 # synchronize order.status to channel
 # https://docs.sqlalchemy.org/en/13/orm/events.html?highlight=after_update#sqlalchemy.orm.events.MapperEvents.after_update
 @event.listens_for(Order, 'before_update')

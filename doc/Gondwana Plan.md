@@ -3,12 +3,13 @@
 ## order
 - [ ] Event
     - [x] 订单可以同时存在多个状态
-    - [ ] 添加order-event many_to_many relationship
+    - [x] 添加order-event many_to_many relationship
     - [ ] 插入event数据并保存
     - [ ] 模板显示订单event 下拉列表显示
     - [ ] 勾选ajax更新order的event
     - [x] 可以作为过滤订单的条件
     - [ ] 在搜索栏中添加event过滤器
+    - [ ] 测试order删除后,events关联也应删除
 - [ ] Tracking No.
     - [ ] 快递单号 USPS直接写这里 DHL先写在References No.查到单号后写这里
 - [x] Express
