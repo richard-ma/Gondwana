@@ -19,6 +19,7 @@ def order_index():
     orders_query = db.session.query(Order)  # create Order Query
     active_channel = None
     active_status = None
+    active_event = None
     keyword = None
 
     if request.method == 'POST':  # search or batch
@@ -26,6 +27,7 @@ def order_index():
         keyword = request.form.get('keyword')
         channel_id = request.form.get('channel_id')
         status = request.form.get('status')
+        event_id = request.form.get('event')
         status_to = request.form.get('status_to')
 
         # set Order query with filter
@@ -37,6 +39,9 @@ def order_index():
         if status:  # status filter
             orders_query = orders_query.filter(Order.status == status)
             active_status = status
+        if event_id: # event filter
+            orders_query = orders_query.filter(Order.events.any(Event.id.in_([event_id])))
+            active_event = Event.query.filter(Event.id == event_id).first()
         if keyword: # search keyword
             orders_query = orders_query.filter(or_(Order.order_id == keyword, Order.email == keyword))
         # batch
@@ -59,6 +64,7 @@ def order_index():
                            channels=channels,
                            active_channel=active_channel,
                            active_status=active_status,
+                           active_event=active_event,
                            keyword=keyword)
 
 # /order/detail

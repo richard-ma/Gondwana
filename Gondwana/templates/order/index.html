@@ -42,6 +42,18 @@
             </div>
         </div>
 <!-- status filter end -->
+<!-- event filter -->
+        <div class="input-group-append">
+            <button id="eventFilter" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="{% if active_event %}{{ active_event.id }}{% else %}-1{% endif %}">{% if active_event %}{{ active_event.name }}{% else %}All Events{% endif %}</button>
+            <div class="dropdown-menu" aria-labelledby="eventFilter">
+                <button class="eventFilterOptions dropdown-item" type="button" value="-1">All Events</button>
+                <div class="dropdown-divider"></div>
+                {% for event in events %}
+                <button class="eventFilterOptions dropdown-item" type="button" value="{{ event.id }}">{{ event.name }}</button>
+                {% endfor %}
+            </div>
+        </div>
+<!-- event filter end -->
 <!-- search button -->
         <div class="input-group-append">
             <button id="searchSubmitButton" class="btn btn-danger btn-secondary" type="button">Search</button>
@@ -209,11 +221,13 @@ function post(path, params, method='post') {
 function get_search_data() {
     var channel_id  = $('#channelFilter').val();
     var status_id   = $('#statusFilter').val();
+    var event_id   = $('#eventFilter').val();
     var keyword     = $('#keyword').val();
 
     var data = {};
     data['channel_id'] = (channel_id == "-1") ? null : channel_id;
     data['status'] = (status_id == "-1") ? null : status_id;
+    data['event'] = (event_id == "-1") ? null : event_id;
     data['keyword'] = (keyword == "") ? null : keyword;
 
     return data;
@@ -230,6 +244,12 @@ $('.channelFilterOptions').on("click",function(){
 $('.statusFilterOptions').on("click",function(){
     $('#statusFilter').text($(this).text());
     $('#statusFilter').val($(this).val());
+})
+
+// event filter
+$('.eventFilterOptions').on("click",function(){
+    $('#eventFilter').text($(this).text());
+    $('#eventFilter').val($(this).val());
 })
 
 // search form submit button
