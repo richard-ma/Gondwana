@@ -147,7 +147,7 @@
                 <!-- Tracking Info end -->
 
                 <!-- Ship Time -->
-                <td></td>
+                <td>{% if order.ship_time %}{{ order.ship_time | format_datetime('yyyy-mm-dd') }}{% else %}{{ order.ship_time }}{% endif %}</td>
                 <!-- Ship Time end -->
 
                 <!-- Memo -->

@@ -25,9 +25,9 @@
     - [x] model: order.tracking_info text
     - [x] 模板显示tracking NO
     - [x] 可ajax编辑
-- [ ] Ship Time v0.12.0
-    - [ ] model order.ship_time datetime
-    - [ ] 模板显示Ship Time
+- [x] Ship Time v0.12.0
+    - [x] model order.ship_time datetime
+    - [x] 模板显示Ship Time
 - [x] Memo v0.8.0
     - [x] 对订单进行备注
     - [x] model: order.memo text
