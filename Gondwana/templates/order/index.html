@@ -190,8 +190,13 @@
                     <button class="orderTrackingNoCancelBtn btn btn-sm btn-secondary" value="{{ order.id }}">Cancel</button>
                 </td>
             </tr>
-            <tr style="display: none;">
+            <tr id="order_tracking_info_{{ order.id }}" style="display: none;">
                 <td colspan="100">
+                    <input id="tracking_info_key_{{ order.id }}" value="tracking_info" type="hidden">
+                    <label for="tracking_info_value_{{ order.id }}">Tracking Info</label>
+                    <input id="tracking_info_value_{{ order.id }}" type="text">
+                    <button class="orderTrackingInfoSaveBtn btn btn-sm btn-success" value="{{ order.id }}">Save</button>
+                    <button class="orderTrackingInfoCancelBtn btn btn-sm btn-secondary" value="{{ order.id }}">Cancel</button>
                 </td>
             </tr>
             {% endfor %}
@@ -411,6 +416,44 @@ $('.orderTrackingNoCancelBtn').on('click', function(e) {
     var order_id = $(this).attr('value');
     // close
     $('#order_tracking_no_'+order_id).toggle('fast');
+});
+
+// open order tracking info
+$('.openOrderTrackingInfoBtn').on('click', function(e) {
+    e.preventDefault();
+    var order_id = $(this).attr('value');
+    var tracking_info = $(this).attr('title');
+    if (tracking_info == "None") tracking_info = "";
+    $('#tracking_info_value_'+order_id).val(tracking_info);
+
+    // show
+    $('#order_tracking_info_'+order_id).toggle('fast');
+});
+
+// order memo save button
+$('.orderTrackingInfoSaveBtn').on('click', function(e) {
+    var order_id = $(this).attr('value');
+
+    var data = {};
+    data['key'] = $('#tracking_info_key_'+order_id).val();
+    data['value'] = $('#tracking_info_value_'+order_id).val();
+    if (data['value'] == '') data['value'] = null; 
+
+    $.post('/api/order/update/attr/'+order_id, data=data, function(r) {
+        if (r.tracking_info == null) r.tracking_info = 'None';
+        $('#show_order_tracking_info_'+order_id).attr('title', r.tracking_info);
+        r.tracking_info = r.tracking_info.substring(0, 8);
+        $('#show_order_tracking_info_'+order_id).text(r.tracking_info);
+        // close
+        $('#order_tracking_info_'+order_id).toggle('fast');
+    });
+});
+
+// order memo cancel button
+$('.orderTrackingInfoCancelBtn').on('click', function(e) {
+    var order_id = $(this).attr('value');
+    // close
+    $('#order_tracking_info_'+order_id).toggle('fast');
 });
 </script>
 {% endblock %}

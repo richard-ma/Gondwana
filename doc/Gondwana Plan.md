@@ -20,11 +20,11 @@
     - [x] 直接从cscart同步,同步后不需要修改
     - [x] 从Cscart中的ship method获取
     - [x] model: order.ship_method string(255) v0.7.0
-- [ ] Tracking info
+- [x] Tracking info v0.11.0
     - [x] 快递备注信息
     - [x] model: order.tracking_info text
-    - [ ] 模板显示tracking NO
-    - [ ] 可ajax编辑
+    - [x] 模板显示tracking NO
+    - [x] 可ajax编辑
 - [ ] Ship Time
     - [ ] 导入快递单号的时间
 - [x] Memo v0.8.0
