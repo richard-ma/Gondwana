@@ -107,9 +107,10 @@ class Order(BaseModel, db.Model):
     events = db.relationship('Event', secondary=events,
             backref = db.backref('orders', lazy='dynamic'))
     memo = db.Column(db.Text) # 订单备注
-    tracking_no = db.Column(db.String(64)) #快递单号
+    tracking_no = db.Column(db.String(64)) # 快递单号
     tracking_info = db.Column(db.Text) # 快递备注
     ship_time = db.Column(db.DateTime) # 发货时间
+    references_no = db.Column(db.String(64)) # DHL快递单号
 
 # event helper
 def convert_before_save(target):

@@ -33,11 +33,10 @@
     - [x] model: order.memo text
     - [x] 添加默认值--,在视图中只显示前8个字符,tooltip全文 v0.7.1
     - [x] 备注要可编辑
-- [ ] References No.
+- [ ] References No. v0.13.0
     - [ ] model: order.references_no string(64)
     - [ ] 模板显示References NO.
     - [ ] 可ajax编辑
-    - [ ] 当Express是DHL时,单号先填写在这里
 - [x] Total 订单总金额
 - [ ] Time
 - [ ] 分页显示订单
@@ -46,3 +45,4 @@
 - [ ] tracking_no 快递单号 USPS直接写这里 DHL先写在References No.查到单号后写这里
 - [ ] tracking_info 快递备注
 - [ ] ship_time 导入快递单号的时间
+- [ ] references_no 当Express是DHL时,单号先填写在这里
