@@ -109,6 +109,7 @@ class Order(BaseModel, db.Model):
     memo = db.Column(db.Text) # 订单备注
     tracking_no = db.Column(db.String(64)) #快递单号
     tracking_info = db.Column(db.Text) # 快递备注
+    ship_time = db.Column(db.DateTime) # 发货时间
 
 # event helper
 def convert_before_save(target):
