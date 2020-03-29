@@ -85,8 +85,12 @@
                 <th>OrderId</th>
                 <th>Status</th>
                 <th>Event</th>
+                <th>Tracking NO.</th>
                 <th>Express</th>
+                <th>Tracking Info</th>
+                <th>Ship Time</th>
                 <th>Memo</th>
+                <th>References NO.</th>
                 <th>Total</th>
                 <th>Time</th>
             </tr>
@@ -130,13 +134,29 @@
                 </td>
                 <!-- Event end -->
 
+                <!-- Tracking NO. -->
+                <td></td>
+                <!-- Tracking NO. end -->
+
                 <!-- Express -->
                 <td>{{ order.shipping_method }}</td>
                 <!-- Express end -->
 
+                <!-- Tracking Info -->
+                <td></td>
+                <!-- Tracking Info end -->
+
+                <!-- Ship Time -->
+                <td></td>
+                <!-- Ship Time end -->
+
                 <!-- Memo -->
                 <td><a value="{{ order.id }}" id="show_order_memo_{{ order.id }}" class="openOrderMemoBtn btn btn-sm btn-outline-secondary" data-toogle="tooltip" data-palcement="bottom" title="{{ order.memo }}">{% if order.memo %}{{ order.memo[:8] }}{% else %}None{% endif %}</a></td>
                 <!-- Memo end -->
+
+                <!-- References NO. -->
+                <td></td>
+                <!-- References NO. end -->
 
                 <!-- Total -->
                 <td>${{ order.total }}</td>
