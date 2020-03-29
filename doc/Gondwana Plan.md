@@ -11,10 +11,10 @@
     - [x] 可以作为过滤订单的条件
     - [x] 在搜索栏中添加event过滤器
     - [x] 测试order删除后,events关联也应删除
-- [ ] Tracking No. v0.10.0
-    - [ ] model: order.tracking_no string(64)
-    - [ ] 模板显示tracking NO
-    - [ ] 可ajax编辑
+- [x] Tracking No. v0.10.0
+    - [x] model: order.tracking_no string(64)
+    - [x] 模板显示tracking NO
+    - [x] 可ajax编辑
     - [ ] 快递单号 USPS直接写这里 DHL先写在References No.查到单号后写这里
 - [x] Express
     - [x] 直接从cscart同步,同步后不需要修改

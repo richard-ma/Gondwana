@@ -135,7 +135,7 @@
                 <!-- Event end -->
 
                 <!-- Tracking NO. -->
-                <td></td>
+                <td><a value="{{ order.id }}" id="show_order_tracking_no_{{ order.id }}" class="openOrderTrackingNoBtn btn btn-sm btn-outline-secondary">{{ order.tracking_no }}</a></td>
                 <!-- Tracking NO. end -->
 
                 <!-- Express -->
@@ -175,9 +175,19 @@
             <tr id="order_memo_{{ order.id }}" style="display: none;">
                 <td colspan="100">
                     <input id="memo_key_{{ order.id }}" value="memo" type="hidden">
+                    <label for="memo_value_{{ order.id }}">Memo</label>
                     <input id="memo_value_{{ order.id }}" type="text">
                     <button class="orderMemoSaveBtn btn btn-sm btn-success" value="{{ order.id }}">Save</button>
                     <button class="orderMemoCancelBtn btn btn-sm btn-secondary" value="{{ order.id }}">Cancel</button>
+                </td>
+            </tr>
+            <tr id="order_tracking_no_{{ order.id }}" style="display: none;">
+                <td colspan="100">
+                    <input id="tracking_no_key_{{ order.id }}" value="tracking_no" type="hidden">
+                    <label for="tracking_no_value_{{ order.id }}">Tracking NO.</label>
+                    <input id="tracking_no_value_{{ order.id }}" type="text">
+                    <button class="orderTrackingNoSaveBtn btn btn-sm btn-success" value="{{ order.id }}">Save</button>
+                    <button class="orderTrackingNoCancelBtn btn btn-sm btn-secondary" value="{{ order.id }}">Cancel</button>
                 </td>
             </tr>
             <tr style="display: none;">
@@ -190,8 +200,8 @@
     </table>
 
 <script type="text/javascript">
-// event ajax call
 
+// event ajax call
 $('.eventItemCheckbox').on("change", function(e) {
     e.preventDefault();
     // https://stackoverflow.com/questions/27265308/jquery-how-get-checkbox-unchecked-event-and-checkbox-value
@@ -365,6 +375,42 @@ $('.orderMemoCancelBtn').on('click', function(e) {
     var order_id = $(this).attr('value');
     // close
     $('#order_memo_'+order_id).toggle('fast');
+});
+
+// open order tracking_no
+$('.openOrderTrackingNoBtn').on('click', function(e) {
+    e.preventDefault();
+    var order_id = $(this).attr('value');
+    var tracking_no = $(this).text();
+    if (tracking_no == "None") tracking_no = "";
+    $('#tracking_no_value_'+order_id).val(tracking_no);
+
+    // show
+    $('#order_tracking_no_'+order_id).toggle('fast');
+});
+
+// order tracking_no save button
+$('.orderTrackingNoSaveBtn').on('click', function(e) {
+    var order_id = $(this).attr('value');
+
+    var data = {};
+    data['key'] = $('#tracking_no_key_'+order_id).val();
+    data['value'] = $('#tracking_no_value_'+order_id).val();
+    if (data['value'] == '') data['value'] = null; 
+
+    $.post('/api/order/update/attr/'+order_id, data=data, function(r) {
+        if (r.tracking_no == null) r.tracking_no = 'None';
+        $('#show_order_tracking_no_'+order_id).text(r.tracking_no);
+        // close
+        $('#order_tracking_no_'+order_id).toggle('fast');
+    });
+});
+
+// order tracking_no cancel button
+$('.orderTrackingNoCancelBtn').on('click', function(e) {
+    var order_id = $(this).attr('value');
+    // close
+    $('#order_tracking_no_'+order_id).toggle('fast');
 });
 </script>
 {% endblock %}

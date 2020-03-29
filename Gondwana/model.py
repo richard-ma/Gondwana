@@ -56,12 +56,6 @@ class Order(BaseModel, db.Model):
     order_id = db.Column(db.Integer)  # 订单ID
     status = db.Column(db.String(1))  # 订单状态
 
-    channel_id = db.Column(db.Integer, db.ForeignKey('channel.id'))
-
-    # event
-    events = db.relationship('Event', secondary=events,
-            backref = db.backref('orders', lazy='dynamic'))
-
     # customer information
     firstname = db.Column(db.String(32))  # 订单名
     lastname = db.Column(db.String(32))  # 订单姓
@@ -109,7 +103,11 @@ class Order(BaseModel, db.Model):
     timestamp = db.Column(db.DateTime) # 下单时间
 
     # OA individual
+    channel_id = db.Column(db.Integer, db.ForeignKey('channel.id'))
+    events = db.relationship('Event', secondary=events,
+            backref = db.backref('orders', lazy='dynamic'))
     memo = db.Column(db.Text) # 订单备注
+    tracking_no = db.Column(db.String(64)) #快递单号
 
 # event helper
 def convert_before_save(target):
