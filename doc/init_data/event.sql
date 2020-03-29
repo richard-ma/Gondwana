@@ -21,11 +21,6 @@ SET time_zone = "+00:00";
 --
 
 --
--- 插入之前先把表清空（truncate） `event`
---
-
-TRUNCATE TABLE `event`;
---
 -- 转存表中的数据 `event`
 --
 
