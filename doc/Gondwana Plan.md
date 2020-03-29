@@ -33,10 +33,10 @@
     - [x] model: order.memo text
     - [x] 添加默认值--,在视图中只显示前8个字符,tooltip全文 v0.7.1
     - [x] 备注要可编辑
-- [ ] References No. v0.13.0
-    - [ ] model: order.references_no string(64)
-    - [ ] 模板显示References NO.
-    - [ ] 可ajax编辑
+- [x] References No. v0.13.0
+    - [x] model: order.references_no string(64)
+    - [x] 模板显示References NO.
+    - [x] 可ajax编辑
 - [x] Total 订单总金额
 - [ ] Time
 - [ ] 分页显示订单

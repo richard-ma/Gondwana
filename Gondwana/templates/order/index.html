@@ -155,7 +155,7 @@
                 <!-- Memo end -->
 
                 <!-- References NO. -->
-                <td></td>
+                <td><a value="{{ order.id }}" id="show_order_references_no_{{ order.id }}" class="openOrderReferencesNoBtn btn btn-sm btn-outline-secondary">{{ order.references_no }}</a></td>
                 <!-- References NO. end -->
 
                 <!-- Total -->
@@ -197,6 +197,15 @@
                     <input id="tracking_info_value_{{ order.id }}" type="text">
                     <button class="orderTrackingInfoSaveBtn btn btn-sm btn-success" value="{{ order.id }}">Save</button>
                     <button class="orderTrackingInfoCancelBtn btn btn-sm btn-secondary" value="{{ order.id }}">Cancel</button>
+                </td>
+            </tr>
+            <tr id="order_references_no_{{ order.id }}" style="display: none;">
+                <td colspan="100">
+                    <input id="references_no_key_{{ order.id }}" value="references_no" type="hidden">
+                    <label for="references_no_value_{{ order.id }}">References NO.</label>
+                    <input id="references_no_value_{{ order.id }}" type="text">
+                    <button class="orderReferencesNoSaveBtn btn btn-sm btn-success" value="{{ order.id }}">Save</button>
+                    <button class="orderReferencesNoCancelBtn btn btn-sm btn-secondary" value="{{ order.id }}">Cancel</button>
                 </td>
             </tr>
             {% endfor %}
@@ -430,7 +439,7 @@ $('.openOrderTrackingInfoBtn').on('click', function(e) {
     $('#order_tracking_info_'+order_id).toggle('fast');
 });
 
-// order memo save button
+// order tracking_info save button
 $('.orderTrackingInfoSaveBtn').on('click', function(e) {
     var order_id = $(this).attr('value');
 
@@ -449,11 +458,47 @@ $('.orderTrackingInfoSaveBtn').on('click', function(e) {
     });
 });
 
-// order memo cancel button
+// order tracking_info cancel button
 $('.orderTrackingInfoCancelBtn').on('click', function(e) {
     var order_id = $(this).attr('value');
     // close
     $('#order_tracking_info_'+order_id).toggle('fast');
+});
+
+// open order references_no
+$('.openOrderReferencesNoBtn').on('click', function(e) {
+    e.preventDefault();
+    var order_id = $(this).attr('value');
+    var references_no = $(this).text();
+    if (references_no == "None") references_no = "";
+    $('#references_no_value_'+order_id).val(references_no);
+
+    // show
+    $('#order_references_no_'+order_id).toggle('fast');
+});
+
+// order references_no save button
+$('.orderReferencesNoSaveBtn').on('click', function(e) {
+    var order_id = $(this).attr('value');
+
+    var data = {};
+    data['key'] = $('#references_no_key_'+order_id).val();
+    data['value'] = $('#references_no_value_'+order_id).val();
+    if (data['value'] == '') data['value'] = null; 
+
+    $.post('/api/order/update/attr/'+order_id, data=data, function(r) {
+        if (r.references_no == null) r.references_no = 'None';
+        $('#show_order_references_no_'+order_id).text(r.references_no);
+        // close
+        $('#order_references_no_'+order_id).toggle('fast');
+    });
+});
+
+// order references_no cancel button
+$('.orderReferencesNoCancelBtn').on('click', function(e) {
+    var order_id = $(this).attr('value');
+    // close
+    $('#order_references_no_'+order_id).toggle('fast');
 });
 </script>
 {% endblock %}
