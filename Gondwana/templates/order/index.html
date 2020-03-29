@@ -143,7 +143,7 @@
                 <!-- Express end -->
 
                 <!-- Tracking Info -->
-                <td></td>
+                <td><a value="{{ order.id }}" id="show_order_tracking_info_{{ order.id }}" class="openOrderTrackingInfoBtn btn btn-sm btn-outline-secondary" data-toogle="tooltip" data-palcement="bottom" title="{{ order.tracking_info }}">{% if order.tracking_info %}{{ order.tracking_info[:8] }}{% else %}None{% endif %}</a></td>
                 <!-- Tracking Info end -->
 
                 <!-- Ship Time -->
