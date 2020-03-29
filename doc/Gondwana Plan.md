@@ -12,16 +12,19 @@
     - [x] 在搜索栏中添加event过滤器
     - [x] 测试order删除后,events关联也应删除
 - [x] Tracking No. v0.10.0
+    - [x] 快递单号
     - [x] model: order.tracking_no string(64)
     - [x] 模板显示tracking NO
     - [x] 可ajax编辑
-    - [ ] 快递单号 USPS直接写这里 DHL先写在References No.查到单号后写这里
 - [x] Express
     - [x] 直接从cscart同步,同步后不需要修改
     - [x] 从Cscart中的ship method获取
     - [x] model: order.ship_method string(255) v0.7.0
 - [ ] Tracking info
-    - [ ] 快递备注信息
+    - [x] 快递备注信息
+    - [x] model: order.tracking_info text
+    - [ ] 模板显示tracking NO
+    - [ ] 可ajax编辑
 - [ ] Ship Time
     - [ ] 导入快递单号的时间
 - [x] Memo v0.8.0
@@ -34,3 +37,6 @@
 - [x] Total 订单总金额
 - [ ] Time
 - [ ] 分页显示订单
+
+## import track notes
+- [ ] 快递单号 USPS直接写这里 DHL先写在References No.查到单号后写这里

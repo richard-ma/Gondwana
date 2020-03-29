@@ -108,6 +108,7 @@ class Order(BaseModel, db.Model):
             backref = db.backref('orders', lazy='dynamic'))
     memo = db.Column(db.Text) # 订单备注
     tracking_no = db.Column(db.String(64)) #快递单号
+    tracking_info = db.Column(db.Text) # 快递备注
 
 # event helper
 def convert_before_save(target):
