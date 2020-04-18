@@ -111,6 +111,7 @@ class Order(BaseModel, db.Model):
     tracking_info = db.Column(db.Text) # 快递备注
     ship_time = db.Column(db.DateTime) # 发货时间
     references_no = db.Column(db.String(64)) # DHL快递单号
+    first_download_time = db.Column(db.DateTime) # 订单首次下载时间
 
 # event helper
 def convert_before_save(target):
