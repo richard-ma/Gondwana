@@ -72,6 +72,11 @@
         </div>
 <!-- order status batching end -->
     </div>
+<!-- order download batching -->
+    <div class="btn-group mb-1" role="group">
+        <button id="orderDownloadBatching" type="button" class="btn btn-secondary">Download</button>
+    </div>
+<!-- order download batching end -->
 
     <table class="table table-striped table-hover">
         <thead class="thead-dark">
@@ -238,13 +243,16 @@ $('.eventItemCheckbox').on("change", function(e) {
  * @param {string} [method=post] the method to use on the form
  */
 
-function post(path, params, method='post') {
+function post(path, params, target='self', method='post') {
 
   // The rest of this code assumes you are not using a library.
   // It can be made less wordy if you use one.
   const form = document.createElement('form');
   form.method = method;
   form.action = path;
+  if (target == 'blank') {
+    form.target = '_blank';
+  }
 
   for (const key in params) {
     if (params.hasOwnProperty(key)) {
@@ -322,6 +330,23 @@ $('.orderStatusBatchingOptions').on("click",function(){
 
     // send request
     post('{{ url_for('order.order_index') }}', data);
+});
+
+// order download batching
+$('#orderDownloadBatching').on("click",function(){
+    // get search filters value to keep order search conditions
+    var data = get_search_data();
+
+    // get order ids
+    data['order_ids'] = []
+    $('.orders_checkbox:checked').each(function(i){
+        data['order_ids'][i] = $(this).val();
+    });
+
+    data['download'] = true;
+
+    // send request
+    post('{{ url_for('order.order_download') }}', data, target='blank');
 });
 
 // open order detail
