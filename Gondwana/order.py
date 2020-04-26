@@ -11,6 +11,21 @@ from sqlalchemy import or_
 bp = Blueprint('order', __name__, url_prefix='/order')
 
 
+# /order/download
+@bp.route('/download', methods=('POST', ))
+def order_download():
+    download = request.form.get('download')
+
+    if download: # download order
+        order_ids = request.form.get('order_ids')
+        if order_ids:
+            order_ids = [int(x) for x in order_ids.split(',')] # change string to integer
+        # https://stackoverflow.com/questions/15267755/query-for-multiple-values-at-once
+        batching_orders = Order.query.filter(Order.id.in_(order_ids))
+
+    return str([order.id for order in batching_orders])
+
+
 # /order/index
 @bp.route('/index', methods=('GET', 'POST'))
 def order_index():
@@ -55,6 +70,7 @@ def order_index():
             for order in batching_orders:
                 order.status = status_to
             db.session.commit()
+
 
     orders = orders_query.all()  # execute Query
 
