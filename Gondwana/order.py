@@ -32,9 +32,115 @@ def order_download():
     workbook = xlsxwriter.Workbook(xlsx_filename)
     worksheet = workbook.add_worksheet()
 
-    worksheet.write(0, 0, 'helo')
+    # generate
+    first_download_time = datetime.now()
+    titles = [
+        'Order ID', 'Download Time', '', '', '', '', '', '', 'supply',
+        'supply price', 'Express', 'Express Price', 'Tracking No.',
+        'Ship Time', 'Product memo', 'Order memo'
+    ]
+
+    merge_format = workbook.add_format({
+        'align': 'center',
+        'valign': 'vcenter'
+    })
+
+    def merge_lines_data(worksheet, first_line, col, interval, data,
+                         merge_format):
+        end_line = first_line + interval - 1
+        worksheet.merge_range(first_line, col, end_line, col, data,
+                              merge_format)
+
+    def format_first_download_time(first_download_time):
+        return first_download_time.strftime('%Y.%m.%d')
+
+    worksheet.merge_range('C1:H1', '')
+    for i in range(len(titles)):
+        worksheet.write(0, i, titles[i])
+
+    start = 1
+    interval = 13
+    end = start + interval - 1
+    for order in batching_orders:
+        for product_id, product in order.products.items():
+            print(product)
+            # Order ID
+            merge_lines_data(worksheet, start, 0, interval, order.order_id,
+                         merge_format)
+            # Download Time
+            if order.first_download_time:
+                time = format_first_download_time(order.first_download_time)
+            else:
+                time = format_first_download_time(first_download_time)
+                order.first_download_time = first_download_time  # update first_download_time
+            merge_lines_data(worksheet, start, 1, interval, time, merge_format)
+
+            # product
+            line = start + 1
+            worksheet.merge_range(("C%d:H%d" % (line, line)), product['product'])
+
+            line += 1
+            option_str = ''
+            for option in product['extra']['product_options_value']:
+                option_str += option['option_name'] + ': ' + option['variant_name'] + ' '
+            option_str += '数量: ' + product['amount']
+            worksheet.merge_range(("C%d:H%d" % (line, line)), option_str)
+
+            line += 1
+            worksheet.merge_range(("C%d:H%d" % (line, line)), '')
+
+            line += 1
+            worksheet.merge_range(("F%d:H%d" % (line, line)), order.s_firstname + ' ' + order.s_lastname)
+
+            line += 1
+            worksheet.merge_range(("F%d:H%d" % (line, line)), order.s_address)
+
+            line += 1
+            worksheet.merge_range(("F%d:H%d" % (line, line)), order.s_address_2)
+
+            line += 1
+            worksheet.merge_range(("F%d:H%d" % (line, line)), order.s_city + ' ' + order.s_state + ' ' + order.s_zipcode)
+
+            line += 1
+            worksheet.merge_range(("F%d:H%d" % (line, line)), order.s_country)
+
+            line += 1
+            worksheet.merge_range(("F%d:H%d" % (line, line)), order.s_phone)
+
+            line += 1
+            worksheet.merge_range(("F%d:H%d" % (line, line)), '')
+
+            # image
+            url = 'http://www-x-hzwwnsm-x-cn.img.abc188.com/uploads/171111/1-1G111201H62W.jpg'
+            import urllib, io
+            image_data = io.BytesIO(urllib.request.urlopen(urllib.request.Request(url)).read())
+            worksheet.merge_range(("C%d:E%d" % (start+4, end+1)), '')
+            worksheet.insert_image(("C%d" % (start+4)), url, {'image_data': image_data})
+
+            # supply
+            merge_lines_data(worksheet, start, 8, interval, '', merge_format)
+            # supply price
+            merge_lines_data(worksheet, start, 9, interval, '', merge_format)
+            # Express
+            merge_lines_data(worksheet, start, 10, interval, order.shipping_method, merge_format)
+            # Express price
+            merge_lines_data(worksheet, start, 11, interval, '', merge_format)
+            # Tracking No.
+            merge_lines_data(worksheet, start, 12, interval, order.tracking_no, merge_format)
+            # Ship Time
+            merge_lines_data(worksheet, start, 13, interval, order.ship_time, merge_format)
+            # product memo
+            merge_lines_data(worksheet, start, 14, interval, '', merge_format)
+            # order memo
+            merge_lines_data(worksheet, start, 15, interval, '', merge_format)
+
+            start += interval
+            end = start + interval - 1
 
     workbook.close()
+
+    # update download time
+    db.session.commit()
 
     # https://stackoverflow.com/questions/50086585/download-file-from-root-directory-using-flask
     return send_file(xlsx_filename, as_attachment=True)
