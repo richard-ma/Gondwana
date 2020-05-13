@@ -30,3 +30,29 @@ def get_model_keys(cls):
             keys.append(column.key)
 
     return keys
+
+# return type of product
+import re
+def get_product_type_name(product_name):
+    regs = {
+        '童装': [
+            r'(^|\s)kid(s)?\'s',
+            r'(^|\s)youth',
+            r'(^|\s)preschool',
+            r'(^|\s)newborn',
+        ],
+        '女装': [
+            r'(^|\s)wom[ae]n\'s',
+            r'(^|\s)lad(y|ies)\'s',
+        ],
+        '男装': [
+            r'(^|\s)m[ae]n\'s',
+        ],
+    }
+
+    for k, v in regs.items():
+        for pattern in v:
+            if re.search(pattern, product_name, re.IGNORECASE) is not None:
+                return k
+
+    return '男装'
