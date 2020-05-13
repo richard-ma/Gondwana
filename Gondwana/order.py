@@ -80,7 +80,7 @@ def order_download():
             worksheet.merge_range(("C%d:H%d" % (line, line)), product['product'])
 
             line += 1
-            option_str = ''
+            option_str = get_product_type_name(product['product']) + ' '
             for option in product['extra']['product_options_value']:
                 option_str += option['option_name'] + ': ' + option['variant_name'] + ' '
             option_str += '数量: ' + product['amount']
