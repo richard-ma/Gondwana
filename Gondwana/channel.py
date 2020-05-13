@@ -21,20 +21,21 @@ def channel_index():
 def channel_create():
     if request.method == 'POST':
         # get parameters
-        name = request.form['inputName']
-        website = request.form['inputWebsite']
-        email = request.form['inputEmail']
-        apiKey = request.form['inputApikey']
+        data = dict()
+        data['name'] = request.form['inputName']
+        data['website_url'] = request.form['inputWebsite']
+        data['email'] = request.form['inputEmail']
+        data['api_key'] = request.form['inputApikey']
 
-        if name and website and email and apiKey:
+        if data['name'] and data['website_url'] and data['email'] and data['api_key']:
             existing_channel = Channel.query \
-                    .filter(or_(Channel.name==name, Channel.website_url==website)) \
+                    .filter(or_(Channel.name==data['name'], Channel.website_url==data['website_url'])) \
                     .first()
             if existing_channel:
                 flash('Channel already existed.', 'warning')
             else:
                 # create Channel object
-                channel = Channel(name, website, email, apiKey)
+                channel = Channel(**data)
 
                 # save to database
                 db.session.add(channel)
