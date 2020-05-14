@@ -62,7 +62,7 @@ def order_download():
     interval = 13
     end = start + interval - 1
     for order in batching_orders:
-        for product_id, product in order.products.items():
+        for item_id, product in order.products.items():
             # Order ID
             merge_lines_data(worksheet, start, 0, interval, order.order_id,
                          merge_format)
@@ -110,11 +110,11 @@ def order_download():
             worksheet.merge_range(("F%d:H%d" % (line, line)), '')
 
             # image
-            url = Cscart(order.channel.website_url, order.channel.email, order.channel.api_key).get_product(product['product_id'])
+            url = order.product_groups[0]['products'][item_id]['main_pair']['icon']['image_path']
             import urllib, io
             image_data = io.BytesIO(urllib.request.urlopen(urllib.request.Request(url)).read())
             worksheet.merge_range(("C%d:E%d" % (start+4, end+1)), '')
-            worksheet.insert_image(("C%d" % (start+4)), url, {'image_data': image_data})
+            worksheet.insert_image(("C%d" % (start+4)), url, {'image_data': image_data, 'x_scale': 0.3, 'y_scale': 0.3})
 
             # supply
             merge_lines_data(worksheet, start, 8, interval, '', merge_format)
