@@ -63,7 +63,6 @@ def order_download():
     end = start + interval - 1
     for order in batching_orders:
         for product_id, product in order.products.items():
-            print(product)
             # Order ID
             merge_lines_data(worksheet, start, 0, interval, order.order_id,
                          merge_format)
@@ -111,7 +110,7 @@ def order_download():
             worksheet.merge_range(("F%d:H%d" % (line, line)), '')
 
             # image
-            url = 'http://www-x-hzwwnsm-x-cn.img.abc188.com/uploads/171111/1-1G111201H62W.jpg'
+            url = Cscart(order.channel.website_url, order.channel.email, order.channel.api_key).get_product(product['product_id'])
             import urllib, io
             image_data = io.BytesIO(urllib.request.urlopen(urllib.request.Request(url)).read())
             worksheet.merge_range(("C%d:E%d" % (start+4, end+1)), '')
@@ -230,20 +229,15 @@ def order_sync():
             order_local = Order.query.filter(
                 Order.order_id == order_id).first()
 
-            order_remote['shipping_method'] = order_remote['shipping'][0][
-                'shipping']  # shipping method
+            order_remote['shipping_method'] = order_remote['shipping'][0]['shipping']  # shipping method
 
             # choose keys in order_remote
-            order_remote = {
-                k: v
-                for k, v in order_remote.items() if k in order_keys
-            }
+            order_remote = {k: v for k, v in order_remote.items() if k in order_keys}
             order_remote['channel'] = channel  # add foreign key
 
             # timestamp to datetime
             # https://stackoverflow.com/questions/3682748/converting-unix-timestamp-string-to-readable-date
-            order_remote['timestamp'] = datetime.utcfromtimestamp(
-                int(order_remote['timestamp']))
+            order_remote['timestamp'] = datetime.utcfromtimestamp(int(order_remote['timestamp']))
 
             if order_local:
                 for k, v in order_remote.items():
@@ -252,8 +246,7 @@ def order_sync():
                 # https://stackoverflow.com/questions/31750441/generalised-insert-into-sqlalchemy-using-dictionary/31756880
                 order = Order(**order_remote)
                 db.session.add(order)
-            current_app.logger.debug("Channel %s:Order %s synchronized!" %
-                                     (channel.name, order_id))
+            current_app.logger.debug("Channel %s:Order %s synchronized!" % (channel.name, order_id))
         db.session.commit()
         current_app.logger.info("Channel #%s synchronized!" % (channel.name))
 
