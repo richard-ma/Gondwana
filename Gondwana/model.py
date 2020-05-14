@@ -96,6 +96,7 @@ class Order(BaseModel, db.Model):
 
     # products
     products = db.Column(db.Text) # 产品信息
+    product_groups = db.Column(db.Text) # 产品详细信息
     total = db.Column(db.Float)  # 订单合计
 
     # others
@@ -117,6 +118,7 @@ class Order(BaseModel, db.Model):
 def convert_before_save(target):
     # https://www.geeksforgeeks.org/python-convert-dictionary-object-into-string/
     target.products = json.dumps(target.products)
+    target.product_groups = json.dumps(target.product_groups)
     return target
 
 # event listener
@@ -137,6 +139,7 @@ def order_before_insert(mapper, connection, target):
 @event.listens_for(Order, 'load')
 def order_load(instance, context):
     instance.products = json.loads(instance.products)
+    instance.product_groups = json.loads(instance.product_groups)
 
 '''
     subtotal = db.Column(db.Float)  #
