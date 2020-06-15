@@ -36,7 +36,7 @@ def order_download():
     first_download_time = datetime.now()
     titles = [
         'Order ID', 'Download Time', '', '', '', '', '', '', 'supply',
-        'supply price', 'Express', 'Express Price', 'Tracking No.',
+        'supply price', 'Express', 'Tracking No.', 'Express Price',
         'Ship Time', 'Product memo', 'Order memo'
     ]
 
@@ -122,10 +122,10 @@ def order_download():
             merge_lines_data(worksheet, start, 9, interval, '', merge_format)
             # Express
             merge_lines_data(worksheet, start, 10, interval, order.shipping_method, merge_format)
-            # Express price
-            merge_lines_data(worksheet, start, 11, interval, '', merge_format)
             # Tracking No.
-            merge_lines_data(worksheet, start, 12, interval, order.tracking_no, merge_format)
+            merge_lines_data(worksheet, start, 11, interval, order.tracking_no, merge_format)
+            # Express price
+            merge_lines_data(worksheet, start, 12, interval, '', merge_format)
             # Ship Time
             merge_lines_data(worksheet, start, 13, interval, order.ship_time, merge_format)
             # product memo
