@@ -111,10 +111,12 @@ def order_download():
 
             # image
             url = order.product_groups[0]['products'][item_id]['main_pair']['icon']['image_path']
+            image_origin_x = int(order.product_groups[0]['products'][item_id]['main_pair']['icon']['image_x'])
+            image_origin_y = int(order.product_groups[0]['products'][item_id]['main_pair']['icon']['image_y'])
             import urllib, io
             image_data = io.BytesIO(urllib.request.urlopen(urllib.request.Request(url)).read())
             worksheet.merge_range(("C%d:E%d" % (start+4, end+1)), '')
-            worksheet.insert_image(("C%d" % (start+4)), url, {'image_data': image_data, 'x_scale': 0.3, 'y_scale': 0.3})
+            worksheet.insert_image(("C%d" % (start+4)), url, {'image_data': image_data, 'x_scale': 180/image_origin_x, 'y_scale': 180/image_origin_y})
 
             # supply
             merge_lines_data(worksheet, start, 8, interval, '', merge_format)
