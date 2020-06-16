@@ -20,7 +20,7 @@ def order_status_2_name(context, value):
             'A':'Shipped',
             'E':'Out of stock',
             # custom order status
-            'J':'Awaiting Fulfillment',
+            'J':'Awaiting Fullfillment',
             'H':'Partially Refunded',
             'G':'Refunded',
     }
