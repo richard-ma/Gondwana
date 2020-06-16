@@ -120,12 +120,12 @@
                 <!-- Status -->
                 <td>
                     <div class="btn-group">
-                        <button class="btn btn-secondary btn-sm dropdown-toggle" id="status_dropdown_{{ order.id }}" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" id="order_stauts_{{ order.id }}" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ order.status|order_status_2_name }}
                         </button>
                         <div class="dropdown-menu">
                             {% for status in get_all_order_status() %}
-                            <button class="orderStatusDropdownOptions dropdown-item" for="status_dropdown_{{ order.id }}" type="button" value="{{ order.id }}" new_status="{{ status }}">{{ status | order_status_2_name }}</button>
+                            <button class="orderStatusDropdownOptions dropdown-item" for="order_stauts_{{ order.id }}" type="button" value="{{ order.id }}" new_status="{{ status }}">{{ status | order_status_2_name }}</button>
                             {% endfor %}
                         </div>
                     </div>
