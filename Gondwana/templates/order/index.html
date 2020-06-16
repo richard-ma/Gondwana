@@ -120,7 +120,7 @@
                 <!-- Status -->
                 <td>
                     <div class="btn-group">
-                        <button class="btn btn-secondary btn-sm dropdown-toggle" id="order_stauts_{{ order.id }}" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" id="order_stauts_{{ order.id }}" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="{{ order.status }}">
                             {{ order.status|order_status_2_name }}
                         </button>
                         <div class="dropdown-menu">
@@ -356,6 +356,7 @@ $('.orderStatusDropdownOptions').on("click", function(){
 
     $.post('/api/order/update/attr/'+order_id, data=data, function(r) {
         title_element.text(order_new_status_name);
+        title_element.val(order_new_status);
     });
 });
 
@@ -366,14 +367,25 @@ $('#orderDownloadBatching').on("click",function(){
 
     // get order ids
     data['order_ids'] = []
+    can_download = true;
     $('.orders_checkbox:checked').each(function(i){
-        data['order_ids'][i] = $(this).val();
+        var order_id = $(this).val();
+
+        if ($('#order_stauts_' + order_id).val() == 'J') { // only awaiting fullfillment status can download
+            data['order_ids'][i] = order_id;
+        } else {
+            can_download = false;
+        }
     });
 
-    data['download'] = true;
+    if (can_download == true) {
+        data['download'] = true;
 
-    // send request
-    post('{{ url_for('order.order_download') }}', data, target='blank');
+        // send request
+        post('{{ url_for('order.order_download') }}', data, target='blank');
+    } else {
+        alert('Order can only be downloaded which is Awaiting Fullfillment status');
+    }
 });
 
 // open order detail
