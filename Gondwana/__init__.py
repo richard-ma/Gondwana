@@ -68,6 +68,7 @@ def create_app(conf=None):
 
     # register template helper
     app.add_template_global(helper.get_all_order_status, name="get_all_order_status")
+    app.add_template_global(helper.get_all_shipping_methods, name="get_all_shipping_methods")
     app.logger.debug('Load helpers')
 
     from . import model

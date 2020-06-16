@@ -18,6 +18,12 @@ def get_all_order_status():
             "J",
     ]
 
+def get_all_shipping_methods():
+    return [
+        "USPS",
+        "DHL",
+    ]
+
 # https://stackoverflow.com/questions/2537471/method-of-iterating-over-sqlalchemy-models-defined-columns
 from sqlalchemy import inspect
 from Gondwana.model import *
