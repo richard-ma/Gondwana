@@ -118,7 +118,18 @@
                 <!-- OrderId end -->
 
                 <!-- Status -->
-                <td>{{ order.status|order_status_2_name }}</td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" id="status_dropdown_{{ order.id }}" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ order.status|order_status_2_name }}
+                        </button>
+                        <div class="dropdown-menu">
+                            {% for status in get_all_order_status() %}
+                            <button class="orderStatusDropdownOptions dropdown-item" for="status_dropdown_{{ order.id }}" type="button" value="{{ order.id }}" new_status="{{ status }}">{{ status | order_status_2_name }}</button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </td>
                 <!-- Status end -->
 
                 <!-- Event -->
@@ -330,6 +341,22 @@ $('.orderStatusBatchingOptions').on("click",function(){
 
     // send request
     post('{{ url_for('order.order_index') }}', data);
+});
+
+// order status dropdown
+$('.orderStatusDropdownOptions').on("click", function(){
+    var order_id = $(this).val();
+    var order_new_status = $(this).attr('new_status');
+    var title_element = $('#' + $(this).attr('for'));
+    var order_new_status_name = $(this).text();
+
+    var data = {};
+    data['key'] = "status";
+    data['value'] = order_new_status;
+
+    $.post('/api/order/update/attr/'+order_id, data=data, function(r) {
+        title_element.text(order_new_status_name);
+    });
 });
 
 // order download batching
