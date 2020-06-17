@@ -35,3 +35,26 @@ def test_get_product_type_name():
     for k, v in testcases.items():
         for item in v:
             assert(k == get_product_type_name(item))
+
+def test_generate_shipping_method():
+    testcases = {
+        'DHL': [
+            '1234567890',
+            '1',
+        ],
+        'USPS': [
+            'L1234567890',
+            'LA1234567890',
+            'LA1234567890',
+            'L1234567890A',
+        ],
+        'N/A': [
+            'A123',
+            'aaa',
+            '332a',
+        ]
+    }
+
+    for k, v in testcases.items():
+        for item in v:
+            assert (k == generate_shipping_method(item))

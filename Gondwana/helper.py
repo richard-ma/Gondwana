@@ -62,3 +62,15 @@ def get_product_type_name(product_name):
                 return k
 
     return '男装'
+
+def generate_shipping_method(tracking_no):
+    regs = {
+        'DHL': r'^[0-9]+$',
+        'USPS': r'^L\w*$',
+    }
+
+    for k, v in regs.items():
+        if re.match(v, tracking_no) is not None:
+            return k
+
+    return 'N/A'
