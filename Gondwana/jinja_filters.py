@@ -31,6 +31,6 @@ def order_status_2_name(context, value):
 @bp.app_template_filter('format_datetime')
 def format_datetime(context, value, format='yyyy-mm-dd'):
     if format == 'yyyy-mm-dd':
-        return value.strftime('%y-%m-%d')
+        return value.strftime('%Y-%m-%d')
 
     return value
