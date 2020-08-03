@@ -78,6 +78,35 @@
     </div>
 <!-- order download batching end -->
 
+<!-- upload tracking -->
+    <div class="btn-group mb-1" role="group">
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#uploadTrackingModal">
+            Upload Tracking
+        </button>
+    </div>
+    <div class="modal fade" id="uploadTrackingModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Upload Tracking</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('order.order_upload_tracking') }}" id="upload_tracking_form" method="post">
+                        <input type="file" name="file" />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- upload tracking end -->
+
     <table class="table table-striped table-hover">
         <thead class="thead-dark">
             <tr>
