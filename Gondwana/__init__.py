@@ -12,11 +12,13 @@ def create_app(conf=None):
     app.register_blueprint(jinja_filters.bp)
     app.logger.debug('Add jinja_filters blueprint')
 
-    # create instance path folder
-    try:
+    # check instance folder
+    if os.path.isdir(app.instance_path):
+        app.logger.debug('Instance path folder exists.')
+    else:
+        # create instance path folder
         os.makedirs(app.instance_path)
-    except OSError:
-        pass
+        app.logger.warning('Instance path folder not exists. Create New!')
 
     # Get Flask ENV
     e = os.environ.get('FLASK_ENV', 'production')
@@ -54,6 +56,16 @@ def create_app(conf=None):
 
     # load config.cfg
     app.config.from_pyfile(config_filename, silent=True)
+
+    # check upload folder
+    upload_path = os.path.join(app.instance_path, app.config['UPLOAD_FOLDER'])
+
+    if os.path.isdir(upload_path):
+        app.logger.debug('Upload path folder exists.')
+    else:
+        # create upload folder
+        os.mkdirs(upload_path)
+        app.logger.warning('Upload path folder not exists. Create New!')
 
     # SQLALCHEMY_DATABASE_URI
     app.logger.debug('SQLALCHEMY_DATABASE_URI: %s' %
