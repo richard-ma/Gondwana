@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import os
+import os, shutil
 from flask import Flask
 
 
@@ -66,6 +66,23 @@ def create_app(conf=None):
         # create upload folder
         os.mkdirs(upload_path)
         app.logger.warning('Upload path folder not exists. Create New!')
+    # clear upload folder
+    for filename in os.listdir(upload_path):
+        file_path = os.path.join(upload_path, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+                app.logger.debug('Delete: %s' % (file_path))
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+                app.logger.debug('Delete: %s' % (file_path))
+        except Exception as e:
+            app.logger.warning('Failed to delete %s. Reason: %s' % (file_path, e))
+    # check upload folder empty or not
+    if os.path.isdir(upload_path) and len(os.listdir(upload_path)) == 0:
+        app.logger.debug('All files in upload folder have been deleted.')
+    else:
+        app.logger.debug('Upload folder is not empty.')
 
     # SQLALCHEMY_DATABASE_URI
     app.logger.debug('SQLALCHEMY_DATABASE_URI: %s' %
