@@ -100,7 +100,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Upload</button>
+                    <button type="button" class="btn btn-primary" id="upload_tracking_upload_button">Upload</button>
                 </div>
             </div>
         </div>
@@ -616,6 +616,11 @@ $('.orderReferencesNoCancelBtn').on('click', function(e) {
     var order_id = $(this).attr('value');
     // close
     $('#order_references_no_'+order_id).toggle('fast');
+});
+
+// upload tracking form submit
+$('#upload_tracking_upload_button').on('click', function(e) {
+    $('#upload_tracking_form').submit();
 });
 </script>
 {% endblock %}
