@@ -94,7 +94,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ url_for('order.order_upload_tracking') }}" id="upload_tracking_form" method="post">
+                    <form action="{{ url_for('order.order_upload_tracking') }}" id="upload_tracking_form" method="post" enctype="multipart/form-data">
                         <input type="file" name="file" />
                     </form>
                 </div>

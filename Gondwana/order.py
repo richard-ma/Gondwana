@@ -8,9 +8,38 @@ from Gondwana.model import *
 from Gondwana.helper import *
 from pycscart import Cscart
 from sqlalchemy import or_
+from werkzeug.utils import secure_filename
 
 bp = Blueprint('order', __name__, url_prefix='/order')
 
+
+# /order/upload/tracking
+@bp.route('/upload/tracking', methods=('POST', ))
+def order_upload_tracking():
+    def allowed_file(filename):
+        return '.' in filename and filename.rsplit('.', 1)[1].lower() in current_app.config['ALLOWED_EXTENSIONS']
+
+    if 'file' not in request.files:
+        flash('No file part', 'error')
+        return redirect(url_for('order.order_index'))
+
+    # get file
+    file = request.files['file']
+    if file.filename == '':
+        flash('No selected file', 'error')
+        return redirect(url_for('order.order_index'))
+
+    if file and allowed_file(file.filename): # save file
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+        flash('File uploaded: %s' % (filename))
+        return redirect(url_for('order.order_parse_tracking', filename=filename))
+
+# /order/parse/tracking/<string: filename>
+@bp.route('/parse/tracking/<string:filename>', methods=('GET', ))
+def order_parse_tracking(filename: str):
+    print(filename)
+    return ''
 
 # /order/download
 @bp.route('/download', methods=('POST', ))
