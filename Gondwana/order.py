@@ -54,8 +54,7 @@ def order_download():
     if download:  # download order
         order_ids = request.form.get('order_ids')
         if order_ids:
-            order_ids = [int(x) for x in order_ids.split(',')
-                         ]  # change string to integer
+            order_ids = [int(x) for x in order_ids.split(',')]  # change string to integer
         # https://stackoverflow.com/questions/15267755/query-for-multiple-values-at-once
         batching_orders = Order.query.filter(Order.id.in_(order_ids))
 
