@@ -43,6 +43,12 @@ def order_parse_tracking(filename: str):
 
     wb = load_workbook(filename)
 
+    # todo: parse tracking NO. to add order.shipping_method
+    # todo: parse tracking NO. to add to order.tracking_no or order.reference_no
+    # todo: add now to order.ship_time
+    # todo: send mail to customer to notify that package has been sent
+    # todo: change order.status to shipped
+
     flash('Tracking NO. imported.', 'success')
     return redirect(url_for('order.order_index'))
 
