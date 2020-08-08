@@ -42,12 +42,46 @@ def order_parse_tracking(filename: str):
     from openpyxl import load_workbook
 
     wb = load_workbook(filename)
+    ws = wb.active
 
-    # todo: parse tracking NO. to add order.shipping_method
-    # todo: parse tracking NO. to add to order.tracking_no or order.reference_no
-    # todo: add now to order.ship_time
-    # todo: send mail to customer to notify that package has been sent
-    # todo: change order.status to shipped
+    line = 2
+    interval = 13
+    while True:
+        # get order id and tracking NO.
+        order_id = ws['A'+str(line)].value
+
+        # break if no new lines
+        if order_id is None:
+            break
+
+        # get order
+        order = Order.query.filter(Order.order_id == order_id).first()
+
+        # get tracking NO.
+        order.tracking_no = str(ws['L'+str(line)].value)
+
+        # parse tracking NO. to add order.shipping_method
+        order.shipping_method = generate_shipping_method(order.tracking_no)
+
+        # parse tracking NO. to add to order.tracking_no or order.references_no
+        if order.shipping_method == 'DHL': # DHL use references_no
+            order.references_no = order.tracking_no
+            order.tracking_no = None
+        # add now to order.ship_time
+        order.ship_time = datetime.now()
+
+        # change order.status to shipped
+        order.status = 'A' # shipped status
+
+        # todo: send mail to customer to notify that package has been sent
+
+        # update order
+        db.session.commit()
+
+        # update line number
+        line += interval
+
+    # todo: remove uploaded file
 
     flash('Tracking NO. imported.', 'success')
     return redirect(url_for('order.order_index'))
