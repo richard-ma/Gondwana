@@ -64,7 +64,7 @@ def create_app(conf=None):
         app.logger.debug('Upload path folder exists.')
     else:
         # create upload folder
-        os.mkdirs(upload_path)
+        os.makedirs(upload_path)
         app.logger.warning('Upload path folder not exists. Create New!')
 
     # check upload folder empty or not
