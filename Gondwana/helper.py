@@ -74,3 +74,20 @@ def generate_shipping_method(tracking_no):
             return k
 
     return 'N/A'
+
+
+import smtplib
+def send_email(email,password,subject_c, body_c, mail_to, smtp_server, smtp_port):
+    with smtplib.SMTP(smtp_server, smtp_port) as smtp:
+        smtp.ehlo()
+        smtp.starttls()
+        smtp.ehlo()
+
+        smtp.login(email,password)
+
+        subject = subject_c
+        body = body_c
+
+        message = f'From: {email}\r\nSubject: {subject} \r\n\r\n{body}'
+
+        smtp.sendmail(email, mail_to, message)
