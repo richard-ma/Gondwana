@@ -52,7 +52,7 @@ class Event(BaseModel, db.Model):
 class Setting(BaseModel, db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     key = db.Column(db.String(32)) # 设置名称
-    value = db.Column(db.Text) # 设置值
+    value = db.Column(db.Text, default='') # 设置值
 
 class Order(BaseModel, db.Model):
     __tablename__ = 'order'
