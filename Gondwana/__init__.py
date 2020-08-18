@@ -130,4 +130,8 @@ def create_app(conf=None):
     app.register_blueprint(order.bp)
     app.logger.debug('Add order blueprint')
 
+    from . import setting
+    app.register_blueprint(setting.bp)
+    app.logger.debug('Add setting blueprint')
+
     return app
