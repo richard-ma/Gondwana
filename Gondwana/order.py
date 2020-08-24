@@ -71,9 +71,8 @@ def order_parse_tracking(filename: str):
         order.ship_time = datetime.now()
 
         # change order.status to shipped
-        order.status = 'A' # shipped status
-
-        # todo: send mail to customer to notify that package has been sent
+        # send mail to customer to notify that package has been sent
+        order.status = 'A' # shipped status // update order status automatically
 
         # update order
         db.session.commit()
