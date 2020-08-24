@@ -98,4 +98,4 @@ def remove_file(filename):
         if os.path.isdir(filename):
             os.removedirs(filename)
         else:
-            os.remove(filname)
+            os.remove(filename)
