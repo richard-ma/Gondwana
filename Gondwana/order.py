@@ -80,7 +80,8 @@ def order_parse_tracking(filename: str):
         # update line number
         line += interval
 
-    # todo: remove uploaded file
+    # remove uploaded file
+    remove_file(filename)
 
     flash('Tracking NO. imported.', 'success')
     return redirect(url_for('order.order_index'))

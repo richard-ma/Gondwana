@@ -91,3 +91,11 @@ def send_email(email,password,subject_c, body_c, mail_to, smtp_server, smtp_port
         message = f'From: {email}\r\nSubject: {subject} \r\n\r\n{body}'
 
         smtp.sendmail(email, mail_to, message)
+
+import os
+def remove_file(filename):
+    if os.path.exists(filename):
+        if os.path.isdir(filename):
+            os.removedirs(filename)
+        else:
+            os.remove(filname)
